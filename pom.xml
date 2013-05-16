@@ -12,6 +12,36 @@
     </modules>
     <name>YoursTaxi</name>
 
+    <properties>
+        <spring.version>3.1.2.RELEASE</spring.version>
+        <spring.security.version>3.1.0.RELEASE</spring.security.version>
+        <!-- Using the 4.1.3 due to bugs in 4.1.8 https://community.jboss.org/message/778294?_sscc=t -->
+        <hibernate.version>4.1.4.Final</hibernate.version>
+        <jackson.version>2.1.1</jackson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>13.0.1</version>
+        </dependency>
+        <!--logging-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <!--injection-->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
+
+    </dependencies>
+
   <build>
     <finalName>YoursTaxi</finalName>
   </build>
