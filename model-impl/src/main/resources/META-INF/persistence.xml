@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="taxiservice" transaction-type="RESOURCE_LOCAL">
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}"/>
+            <property name="hibernate.search.default.directory_provider" value="ram"/>
+            <property name="hibernate.search.enable_dirty_check" value="false"/><!--
+            <property name="org.hibernate.envers.revision_on_collection_change" value="false"/>
+            <property name="org.hibernate.envers.store_data_at_delete" value="true"/>
+            <property name="hibernate.listeners.envers.autoRegister" value="false"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
+
