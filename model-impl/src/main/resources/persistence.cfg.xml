@@ -30,5 +30,6 @@
         </property>
     </bean>
 
-    <jpa:repositories base-package="com.taxiservice.model"/>
+    <jpa:repositories base-package="com.taxiservice.model.repository"/>
+
 </beans>
