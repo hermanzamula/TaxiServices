@@ -8,7 +8,7 @@ import java.util.Collection;
 
 @Table(name = "taxi_driver", schema = "", catalog = "taxiservice")
 @Entity
-public class TaxiDriver extends AbstractPersistable<Integer> {
+public class TaxiDriver extends AbstractPersistable<Long> {
 
     private String name;
 

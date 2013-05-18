@@ -1,4 +1,4 @@
-package com.taxiservice.model.manager;
+package com.taxiservice.model.writer;
 
 
 import org.springframework.transaction.annotation.Transactional;
@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserManagement {
 
-    void createUser(UserInfo userInfo, String passwordHash);
+    long createUser(UserInfo userInfo, String passwordHash);
+
+    void removeUser(long userId);
 
     public static class UserInfo {
         public final String firstName;

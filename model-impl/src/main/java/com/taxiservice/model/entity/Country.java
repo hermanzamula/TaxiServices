@@ -2,12 +2,15 @@ package com.taxiservice.model.entity;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 
 
 @Entity
-public class Country extends AbstractPersistable<Integer> {
+public class Country extends AbstractPersistable<Long> {
     private String name;
 
     @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 45, precision = 0)

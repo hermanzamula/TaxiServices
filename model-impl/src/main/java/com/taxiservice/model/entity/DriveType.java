@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Table(name = "drive_type", schema = "", catalog = "taxiservice")
 @Entity
-public class DriveType extends AbstractPersistable<Integer> {
+public class DriveType extends AbstractPersistable<Long> {
 
 
     private String name;

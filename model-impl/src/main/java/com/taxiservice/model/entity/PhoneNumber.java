@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Table(name = "phone_number", schema = "", catalog = "taxiservice")
 @Entity
-public class PhoneNumber extends AbstractPersistable<Integer> {
+public class PhoneNumber extends AbstractPersistable<Long> {
 
 
     private String number;

@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 @Table(name = "user_bonus", schema = "", catalog = "taxiservice")
 @Entity
-public class UserBonus extends AbstractPersistable<Integer> {
+public class UserBonus extends AbstractPersistable<Long> {
 
     private String description;
 

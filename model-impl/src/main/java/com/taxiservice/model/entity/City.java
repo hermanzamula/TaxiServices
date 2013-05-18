@@ -7,7 +7,7 @@ import java.util.Collection;
 
 
 @Entity
-public class City extends AbstractPersistable<Integer> {
+public class City extends AbstractPersistable<Long> {
     private String name;
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
