@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 public class PhoneNumber extends AbstractPersistable<Long> {
 
-
     private String number;
 
     @Column(name = "number", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)

@@ -20,7 +20,7 @@ public interface DriverManagement {
         final public long city;
         final List<DriveType> driveTypes;
 
-        public DriverInfo(long id, String name, List<String> phones, long city, List<DriveType> driveTypes) {
+        public DriverInfo(long id,  String name,long city,List<String> phones, List<DriveType> driveTypes) {
             this.id = id;
             this.name = name;
             this.phones = phones;

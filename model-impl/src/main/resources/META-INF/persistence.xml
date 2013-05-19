@@ -9,12 +9,20 @@
         <class>com.taxiservice.model.entity.TaxiDriver</class>
         <class>com.taxiservice.model.entity.User</class>
         <class>com.taxiservice.model.entity.UserBonus</class>
+        <class>com.taxiservice.model.entity.TaxiDriverHasDriveType</class>
+        <class>com.taxiservice.model.entity.Favorite</class>
+        <class>com.taxiservice.model.entity.UserPlace</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}"/>
             <property name="hibernate.search.default.directory_provider" value="ram"/>
             <property name="hibernate.search.enable_dirty_check" value="false"/>
+            <property name="hibernate.connection.url"
+                      value="jdbc:mysql://localhost:3306/taxiservice?autoReconnect=true"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="herakliz"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -1,25 +1,41 @@
 package com.taxiservice.model.entity;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 
 @Entity
 public class User extends AbstractPersistable<Long> {
 
-
+    private boolean isAdmin;
     private String firstName;
+    private String email;
+    private String passwordHash;
+    private String lastName;
+    @OneToMany(mappedBy = "user")
+    private Collection<UserBonus> bonuses;
+    @ManyToMany
+    @JoinTable(name = "favorite")
+    private Collection<TaxiDriver> userFavourites;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<UserPlace> userPlaces;
 
     public User(Long id) {
         setId(id);
     }
 
     public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String passwordHash) {
+        this.firstName = firstName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.lastName = lastName;
     }
 
     @Column(name = "firstName", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
@@ -32,8 +48,6 @@ public class User extends AbstractPersistable<Long> {
         this.firstName = firstName;
     }
 
-    private String email;
-
     @Column(name = "email", nullable = false, insertable = true, updatable = true, length = 45, precision = 0)
     @Basic
     public String getEmail() {
@@ -43,8 +57,6 @@ public class User extends AbstractPersistable<Long> {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private String passwordHash;
 
     @Column(name = "passwordHash", nullable = false, insertable = true, updatable = true, length = 128, precision = 0)
     @Basic
@@ -56,8 +68,6 @@ public class User extends AbstractPersistable<Long> {
         this.passwordHash = passwordHash;
     }
 
-    private String lastName;
-
     @Column(name = "lastName", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
     @Basic
     public String getLastName() {
@@ -68,9 +78,6 @@ public class User extends AbstractPersistable<Long> {
         this.lastName = lastName;
     }
 
-    @OneToMany(mappedBy = "user")
-    private Collection<UserBonus> bonuses;
-
     public Collection<UserBonus> getBonuses() {
         return bonuses;
     }
@@ -79,12 +86,23 @@ public class User extends AbstractPersistable<Long> {
         this.bonuses = userBonusesById;
     }
 
-
-
-    public User(String firstName, String lastName, String email, String passwordHash) {
-        this.firstName = firstName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.lastName = lastName;
+    public Collection<TaxiDriver> getUserFavourites() {
+        return userFavourites;
     }
+
+    @Column(name = "isAdmin", nullable = false, insertable = true, updatable = true)
+    @Basic
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public Collection<UserPlace> getUserPlaces() {
+        return userPlaces;
+    }
+
+
 }

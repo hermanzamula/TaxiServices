@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BasicSecurityController {
 
     private final UserManagement userManagement;
 
@@ -22,22 +22,33 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Long addUser(@RequestBody UserRequest userInfo){
+    public Long register(@RequestBody UserRequest userInfo) {
+
+        //TODO: Create separate class for user registration data
         return userManagement.createUser(new UserManagement.UserInfo(
-                userInfo.name,
-                userInfo.lastName,
-                userInfo.email), userInfo.password);
+                0, userInfo.lastName, userInfo.email, userInfo.name,
+                new UserManagement.Place(userInfo.city, userInfo.country)), userInfo.password);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String getUsers(){
-        return "Ololo";
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        try {
+            String token = enter(request.email, request.password);
+            return new LoginResponse("You entered successfully", null, token);
+        } catch (Exception e) {
+            return new LoginResponse(null, e.getMessage(), null);
+        }
     }
 
-    private static class UserRequest {
+    private static class UserRequest extends LoginRequest {
         public String name;
         public String lastName;
+        public long city;
+        public long country;
+    }
+
+    private static class LoginRequest {
         public String email;
         public String password;
     }

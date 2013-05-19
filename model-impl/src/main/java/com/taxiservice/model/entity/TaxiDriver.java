@@ -11,6 +11,21 @@ import java.util.Collection;
 public class TaxiDriver extends AbstractPersistable<Long> {
 
     private String name;
+    @OneToMany(mappedBy = "taxiDriver")
+    private Collection<PhoneNumber> phoneNumbers;
+    private City city;
+    @OneToMany(mappedBy = "taxiDriver")
+    private Collection<UserBonus> userBonuses;
+    @ManyToMany
+    @JoinTable(name = "taxi_driver_has_drive_type")
+    private Collection<DriveType> driveTypes;
+
+    public TaxiDriver(Long id) {
+    }
+
+
+    public TaxiDriver() {
+    }
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
     @Basic
@@ -22,9 +37,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "taxiDriver")
-    private Collection<PhoneNumber> phoneNumbers;
-
     public Collection<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
@@ -32,9 +44,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     public void setPhoneNumbers(Collection<PhoneNumber> phoneNumbersById) {
         this.phoneNumbers = phoneNumbersById;
     }
-
-
-    private City city;
 
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
@@ -46,22 +55,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.city = cityByCityId;
     }
 
-    private DriveType driveType;
-
-    @ManyToOne
-    @JoinColumn(name = "drive_type_id", referencedColumnName = "id", nullable = false)
-    public DriveType getDriveType() {
-        return driveType;
-    }
-
-    public void setDriveType(DriveType driveTypeByDriveTypeId) {
-        this.driveType = driveTypeByDriveTypeId;
-    }
-
-
-    @OneToMany(mappedBy = "taxiDriver")
-    private Collection<UserBonus> userBonuses;
-
     public Collection<UserBonus> getUserBonuses() {
         return userBonuses;
     }
@@ -70,17 +63,11 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.userBonuses = userBonusesById;
     }
 
-    public TaxiDriver(Long id) {
+    public Collection<DriveType> getDriveTypes() {
+        return driveTypes;
     }
 
-    public TaxiDriver() {
-    }
-
-    public TaxiDriver(String name, Collection<PhoneNumber> phoneNumbers, City city, DriveType driveType, Collection<UserBonus> userBonuses) {
-        this.name = name;
-        this.phoneNumbers = phoneNumbers;
-        this.city = city;
-        this.driveType = driveType;
-        this.userBonuses = userBonuses;
+    public void setDriveTypes(Collection<DriveType> taxiDriverHasDriveTypesById) {
+        this.driveTypes = taxiDriverHasDriveTypesById;
     }
 }

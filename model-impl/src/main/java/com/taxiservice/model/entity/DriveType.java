@@ -13,16 +13,13 @@ public class DriveType extends AbstractPersistable<Long> {
 
 
     private String name;
-
-    @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
-    @Basic
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String description;
+    private BigInteger price;
+    @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
+    private Collection<UserBonus> userBonuses;
+    @ManyToMany
+    @JoinTable(name = "taxi_driver_has_drive_type")
+    private Collection<TaxiDriver> taxiDrivers;
 
     public DriveType() {
     }
@@ -39,7 +36,15 @@ public class DriveType extends AbstractPersistable<Long> {
         this.userBonuses = userBonuses;
     }
 
-    private String description;
+    @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
+    @Basic
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
     @Basic
@@ -51,8 +56,6 @@ public class DriveType extends AbstractPersistable<Long> {
         this.description = description;
     }
 
-    private BigInteger price;
-
     @Column(name = "price", nullable = true, insertable = true, updatable = true, length = 2, precision = 0)
     @Basic
     public BigInteger getPrice() {
@@ -63,25 +66,19 @@ public class DriveType extends AbstractPersistable<Long> {
         this.price = price;
     }
 
-    @OneToMany(mappedBy = "driveType")
-    private Collection<TaxiDriver> taxiDrivers;
-
-    public Collection<TaxiDriver> getTaxiDrivers() {
-        return taxiDrivers;
-    }
-
-    public void setTaxiDrivers(Collection<TaxiDriver> taxiDriversById) {
-        this.taxiDrivers = taxiDriversById;
-    }
-
-    @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
-    private Collection<UserBonus> userBonuses;
-
     public Collection<UserBonus> getUserBonuses() {
         return userBonuses;
     }
 
     public void setUserBonuses(Collection<UserBonus> userBonusesById) {
         this.userBonuses = userBonusesById;
+    }
+
+    public Collection<TaxiDriver> getTaxiDrivers() {
+        return taxiDrivers;
+    }
+
+    public void setTaxiDrivers(Collection<TaxiDriver> taxiDriverHasDriveTypesById) {
+        this.taxiDrivers = taxiDriverHasDriveTypesById;
     }
 }

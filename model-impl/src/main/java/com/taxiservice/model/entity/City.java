@@ -9,8 +9,15 @@ import java.util.Collection;
 @Entity
 public class City extends AbstractPersistable<Long> {
     private String name;
+    private Country country;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    private Collection<TaxiDriver> taxiDrivers;
 
     public City() {
+    }
+
+    public City(Long id) {
+        setId(id);
     }
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
@@ -23,24 +30,15 @@ public class City extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    private Country country;
-
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     public Country getCountry() {
         return country;
     }
 
-    public City(Long id) {
-        setId(id);
-    }
-
     public void setCountry(Country countryByCountryId) {
         this.country = countryByCountryId;
     }
-
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
-    private Collection<TaxiDriver> taxiDrivers;
 
     public Collection<TaxiDriver> getTaxiDrivers() {
         return taxiDrivers;

@@ -9,6 +9,16 @@ import java.util.Collection;
 @Entity
 public class Country extends AbstractPersistable<Long> {
     private String name;
+    @OneToMany(mappedBy = "country",  cascade = CascadeType.ALL)
+    private Collection<City> cities;
+
+
+    public Country() {
+    }
+
+    public Country(Long id) {
+        setId(id);
+    }
 
     @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 45, precision = 0)
     @Basic
@@ -19,16 +29,6 @@ public class Country extends AbstractPersistable<Long> {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Country() {
-    }
-
-    public Country(Long id) {
-        setId(id);
-    }
-
-    @OneToMany(mappedBy = "country",  cascade = CascadeType.ALL)
-    private Collection<City> cities;
 
     public Collection<City> getCities() {
         return cities;
