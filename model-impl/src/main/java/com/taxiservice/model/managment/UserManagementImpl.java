@@ -17,19 +17,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class UserManagementImpl implements UserManagement {
 
 
-    @Inject
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     public static final Logger LOGGER = Logger.getLogger(UserManagementImpl.class);
-    public UserManagementImpl() {
+
+    @Inject
+    public UserManagementImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
         LOGGER.error("Constructor");
     }
-
 
     @Override
     public long createUser(UserInfo userInfo, String passwordHash) {
         checkNotNull(passwordHash);
-        return userRepository.save(new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash)).getId();
+        User user = new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash);
+        return userRepository.save(user).getId();
     }
 
     @Override

@@ -22,9 +22,9 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.name = name;
     }
 
+    @OneToMany(mappedBy = "taxiDriver")
     private Collection<PhoneNumber> phoneNumbers;
 
-    @OneToMany(mappedBy = "taxiDriver")
     public Collection<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
@@ -32,6 +32,7 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     public void setPhoneNumbers(Collection<PhoneNumber> phoneNumbersById) {
         this.phoneNumbers = phoneNumbersById;
     }
+
 
     private City city;
 
@@ -57,14 +58,29 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.driveType = driveTypeByDriveTypeId;
     }
 
-    private Collection<UserBonus> userBonuses;
 
     @OneToMany(mappedBy = "taxiDriver")
+    private Collection<UserBonus> userBonuses;
+
     public Collection<UserBonus> getUserBonuses() {
         return userBonuses;
     }
 
     public void setUserBonuses(Collection<UserBonus> userBonusesById) {
         this.userBonuses = userBonusesById;
+    }
+
+    public TaxiDriver(Long id) {
+    }
+
+    public TaxiDriver() {
+    }
+
+    public TaxiDriver(String name, Collection<PhoneNumber> phoneNumbers, City city, DriveType driveType, Collection<UserBonus> userBonuses) {
+        this.name = name;
+        this.phoneNumbers = phoneNumbers;
+        this.city = city;
+        this.driveType = driveType;
+        this.userBonuses = userBonuses;
     }
 }

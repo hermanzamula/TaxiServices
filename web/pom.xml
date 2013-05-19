@@ -12,6 +12,18 @@
     <url>http://maven.apache.org</url>
     <dependencies>
 
+        <dependency>
+            <groupId>YoursTaxi</groupId>
+            <artifactId>model</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>YoursTaxi</groupId>
+            <artifactId>model-impl</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- Spring 3 dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -64,21 +76,21 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-        <dependency>
+     <!--   <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-guava</artifactId>
@@ -90,39 +102,16 @@
             <version>3.3</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
+        </dependency>-->
 
-        <dependency>
-            <groupId>com.teamdev.jsnoop</groupId>
-            <artifactId>jsnoop-java-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
 
     </dependencies>
 
-
-    <profiles>
-        <profile>
-            <id>staging</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>tomcat-maven-plugin</artifactId>
-                        <configuration>
-                            <path>/</path>
-                            <failOnError>false</failOnError>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>

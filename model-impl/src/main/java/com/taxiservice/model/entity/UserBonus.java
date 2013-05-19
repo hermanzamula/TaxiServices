@@ -11,6 +11,13 @@ public class UserBonus extends AbstractPersistable<Long> {
 
     private String description;
 
+    public UserBonus(Long id) {
+        setId(id);
+    }
+
+    public UserBonus() {
+    }
+
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
     @Basic
     public String getDescription() {
@@ -31,6 +38,14 @@ public class UserBonus extends AbstractPersistable<Long> {
 
     public void setValue(BigInteger value) {
         this.value = value;
+    }
+
+    public UserBonus(String description, BigInteger value, TaxiDriver taxiDriver, User user, DriveType driveType) {
+        this.description = description;
+        this.value = value;
+        this.taxiDriver = taxiDriver;
+        this.user = user;
+        this.driveType = driveType;
     }
 
     private TaxiDriver taxiDriver;

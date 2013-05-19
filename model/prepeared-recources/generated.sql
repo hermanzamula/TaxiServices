@@ -12,7 +12,7 @@ USE `taxiservice` ;
 DROP TABLE IF EXISTS `taxiservice`.`country` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`country` (
-  `id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idcountry_UNIQUE` (`id` ASC) )
@@ -25,8 +25,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`city` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`city` (
-  `id` INT NOT NULL ,
-  `country_id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `country_id` BIGINT NOT NULL ,
   `name` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_city_country_idx` (`country_id` ASC) ,
@@ -45,7 +45,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`drive_type` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`drive_type` (
-  `id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL ,
   `description` VARCHAR(256) NULL ,
   `price` DECIMAL(2) NULL ,
@@ -60,10 +60,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`taxi_driver` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`taxi_driver` (
-  `id` INT NOT NULL ,
-  `city_id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `city_id` BIGINT NOT NULL ,
   `name` VARCHAR(256) NULL ,
-  `drive_type_id` INT NOT NULL ,
+  `drive_type_id` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idtaxidriver_UNIQUE` (`id` ASC) ,
   INDEX `fk_taxidriver_city1_idx` (`city_id` ASC) ,
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`user` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`user` (
-  `id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(45) NULL ,
   `email` VARCHAR(45) NOT NULL ,
   `passwordHash` VARCHAR(128) NOT NULL ,
@@ -104,11 +104,11 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`user_bonus` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`user_bonus` (
-  `id` INT NOT NULL ,
-  `taxi_driver_id` INT NOT NULL ,
-  `user_id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `taxi_driver_id` BIGINT NOT NULL ,
+  `user_id` BIGINT NOT NULL ,
   `description` VARCHAR(256) NULL ,
-  `drive_type_id` INT NOT NULL ,
+  `drive_type_id` BIGINT NOT NULL ,
   `value` DECIMAL(2) NOT NULL ,
   INDEX `fk_userbonus_taxidriver1_idx` (`taxi_driver_id` ASC) ,
   INDEX `fk_userbonus_user1_idx` (`user_id` ASC) ,
@@ -139,8 +139,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `taxiservice`.`phone_number` ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`phone_number` (
-  `id` INT NOT NULL ,
-  `taxi_driver_id` INT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `taxi_driver_id` BIGINT NOT NULL ,
   `number` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idphonenumber_UNIQUE` (`id` ASC) ,

@@ -15,6 +15,13 @@ public class User extends AbstractPersistable<Long> {
 
     private String firstName;
 
+    public User(Long id) {
+        setId(id);
+    }
+
+    public User() {
+    }
+
     @Column(name = "firstName", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
     @Basic
     public String getFirstName() {
@@ -61,9 +68,9 @@ public class User extends AbstractPersistable<Long> {
         this.lastName = lastName;
     }
 
+    @OneToMany(mappedBy = "user")
     private Collection<UserBonus> bonuses;
 
-    @OneToMany(mappedBy = "user")
     public Collection<UserBonus> getBonuses() {
         return bonuses;
     }
@@ -71,6 +78,8 @@ public class User extends AbstractPersistable<Long> {
     public void setBonuses(Collection<UserBonus> userBonusesById) {
         this.bonuses = userBonusesById;
     }
+
+
 
     public User(String firstName, String lastName, String email, String passwordHash) {
         this.firstName = firstName;

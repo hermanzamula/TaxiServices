@@ -24,6 +24,21 @@ public class DriveType extends AbstractPersistable<Long> {
         this.name = name;
     }
 
+    public DriveType() {
+    }
+
+    public DriveType(Long id) {
+        setId(id);
+    }
+
+    public DriveType(String name, String description, BigInteger price, Collection<TaxiDriver> taxiDrivers, Collection<UserBonus> userBonuses) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.taxiDrivers = taxiDrivers;
+        this.userBonuses = userBonuses;
+    }
+
     private String description;
 
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
@@ -48,9 +63,9 @@ public class DriveType extends AbstractPersistable<Long> {
         this.price = price;
     }
 
+    @OneToMany(mappedBy = "driveType")
     private Collection<TaxiDriver> taxiDrivers;
 
-    @OneToMany(mappedBy = "driveType")
     public Collection<TaxiDriver> getTaxiDrivers() {
         return taxiDrivers;
     }
@@ -59,9 +74,9 @@ public class DriveType extends AbstractPersistable<Long> {
         this.taxiDrivers = taxiDriversById;
     }
 
+    @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
     private Collection<UserBonus> userBonuses;
 
-    @OneToMany(mappedBy = "driveType")
     public Collection<UserBonus> getUserBonuses() {
         return userBonuses;
     }

@@ -22,6 +22,17 @@ public class PhoneNumber extends AbstractPersistable<Long> {
         this.number = number;
     }
 
+    public PhoneNumber(Long id) {
+        setId(id);
+    }
+
+    public PhoneNumber() {
+    }
+
+    public PhoneNumber(String number, TaxiDriver taxiDriver) {
+        this.number = number;
+        this.taxiDriver = taxiDriver;
+    }
 
     private TaxiDriver taxiDriver;
 

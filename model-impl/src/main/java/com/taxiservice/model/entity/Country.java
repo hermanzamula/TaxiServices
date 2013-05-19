@@ -2,10 +2,7 @@ package com.taxiservice.model.entity;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 
@@ -23,9 +20,16 @@ public class Country extends AbstractPersistable<Long> {
         this.name = name;
     }
 
+    public Country() {
+    }
+
+    public Country(Long id) {
+        setId(id);
+    }
+
+    @OneToMany(mappedBy = "country",  cascade = CascadeType.ALL)
     private Collection<City> cities;
 
-    @OneToMany(mappedBy = "country")
     public Collection<City> getCities() {
         return cities;
     }

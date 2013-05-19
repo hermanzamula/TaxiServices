@@ -10,6 +10,9 @@ import java.util.Collection;
 public class City extends AbstractPersistable<Long> {
     private String name;
 
+    public City() {
+    }
+
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
     @Basic
     public String getName() {
@@ -28,14 +31,17 @@ public class City extends AbstractPersistable<Long> {
         return country;
     }
 
+    public City(Long id) {
+        setId(id);
+    }
 
     public void setCountry(Country countryByCountryId) {
         this.country = countryByCountryId;
     }
 
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private Collection<TaxiDriver> taxiDrivers;
 
-    @OneToMany(mappedBy = "city")
     public Collection<TaxiDriver> getTaxiDrivers() {
         return taxiDrivers;
     }
