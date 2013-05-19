@@ -1,19 +1,21 @@
 package com.taxiservice.model.reader;
 
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.taxiservice.model.entity.City;
-import com.taxiservice.model.entity.DriveType;
-import com.taxiservice.model.entity.TaxiDriver;
-import com.taxiservice.model.entity.User;
+import com.google.common.collect.FluentIterable;
+import com.taxiservice.model.entity.*;
 import com.taxiservice.model.repository.*;
 import com.taxiservice.model.writer.DriverManagement;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.find;
 import static com.taxiservice.model.util.Transformers.DRIVER_INFO_TRANSFORMER;
 
 @Service
@@ -63,11 +65,20 @@ public class DriverReaderImpl implements DriverReader {
     @Override
     public List<DriverManagement.DriverInfo> readCityFavourites(long userId) {
         final User one = userRepository.findOne(userId);
-        final City city = userPlaceRepository.findLastModified(one).getCity();
+        UserPlace last = from(userPlaceRepository.findByUser(one)).last().get();
         return from(one.getUserFavourites())
-                .filter(driverFromCity(city))
+                .filter(driverFromCity(last.getCity()))
                 .transform(DRIVER_INFO_TRANSFORMER)
                 .toImmutableList();
+    }
+
+    private FluentIterable<City> cityFromPlaceByUser(User user) {
+       return from(user.getUserPlaces()).transform(new Function<UserPlace, City>() {
+            @Override
+            public City apply(UserPlace input) {
+                 return input.getCity();
+            }
+        });
     }
 
     private Predicate<TaxiDriver> driverFromCity(final City city) {

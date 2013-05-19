@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.FluentIterable.from;
 
 @Service
 public class UserCredentialsServiceImpl implements UserCredentialsService{
@@ -27,7 +28,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService{
     @Override
     public UserManagement.UserInfo checkCredentials(String email, String passwordHash) {
         User user = checkNotNull(userRepository.findOneByEmailAndPasswordHash(email, passwordHash), "User not found");
-        UserPlace place = userPlaceRepository.findLastModified(user);
+        UserPlace place = from(userPlaceRepository.findByUser(user)).last().get();
         return new UserManagement.UserInfo(user.getId(), user.getLastName(), user.getEmail(), user.getFirstName(), new UserManagement.Place(
                 place.getCity().getId(),
                 place.getCity().getCountry().getId()

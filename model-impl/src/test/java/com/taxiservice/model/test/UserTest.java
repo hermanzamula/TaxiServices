@@ -20,7 +20,7 @@ public class UserTest{
 
     @Test
     public void testSaveUser() {
-        userManagement.createUser(new UserManagement.UserInfo(0, "Zamula", "h@hh.com", "Herman", place), anyValue());
+        userManagement.createUser(new UserManagement.UserInfo(0, "Zamula", "h@hh.com", "Herman", null), anyValue());
     }
 
     private String anyValue() {
