@@ -33,7 +33,6 @@ public class UserManagementImpl implements UserManagement {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.userPlaceRepository = userPlaceRepository;
-        LOGGER.error("Constructor");
     }
 
     @Override

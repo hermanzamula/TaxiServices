@@ -9,14 +9,13 @@ import java.util.Random;
 
 public class UserTest{
 
-    @Inject
-    protected UserManagement userManagement;
 
-    public void setUserManagement(UserManagement userManagement) {
+    private final UserManagement userManagement;
+
+    @Inject
+    public UserTest(UserManagement userManagement) {
         this.userManagement = userManagement;
     }
-
-
 
     @Test
     public void testSaveUser() {

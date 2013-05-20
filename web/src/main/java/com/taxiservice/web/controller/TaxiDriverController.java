@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.util.List;
 
 @Controller
@@ -20,10 +19,10 @@ public class TaxiDriverController extends BasicSecurityController {
     @Inject
     private DriverReader driverReader;
 
-    @RequestMapping(value = "/city/{country}/{city}", method = RequestMethod.GET)
+    @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
     @ResponseBody
-    public List<DriverManagement.DriverInfo> getDriversByCity(@PathVariable long country, @PathVariable long city){
-        return driverReader.readDriversByCity(city, 0, country);
+    public List<DriverManagement.DriverInfo> getDriversByCity(@PathVariable long city){
+        return driverReader.readDriversByCity(city);
     }
 
     @RequestMapping(value = "/favourite/{token}")
@@ -35,7 +34,7 @@ public class TaxiDriverController extends BasicSecurityController {
     @RequestMapping(value = "/favourite/city/{token}")
     @ResponseBody
     public List<DriverManagement.DriverInfo> getFavouritesByCity(@PathVariable String token){
-        return driverReader.readCityFavourites(getUserId(token));
+        return driverReader.readCurrentCityFavourites(getUserId(token));
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -44,9 +43,9 @@ public class TaxiDriverController extends BasicSecurityController {
         return driverReader.readAll();
     }
 
-    @RequestMapping(value = "/city/{country}/{city}/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/city/{city}/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public List<DriverManagement.DriverInfo> getByDriveType(@PathVariable long country, @PathVariable long city, @PathVariable long type) {
-        return driverReader.readDriversByDriveType(type, city, 0, country);
+    public List<DriverManagement.DriverInfo> getByDriveType(@PathVariable long city, @PathVariable long type) {
+        return driverReader.readDriversByDriveType(type, city);
     }
 }

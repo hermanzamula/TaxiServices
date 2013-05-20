@@ -1,6 +1,7 @@
 package com.taxiservice.web.controller;
 
 import com.taxiservice.model.writer.UserManagement;
+import com.response.LoginResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,14 +42,20 @@ public class UserController extends BasicSecurityController {
         }
     }
 
-    private static class UserRequest extends LoginRequest {
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public void remove(@RequestBody String token) {
+        super.remove(token);
+    }
+
+    public static class UserRequest extends LoginRequest {
         public String name;
         public String lastName;
         public long city;
         public long country;
     }
 
-    private static class LoginRequest {
+    public static class LoginRequest {
         public String email;
         public String password;
     }

@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class BasicSecurityController {
 
     private static final Map<String, UserDetails> ENTERED_USERS = ImmutableMap.of();
+
     @Inject
     UserCredentialsService userCredentials;
 
@@ -25,7 +29,8 @@ public class BasicSecurityController {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public String errorHandler(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+    public String errorHandler(Exception ex, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(500, ex.getMessage());
         return "Uncaught Error: " + ex.getMessage();
     }
 
@@ -34,6 +39,11 @@ public class BasicSecurityController {
         String token = createToken();
         ENTERED_USERS.put(token, newUserDetails(userInfo));
         return token;
+    }
+
+    protected void remove(String token){
+        checkNotNull(token);
+        ENTERED_USERS.remove(token);
     }
 
     private UserDetails newUserDetails(UserManagement.UserInfo userInfo) {

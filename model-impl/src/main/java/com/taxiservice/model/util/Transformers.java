@@ -6,6 +6,7 @@ import com.taxiservice.model.entity.DriveType;
 import com.taxiservice.model.entity.PhoneNumber;
 import com.taxiservice.model.entity.TaxiDriver;
 import com.taxiservice.model.entity.TaxiDriverHasDriveType;
+import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
 
 import static com.google.common.collect.FluentIterable.from;
@@ -38,4 +39,10 @@ public class Transformers {
     };
 
 
+    public static final Function<? super TaxiDriver,DriverReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<TaxiDriver, DriverReader.DriverLine>() {
+        @Override
+        public DriverReader.DriverLine apply(TaxiDriver input) {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
 }

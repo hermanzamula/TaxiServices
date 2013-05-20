@@ -1,4 +1,4 @@
-package com.taxiservice.web.controller;
+package com.response;
 
 
 public class LoginResponse {
