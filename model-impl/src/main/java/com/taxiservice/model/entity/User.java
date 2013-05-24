@@ -5,6 +5,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.Collection;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 
 @Entity
 public class User extends AbstractPersistable<Long> {
@@ -18,13 +20,13 @@ public class User extends AbstractPersistable<Long> {
     private String passwordHash;
     private String lastName;
     @OneToMany(mappedBy = "user")
-    private Collection<UserBonus> bonuses;
+    private Collection<UserBonus> bonuses = newHashSet();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorite")
-    private Collection<TaxiDriver> userFavourites;
+    private Collection<TaxiDriver> userFavourites = newHashSet();
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserPlace> userPlaces;
+    private Collection<UserPlace> userPlaces = newHashSet();
 
     public User(Long id) {
         setId(id);

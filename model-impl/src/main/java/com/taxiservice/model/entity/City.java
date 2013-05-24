@@ -5,6 +5,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.Collection;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 
 @Entity
 public class City extends AbstractPersistable<Long> {
@@ -15,7 +17,7 @@ public class City extends AbstractPersistable<Long> {
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private Country country;
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
-    private Collection<TaxiDriver> taxiDrivers;
+    private Collection<TaxiDriver> taxiDrivers = newHashSet();
 
     public City() {
     }

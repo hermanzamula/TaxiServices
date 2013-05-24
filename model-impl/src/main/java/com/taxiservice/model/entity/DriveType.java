@@ -5,6 +5,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.Collection;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 
 @Table(name = "drive_type", schema = "", catalog = "taxiservice")
 @Entity
@@ -14,10 +16,10 @@ public class DriveType extends AbstractPersistable<Long> {
     private String name;
     private String description;
     @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
-    private Collection<UserBonus> userBonuses;
+    private Collection<UserBonus> userBonuses = newHashSet();
     @ManyToMany
     @JoinTable(name = "taxi_driver_has_drive_type")
-    private Collection<TaxiDriver> taxiDrivers;
+    private Collection<TaxiDriver> taxiDrivers = newHashSet();
 
     public DriveType() {
     }

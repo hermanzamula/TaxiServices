@@ -5,12 +5,14 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.Collection;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 
 @Entity
 public class Country extends AbstractPersistable<Long> {
     private String name;
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-    private Collection<City> cities;
+    private Collection<City> cities = newHashSet();
 
 
     public Country() {

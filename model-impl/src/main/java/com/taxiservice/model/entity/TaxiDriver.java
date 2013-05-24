@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.util.Collection;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 
 @Table(name = "taxi_driver", schema = "", catalog = "taxiservice")
 @Indexed
@@ -15,12 +17,12 @@ public class TaxiDriver extends AbstractPersistable<Long> {
 
     private String name;
     @OneToMany(mappedBy = "taxiDriver", fetch = FetchType.EAGER)
-    private Collection<PhoneNumber> phoneNumbers = ImmutableSet.of();
+    private Collection<PhoneNumber> phoneNumbers = newHashSet();
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     private City city;
     @OneToMany(mappedBy = "taxiDriver")
-    private Collection<UserBonus> userBonuses = ImmutableSet.of();
+    private Collection<UserBonus> userBonuses = newHashSet();
 
     @Column
     private long rate = 0;
@@ -30,11 +32,11 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     private String description;
 
     @OneToMany(mappedBy = "taxiDriver")
-    private Collection<TaxiDriverHasDriveType> prices = ImmutableSet.of();
+    private Collection<TaxiDriverHasDriveType> prices = newHashSet();
 
     @ManyToMany
     @JoinTable(name = "taxi_driver_has_drive_type")
-    private Collection<DriveType> driveTypes = ImmutableSet.of();
+    private Collection<DriveType> driveTypes = newHashSet();
 
     public TaxiDriver(Long id) {
     }
