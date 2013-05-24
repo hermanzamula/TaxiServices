@@ -45,7 +45,7 @@ public class DriveType extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
+    @Column(name = "description", length = 1024)
     @Basic
     public String getDescription() {
         return description;
