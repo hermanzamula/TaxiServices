@@ -11,4 +11,5 @@
     <import resource="classpath*:model.cfg.xml"/>
     <import resource="classpath*:mysql.cfg.xml"/>
 
+
 </beans>

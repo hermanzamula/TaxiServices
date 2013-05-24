@@ -9,7 +9,7 @@ import java.util.Collection;
 @Entity
 public class Country extends AbstractPersistable<Long> {
     private String name;
-    @OneToMany(mappedBy = "country",  cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private Collection<City> cities;
 
 
@@ -18,6 +18,10 @@ public class Country extends AbstractPersistable<Long> {
 
     public Country(Long id) {
         setId(id);
+    }
+
+    public Country(String name) {
+        this.name = name;
     }
 
     @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 45, precision = 0)

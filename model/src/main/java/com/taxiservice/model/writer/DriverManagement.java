@@ -8,33 +8,45 @@ import java.util.List;
 @Transactional
 public interface DriverManagement {
 
-    long createDriver(DriverInfo driverInfo);
+    long createDriver(DriverDetails driverDetails);
 
-    long removeDriver(long user, long driver);
+    void removeDriver(long user, long driver);
 
-    public static class DriverInfo {
+    void likeDriver(long user, long driver);
+
+    void dislikeDriver(long user, long driver);
+
+    void updateDriverInfo(long driver, DriverDetails driverDetails);
+
+    public static class DriverDetails {
 
         final public long id;
         final public String name;
         final public List<String> phones;
+        final public long rate;
         final public long city;
-        final List<DriveType> driveTypes;
+        final public List<Type> driveTypes;
+        final public String site;
+        final public String description;
 
-        public DriverInfo(long id,  String name,long city,List<String> phones, List<DriveType> driveTypes) {
+        public DriverDetails(long id, String name, List<Type> driveTypes, long city, List<String> phones, long rate, String site, String description) {
             this.id = id;
             this.name = name;
             this.phones = phones;
             this.city = city;
             this.driveTypes = driveTypes;
+            this.rate = rate;
+            this.site = site;
+            this.description = description;
         }
     }
 
-    public static class DriveType {
+    public static class Type {
         public final long id;
         public final String name;
         public final double price;
 
-        public DriveType(long id, String name, double price) {
+        public Type(long id, String name, double price) {
             this.id = id;
             this.name = name;
             this.price = price;

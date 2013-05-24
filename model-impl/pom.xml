@@ -64,7 +64,7 @@
     </dependencies>
 
     <properties>
-        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+        <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
     </properties>
 
 

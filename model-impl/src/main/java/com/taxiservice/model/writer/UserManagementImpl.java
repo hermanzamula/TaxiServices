@@ -1,4 +1,4 @@
-package com.taxiservice.model.managment;
+package com.taxiservice.model.writer;
 
 
 import com.taxiservice.model.AccessDenied;
@@ -8,12 +8,11 @@ import com.taxiservice.model.entity.UserPlace;
 import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.repository.UserPlaceRepository;
 import com.taxiservice.model.repository.UserRepository;
-import com.taxiservice.model.writer.UserManagement;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-
 import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,6 +37,7 @@ public class UserManagementImpl implements UserManagement {
     @Override
     public long createUser(UserInfo userInfo, String passwordHash) {
         checkNotNull(passwordHash);
+        LOGGER.log(Priority.INFO, "Create user " + userInfo.email);
         User user = new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash);
         City city = cityRepository.findOne(userInfo.place.city);
         saveUserPlace(user, city);
@@ -62,7 +62,7 @@ public class UserManagementImpl implements UserManagement {
         User user = checkNotNull(userRepository.findOne(userId));
 
         //TODO: implement password hash encoding
-        if(!user.getPasswordHash().equals(oldPassword)) {
+        if (!user.getPasswordHash().equals(oldPassword)) {
             throw new AccessDenied("Old password is invalid");
         }
         user.setPasswordHash(passwordHash);

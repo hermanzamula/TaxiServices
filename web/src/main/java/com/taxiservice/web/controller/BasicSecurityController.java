@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class BasicSecurityController {
 
+    //TODO [herman.zamula]: Implement removing tokens by expires date
     private static final Map<String, UserDetails> ENTERED_USERS = ImmutableMap.of();
 
     @Inject

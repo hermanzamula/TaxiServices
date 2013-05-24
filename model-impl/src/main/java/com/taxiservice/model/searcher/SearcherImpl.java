@@ -47,7 +47,7 @@ public class SearcherImpl implements Searcher {
 
     @Override
     public List<DriverReader.DriverLine> drivers(String query) {
-        Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description"));
+        Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description", "city.name"));
         return from(drivers).transform(Transformers.DRIVER_LINE_TRANSFORMER).toImmutableList();
     }
 

@@ -1,5 +1,7 @@
 package com.taxiservice.model.entity;
 
+import com.google.common.collect.ImmutableSet;
+import org.hibernate.search.annotations.Indexed;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -7,24 +9,44 @@ import java.util.Collection;
 
 
 @Table(name = "taxi_driver", schema = "", catalog = "taxiservice")
+@Indexed
 @Entity
 public class TaxiDriver extends AbstractPersistable<Long> {
 
     private String name;
-    @OneToMany(mappedBy = "taxiDriver")
-    private Collection<PhoneNumber> phoneNumbers;
+    @OneToMany(mappedBy = "taxiDriver", fetch = FetchType.EAGER)
+    private Collection<PhoneNumber> phoneNumbers = ImmutableSet.of();
+    @ManyToOne
+    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     private City city;
     @OneToMany(mappedBy = "taxiDriver")
-    private Collection<UserBonus> userBonuses;
+    private Collection<UserBonus> userBonuses = ImmutableSet.of();
+
+    @Column
+    private long rate = 0;
+    @Column
+    private String site = null;
+    @Column
+    private String description;
+
+    @OneToMany(mappedBy = "taxiDriver")
+    private Collection<TaxiDriverHasDriveType> prices = ImmutableSet.of();
+
     @ManyToMany
     @JoinTable(name = "taxi_driver_has_drive_type")
-    private Collection<DriveType> driveTypes;
+    private Collection<DriveType> driveTypes = ImmutableSet.of();
 
     public TaxiDriver(Long id) {
     }
 
-
     public TaxiDriver() {
+    }
+
+    public TaxiDriver(String name, City city, String site, String description) {
+        this.name = name;
+        this.description = description;
+        this.phoneNumbers = phoneNumbers;
+        this.city = city;
     }
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 256, precision = 0)
@@ -41,12 +63,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(Collection<PhoneNumber> phoneNumbersById) {
-        this.phoneNumbers = phoneNumbersById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     public City getCity() {
         return city;
     }
@@ -63,11 +79,35 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.userBonuses = userBonusesById;
     }
 
-    public Collection<DriveType> getDriveTypes() {
-        return driveTypes;
+    public long getRate() {
+        return rate;
     }
 
-    public void setDriveTypes(Collection<DriveType> taxiDriverHasDriveTypesById) {
-        this.driveTypes = taxiDriverHasDriveTypesById;
+    public void setRate(long rate) {
+        this.rate = rate;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Collection<TaxiDriverHasDriveType> getPrices() {
+        return prices;
+    }
+
+    public Collection<DriveType> getDriveTypes() {
+        return driveTypes;
     }
 }

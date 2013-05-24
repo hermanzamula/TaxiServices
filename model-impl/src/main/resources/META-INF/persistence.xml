@@ -12,6 +12,7 @@
         <class>com.taxiservice.model.entity.TaxiDriverHasDriveType</class>
         <class>com.taxiservice.model.entity.Favorite</class>
         <class>com.taxiservice.model.entity.UserPlace</class>
+        <class>com.taxiservice.model.entity.Price</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.show_sql" value="true"/>

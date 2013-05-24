@@ -3,7 +3,6 @@ package com.taxiservice.model.entity;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.Collection;
 
 
@@ -14,7 +13,6 @@ public class DriveType extends AbstractPersistable<Long> {
 
     private String name;
     private String description;
-    private BigInteger price;
     @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
     private Collection<UserBonus> userBonuses;
     @ManyToMany
@@ -28,10 +26,9 @@ public class DriveType extends AbstractPersistable<Long> {
         setId(id);
     }
 
-    public DriveType(String name, String description, BigInteger price, Collection<TaxiDriver> taxiDrivers, Collection<UserBonus> userBonuses) {
+    public DriveType(String name, String description, Collection<TaxiDriver> taxiDrivers, Collection<UserBonus> userBonuses) {
         this.name = name;
         this.description = description;
-        this.price = price;
         this.taxiDrivers = taxiDrivers;
         this.userBonuses = userBonuses;
     }
@@ -56,29 +53,13 @@ public class DriveType extends AbstractPersistable<Long> {
         this.description = description;
     }
 
-    @Column(name = "price", nullable = true, insertable = true, updatable = true, length = 2, precision = 0)
-    @Basic
-    public BigInteger getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigInteger price) {
-        this.price = price;
-    }
 
     public Collection<UserBonus> getUserBonuses() {
         return userBonuses;
-    }
-
-    public void setUserBonuses(Collection<UserBonus> userBonusesById) {
-        this.userBonuses = userBonusesById;
     }
 
     public Collection<TaxiDriver> getTaxiDrivers() {
         return taxiDrivers;
     }
 
-    public void setTaxiDrivers(Collection<TaxiDriver> taxiDriverHasDriveTypesById) {
-        this.taxiDrivers = taxiDriverHasDriveTypesById;
-    }
 }

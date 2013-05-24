@@ -8,15 +8,20 @@ import java.io.Serializable;
 
 @Table(name = "favorite", schema = "", catalog = "taxiservice")
 @Entity
-public class Favorite implements Serializable{
-
-    private TaxiDriver taxiDriver;
-    private User user;
+public class Favorite implements Serializable {
 
 
     @Id
     @ManyToOne
     @javax.persistence.JoinColumn(name = "taxi_driver_id", referencedColumnName = "id", nullable = false)
+    private TaxiDriver taxiDriver;
+
+    @Id
+    @ManyToOne
+    @javax.persistence.JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
+
+
     public TaxiDriver getTaxiDriver() {
         return taxiDriver;
     }
@@ -25,9 +30,7 @@ public class Favorite implements Serializable{
         this.taxiDriver = taxiDriverByTaxiDriverId;
     }
 
-    @Id
-    @ManyToOne
-    @javax.persistence.JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+
     public User getUser() {
         return user;
     }

@@ -4,10 +4,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -43,7 +40,6 @@ public class UserPlace extends AbstractPersistable<Long> {
     public void setLastModification(Date lastModification) {
         this.lastModification = lastModification;
     }
-
 
 
     public City getCity() {

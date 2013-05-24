@@ -1,6 +1,5 @@
 package com.taxiservice.model.entity;
 
-import com.google.common.collect.ImmutableSortedSet;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -10,6 +9,9 @@ import java.util.Collection;
 @Entity
 public class User extends AbstractPersistable<Long> {
 
+
+    @Column(name = "isAdmin", nullable = false, insertable = true, updatable = true)
+    @Basic
     private boolean isAdmin;
     private String firstName;
     private String email;
@@ -17,7 +19,7 @@ public class User extends AbstractPersistable<Long> {
     private String lastName;
     @OneToMany(mappedBy = "user")
     private Collection<UserBonus> bonuses;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorite")
     private Collection<TaxiDriver> userFavourites;
 
@@ -82,16 +84,10 @@ public class User extends AbstractPersistable<Long> {
         return bonuses;
     }
 
-    public void setBonuses(Collection<UserBonus> userBonusesById) {
-        this.bonuses = userBonusesById;
-    }
-
     public Collection<TaxiDriver> getUserFavourites() {
         return userFavourites;
     }
 
-    @Column(name = "isAdmin", nullable = false, insertable = true, updatable = true)
-    @Basic
     public boolean isAdmin() {
         return isAdmin;
     }

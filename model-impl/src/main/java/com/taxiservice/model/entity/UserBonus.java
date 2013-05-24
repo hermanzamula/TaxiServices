@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.*;
 import java.math.BigInteger;
 
-@Table(name = "user_bonus", schema = "", catalog = "taxiservice")
+@Table(name = "user_bonus")
 @Entity
 public class UserBonus extends AbstractPersistable<Long> {
 

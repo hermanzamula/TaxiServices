@@ -10,4 +10,5 @@ import java.util.List;
 public interface Searcher {
 
     List<DriverReader.DriverLine> drivers(String query);
+
 }

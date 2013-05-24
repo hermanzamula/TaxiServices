@@ -1,7 +1,7 @@
 package com.taxiservice.web.controller;
 
 import com.taxiservice.model.writer.UserManagement;
-import com.response.LoginResponse;
+import com.taxiservice.web.response.LoginResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

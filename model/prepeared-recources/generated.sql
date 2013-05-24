@@ -48,6 +48,9 @@ CREATE  TABLE IF NOT EXISTS `taxiservice`.`taxi_driver` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `city_id` BIGINT NOT NULL ,
   `name` VARCHAR(256) NULL ,
+  `rate` BIGINT NULL DEFAULT 0 ,
+  `site` VARCHAR(100) NULL ,
+  `description` VARCHAR(512) NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idtaxidriver_UNIQUE` (`id` ASC) ,
   INDEX `fk_taxidriver_city1_idx` (`city_id` ASC) ,
@@ -86,7 +89,6 @@ CREATE  TABLE IF NOT EXISTS `taxiservice`.`drive_type` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
   `description` VARCHAR(256) NULL ,
-  `price` DECIMAL(2) NULL ,
   UNIQUE INDEX `iddrivetype_UNIQUE` (`id` ASC) ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
@@ -149,6 +151,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `taxiservice`.`Price`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `taxiservice`.`Price` ;
+
+CREATE  TABLE IF NOT EXISTS `taxiservice`.`Price` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `value` DECIMAL NOT NULL ,
+  `description` VARCHAR(45) NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `taxiservice`.`taxi_driver_has_drive_type`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `taxiservice`.`taxi_driver_has_drive_type` ;
@@ -156,9 +171,11 @@ DROP TABLE IF EXISTS `taxiservice`.`taxi_driver_has_drive_type` ;
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`taxi_driver_has_drive_type` (
   `taxi_driver_id` BIGINT NOT NULL ,
   `drive_type_id` BIGINT NOT NULL ,
+  `Price_id` INT NOT NULL ,
   PRIMARY KEY (`taxi_driver_id`, `drive_type_id`) ,
   INDEX `fk_taxi_driver_has_drive_type_drive_type1_idx` (`drive_type_id` ASC) ,
   INDEX `fk_taxi_driver_has_drive_type_taxi_driver1_idx` (`taxi_driver_id` ASC) ,
+  INDEX `fk_taxi_driver_has_drive_type_Price1_idx` (`Price_id` ASC) ,
   CONSTRAINT `fk_taxi_driver_has_drive_type_taxi_driver1`
     FOREIGN KEY (`taxi_driver_id` )
     REFERENCES `taxiservice`.`taxi_driver` (`id` )
@@ -167,6 +184,11 @@ CREATE  TABLE IF NOT EXISTS `taxiservice`.`taxi_driver_has_drive_type` (
   CONSTRAINT `fk_taxi_driver_has_drive_type_drive_type1`
     FOREIGN KEY (`drive_type_id` )
     REFERENCES `taxiservice`.`drive_type` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_taxi_driver_has_drive_type_Price1`
+    FOREIGN KEY (`Price_id` )
+    REFERENCES `taxiservice`.`Price` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

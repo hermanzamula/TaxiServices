@@ -33,10 +33,10 @@ public class PhoneNumber extends AbstractPersistable<Long> {
         this.taxiDriver = taxiDriver;
     }
 
-    private TaxiDriver taxiDriver;
-
     @ManyToOne
     @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id", nullable = false)
+    private TaxiDriver taxiDriver;
+
     public TaxiDriver getTaxiDriver() {
         return taxiDriver;
     }

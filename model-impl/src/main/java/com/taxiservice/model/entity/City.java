@@ -9,6 +9,10 @@ import java.util.Collection;
 @Entity
 public class City extends AbstractPersistable<Long> {
     private String name;
+
+
+    @ManyToOne
+    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private Country country;
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private Collection<TaxiDriver> taxiDrivers;
@@ -18,6 +22,11 @@ public class City extends AbstractPersistable<Long> {
 
     public City(Long id) {
         setId(id);
+    }
+
+    public City(String name, Country country) {
+        this.country = country;
+        this.name = name;
     }
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
@@ -30,8 +39,6 @@ public class City extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     public Country getCountry() {
         return country;
     }
