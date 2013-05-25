@@ -19,11 +19,15 @@ public class User extends AbstractPersistable<Long> {
     private String email;
     private String passwordHash;
     private String lastName;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserBonus> bonuses = newHashSet();
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "favorite")
-    private Collection<TaxiDriver> userFavourites = newHashSet();
+    @JoinTable(name = "favorite", joinColumns =
+    @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns =  @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id"))
+    private Collection<TaxiDriver> taxiDrivers = newHashSet();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserPlace> userPlaces = newHashSet();
@@ -86,8 +90,8 @@ public class User extends AbstractPersistable<Long> {
         return bonuses;
     }
 
-    public Collection<TaxiDriver> getUserFavourites() {
-        return userFavourites;
+    public Collection<TaxiDriver> getTaxiDrivers() {
+        return taxiDrivers;
     }
 
     public boolean isAdmin() {

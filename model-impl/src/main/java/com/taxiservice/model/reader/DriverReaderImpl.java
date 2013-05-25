@@ -57,7 +57,7 @@ public class DriverReaderImpl implements DriverReader {
     @Override
     public List<DriverManagement.DriverDetails> readFavourites(long userId) {
 
-        return from(userRepository.findOne(userId).getUserFavourites())
+        return from(userRepository.findOne(userId).getTaxiDrivers())
                 .transform(DRIVER_INFO_TRANSFORMER)
                 .toImmutableList();
 
@@ -68,7 +68,7 @@ public class DriverReaderImpl implements DriverReader {
         final User user = userRepository.findOne(userId);
         UserPlace last = from(userPlaceRepository.findByUser(user)).last().get();
 
-        return from(user.getUserFavourites())
+        return from(user.getTaxiDrivers())
                 .filter(driverFromCity(last.getCity()))
                 .transform(DRIVER_INFO_TRANSFORMER)
                 .toImmutableList();
@@ -77,7 +77,7 @@ public class DriverReaderImpl implements DriverReader {
     @Override
     public List<DriverManagement.DriverDetails> readCityFavourites(long actor, long cityId) {
 
-        return from(userRepository.findOne(actor).getUserFavourites())
+        return from(userRepository.findOne(actor).getTaxiDrivers())
                 .filter(driverFromCity(cityId))
                 .transform(DRIVER_INFO_TRANSFORMER)
                 .toImmutableList();

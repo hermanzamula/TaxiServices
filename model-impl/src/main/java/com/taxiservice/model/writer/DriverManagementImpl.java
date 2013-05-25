@@ -53,7 +53,11 @@ public class DriverManagementImpl implements DriverManagement {
     public void likeDriver(long user, long driver) {
         final TaxiDriver taxiDriver = driverRepository.findOne(driver);
         final User actor = userRepository.findOne(user);
-        actor.getUserFavourites().add(taxiDriver);
+        //TODO: Create validator
+        if(actor.getTaxiDrivers().contains(taxiDriver)) {
+            return;
+        }
+        actor.getTaxiDrivers().add(taxiDriver);
         taxiDriver.setRate(taxiDriver.getRate() + 1);
         save(taxiDriver, actor);
     }
@@ -62,7 +66,9 @@ public class DriverManagementImpl implements DriverManagement {
     public void dislikeDriver(long user, long driver) {
         final TaxiDriver taxiDriver = driverRepository.findOne(driver);
         final User actor = userRepository.findOne(user);
-        actor.getUserFavourites().remove(taxiDriver);
+        if(!actor.getTaxiDrivers().remove(taxiDriver)){
+            return;
+        }
         taxiDriver.setRate(taxiDriver.getRate() - 1);
         save(taxiDriver, actor);
     }

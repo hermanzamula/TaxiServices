@@ -4,6 +4,7 @@ package com.taxiservice.web.demo;
 import com.google.common.base.Function;
 import com.taxiservice.model.HasDriveType;
 import com.taxiservice.model.PredefinedDataCreator;
+import com.taxiservice.model.writer.DriverManagement;
 import com.taxiservice.model.writer.UserManagement;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.DependsOn;
@@ -18,28 +19,20 @@ import java.util.Random;
 
 import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.taxiservice.web.demo.SeedDataCreator.*;
 
 @Singleton
 @Component
 @DependsOn("seedDataCreator")
 public class DemoDataCreator {
 
-    public static final Logger LOGGER = Logger.getLogger(DemoDataCreator.class);
-    public static final String BONUS_DESCRIPTION = "ИДС Bonus существует с 2004 года - это надежная служба заказа такси по разумным ценам.\n" +
-            "Круглосуточный вызов такси в любую точку Киева и ближний загород, встречи на ЖД-вокзалах";
-    public static final List<String> BONUS_PHONES = new ArrayList<String>() {{
-        add("099-444-999-22");
-        add("(050) 633-04-43");
-        add("(097) 623-33-55");
-    }};
-
-
-
     private static final List<Long> driveTypes = newArrayList();
     @Inject
     UserManagement userManagement;
     @Inject
     PredefinedDataCreator initiator;
+    @Inject
+    DriverManagement driverManagement;
 
     private static boolean isInit = false;
     //TODO: Implement
@@ -60,8 +53,18 @@ public class DemoDataCreator {
 
         createDriveTypes();
 
-        initiator.createDriver("BONUS", BONUS_DESCRIPTION, "bonustaxi.com", kharkiv, BONUS_PHONES, getAnyDriveTypes());
+        final long bonus = initiator.createDriver("BONUS", BONUS_DESCRIPTION, "bonustaxi.com", kharkiv, RUSALKA_PHONES, getAnyDriveTypes());
+        final long русалочка = initiator.createDriver("Русалочка", "", "", kharkiv, RUSALKA_PHONES, getAnyDriveTypes());
+        final long diana = initiator.createDriver("Diana", "", "", kharkiv, DIANA_PHONES, getAnyDriveTypes());
+        final long гранит = initiator.createDriver("Гранит", "", "", kharkiv, GRANIT_PHONES, getAnyDriveTypes());
+        final long driver = initiator.createDriver("Такси-1629", "", "taxi-1629.com.ua", kyiv, SeedDataCreator.KIEV_1629PHONES, getAnyDriveTypes());
 
+        driverManagement.likeDriver(admin, bonus);
+        driverManagement.likeDriver(sergiy, diana);
+        driverManagement.likeDriver(admin, diana);
+        driverManagement.likeDriver(admin, bonus);
+        driverManagement.dislikeDriver(sergiy, driver);
+        driverManagement.likeDriver(dmitry, гранит);
 
     }
 

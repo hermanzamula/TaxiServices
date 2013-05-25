@@ -12,6 +12,8 @@ import static com.google.common.collect.Sets.newHashSet;
 public class City extends AbstractPersistable<Long> {
     private String name;
 
+    //TODO: add column indicates city phone code
+
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
