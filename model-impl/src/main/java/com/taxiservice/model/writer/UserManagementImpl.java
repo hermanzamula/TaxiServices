@@ -9,7 +9,6 @@ import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.repository.UserPlaceRepository;
 import com.taxiservice.model.repository.UserRepository;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -37,8 +36,14 @@ public class UserManagementImpl implements UserManagement {
     @Override
     public long createUser(UserInfo userInfo, String passwordHash) {
         checkNotNull(passwordHash);
-        LOGGER.log(Priority.INFO, "Create user " + userInfo.email);
+        if(userRepository.findOneByEmail(userInfo.email) != null) {
+              throw new AccessDenied("User with email '" + userInfo.email + "' already registered");
+        }
         User user = new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash);
+        return updateUser(userInfo, user);
+    }
+
+    private long updateUser(UserInfo userInfo, User user) {
         City city = cityRepository.findOne(userInfo.place.city);
         if(city == null) {
             return saveUser(user);
@@ -76,7 +81,7 @@ public class UserManagementImpl implements UserManagement {
         User user = checkNotNull(userRepository.findOne(userId));
         user.setFirstName(userInfo.firstName);
         user.setLastName(userInfo.lastName);
-
+        updateUser(userInfo, user);
     }
 
     @Override
