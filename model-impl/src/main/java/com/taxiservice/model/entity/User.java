@@ -16,21 +16,24 @@ public class User extends AbstractPersistable<Long> {
     @Basic
     private boolean isAdmin;
     private String firstName;
+    @Column(unique = true)
+    @Basic
     private String email;
     private String passwordHash;
     private String lastName;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserBonus> bonuses = newHashSet();
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "favorite", joinColumns =
     @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns =  @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id"))
     private Collection<TaxiDriver> taxiDrivers = newHashSet();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Collection<UserPlace> userPlaces = newHashSet();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_place", joinColumns =
+    @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"))
+    private Collection<City> userPlaces = newHashSet();
 
     public User(Long id) {
         setId(id);
@@ -56,8 +59,6 @@ public class User extends AbstractPersistable<Long> {
         this.firstName = firstName;
     }
 
-    @Column(name = "email", nullable = false, insertable = true, updatable = true, length = 45, precision = 0)
-    @Basic
     public String getEmail() {
         return email;
     }
@@ -102,7 +103,7 @@ public class User extends AbstractPersistable<Long> {
         isAdmin = admin;
     }
 
-    public Collection<UserPlace> getUserPlaces() {
+    public Collection<City> getUserPlaces() {
         return userPlaces;
     }
 

@@ -4,16 +4,15 @@ package com.taxiservice.web.demo;
 import com.google.common.base.Function;
 import com.taxiservice.model.HasDriveType;
 import com.taxiservice.model.PredefinedDataCreator;
+import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.writer.DriverManagement;
 import com.taxiservice.model.writer.UserManagement;
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,6 +26,7 @@ import static com.taxiservice.web.demo.SeedDataCreator.*;
 public class DemoDataCreator {
 
     private static final List<Long> driveTypes = newArrayList();
+    private static boolean isInit = false;
     @Inject
     UserManagement userManagement;
     @Inject
@@ -34,11 +34,10 @@ public class DemoDataCreator {
     @Inject
     DriverManagement driverManagement;
 
-    private static boolean isInit = false;
     //TODO: Implement
     @PostConstruct
     public void init() {
-        if(isInit) {
+        if (isInit) {
             return;
         }
         isInit = true;
@@ -65,6 +64,10 @@ public class DemoDataCreator {
         driverManagement.likeDriver(admin, bonus);
         driverManagement.dislikeDriver(sergiy, driver);
         driverManagement.likeDriver(dmitry, гранит);
+
+        userManagement.addUserToPlace(admin, kharkiv);
+        userManagement.addUserToPlace(sergiy, kharkiv);
+        userManagement.addUserToPlace(dmitry, kyiv);
 
     }
 

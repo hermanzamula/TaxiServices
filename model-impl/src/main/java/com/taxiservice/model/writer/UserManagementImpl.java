@@ -40,12 +40,34 @@ public class UserManagementImpl implements UserManagement {
         LOGGER.log(Priority.INFO, "Create user " + userInfo.email);
         User user = new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash);
         City city = cityRepository.findOne(userInfo.place.city);
+        if(city == null) {
+            return saveUser(user);
+        }
+        user.getUserPlaces().add(city);
+        final Long id = saveUser(user);
         saveUserPlace(user, city);
+        return id;
+    }
+
+    private Long saveUser(User user) {
         return userRepository.save(user).getId();
     }
 
+    @Override
+    public void addUserToPlace(long actor, long city) {
+        final City city1 = checkNotNull(cityRepository.findOne(city));
+        final User user = checkNotNull(userRepository.findOne(actor));
+        if(user.getUserPlaces().contains(city1)) {
+            throw new IllegalStateException("City already added to user place");
+        }
+        user.getUserPlaces().add(city1);
+        userRepository.save(user);
+        saveUserPlace(user, city1);
+    }
+
     private void saveUserPlace(User user, City city) {
-        UserPlace place = new UserPlace(city, user, new Date());
+        final UserPlace place = userPlaceRepository.findByUserAndCity(user, city);
+        place.setLastModification(new Date());
         userPlaceRepository.save(place);
     }
 

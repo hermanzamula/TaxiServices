@@ -8,6 +8,8 @@ public interface UserManagement {
 
     long createUser(UserInfo userInfo, String passwordHash);
 
+    void addUserToPlace(long actor, long city);
+
     void removeUser(long userId);
 
     void updateUserInfo(long userId, UserInfo userInfo);
