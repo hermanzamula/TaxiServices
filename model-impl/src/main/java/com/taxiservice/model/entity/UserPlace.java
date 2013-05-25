@@ -3,22 +3,23 @@ package com.taxiservice.model.entity;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
 
-@javax.persistence.Table(name = "user_place", schema = "", catalog = "taxiservice")
+@javax.persistence.Table(name = "user_place")
 @Entity
 public class UserPlace extends AbstractPersistable<Long> {
 
     private Date lastModification;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @javax.persistence.JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     private City city;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @javax.persistence.JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 

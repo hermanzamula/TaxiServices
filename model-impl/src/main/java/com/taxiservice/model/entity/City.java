@@ -13,7 +13,7 @@ public class City extends AbstractPersistable<Long> {
     private String name;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private Country country;
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)

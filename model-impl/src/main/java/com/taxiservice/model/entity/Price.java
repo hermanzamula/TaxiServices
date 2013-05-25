@@ -2,52 +2,61 @@ package com.taxiservice.model.entity;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
+@Table(name = "price")
 @Entity
 public class Price extends AbstractPersistable<Long> {
 
-    @Column
-    private Double minValue;
-    @Column
-    private Double maxValue;
 
-    private String description;
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id", nullable = false)
+    TaxiDriver taxiDriver;
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "drive_type_id", referencedColumnName = "id", nullable = false)
+    DriveType driveType;
+    @Embedded
+    PriceInfo info;
 
-    public Price(Double minValue, Double maxValue, String description) {
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.description = description;
-    }
+     public Price(TaxiDriver taxiDriver, DriveType driveType, PriceInfo info) {
+         this.taxiDriver = taxiDriver;
+         this.driveType = driveType;
+         this.info = info;
+     }
+
 
     public Price() {
     }
 
-    @javax.persistence.Column(name = "description", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
-    @Basic
-    public String getDescription() {
-        return description;
+    public PriceInfo getInfo() {
+        return info;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setInfo(PriceInfo info) {
+        this.info = info;
     }
 
-    public Double getMinValue() {
-        return minValue;
+    public TaxiDriver getTaxiDriver() {
+        return taxiDriver;
     }
 
-    public void setMinValue(Double minValue) {
-        this.minValue = minValue;
+    public void setTaxiDriver(TaxiDriver taxiDriverByTaxiDriverId) {
+        this.taxiDriver = taxiDriverByTaxiDriverId;
     }
 
-    public Double getMaxValue() {
-        return maxValue;
+    public DriveType getDriveType() {
+        return driveType;
     }
 
-    public void setMaxValue(Double maxValue) {
-        this.maxValue = maxValue;
+    public void setDriveType(DriveType driveTypeByDriveTypeId) {
+        this.driveType = driveTypeByDriveTypeId;
+    }
+
+    public PriceInfo getPrice() {
+        return info;
+    }
+
+    public void setPrice(PriceInfo info) {
+        this.info = info;
     }
 }

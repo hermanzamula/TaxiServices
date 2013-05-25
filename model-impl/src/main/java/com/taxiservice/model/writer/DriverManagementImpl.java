@@ -3,14 +3,8 @@ package com.taxiservice.model.writer;
 
 import com.google.common.base.Function;
 import com.taxiservice.model.AccessDenied;
-import com.taxiservice.model.entity.City;
-import com.taxiservice.model.entity.DriveType;
-import com.taxiservice.model.entity.TaxiDriver;
-import com.taxiservice.model.entity.User;
-import com.taxiservice.model.repository.CityRepository;
-import com.taxiservice.model.repository.DriveTypeRepository;
-import com.taxiservice.model.repository.TaxiDriverRepository;
-import com.taxiservice.model.repository.UserRepository;
+import com.taxiservice.model.entity.*;
+import com.taxiservice.model.repository.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -26,13 +20,15 @@ public class DriverManagementImpl implements DriverManagement {
     private final TaxiDriverRepository driverRepository;
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
-    DriveTypeRepository driveTypeRepository;
+
+    private final PriceRepository priceRepository;
 
     @Inject
-    public DriverManagementImpl(TaxiDriverRepository driverRepository, UserRepository userRepository, CityRepository cityRepository) {
+    public DriverManagementImpl(TaxiDriverRepository driverRepository, UserRepository userRepository, CityRepository cityRepository, PriceRepository priceRepository) {
         this.driverRepository = driverRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
+        this.priceRepository = priceRepository;
     }
 
     @Override
@@ -78,16 +74,16 @@ public class DriverManagementImpl implements DriverManagement {
         taxiDriver.getPhoneNumbers().addAll(phoneNumbersFromStrings(taxiDriver, driverDetails.phones).toImmutableSet());
         taxiDriver.setName(driverDetails.name);
         taxiDriver.setSite(driverDetails.site);
-        taxiDriver.getDriveTypes().clear();
-        taxiDriver.getDriveTypes().addAll(from(driverDetails.driveTypes).transform(toDriveType()).toImmutableSet());
+        taxiDriver.getPrices().clear();
+        taxiDriver.getPrices().addAll(from(driverDetails.driveTypes).transform(toDriveType()).toImmutableSet());
         taxiDriver.setDescription(driverDetails.description);
     }
 
-    private Function<Type, DriveType> toDriveType() {
-        return new Function<Type, DriveType>() {
+    private Function<Type, Price> toDriveType() {
+        return new Function<Type, Price>() {
             @Override
-            public DriveType apply(Type input) {
-                return driveTypeRepository.findOne(input.id);
+            public Price apply(Type input) {
+                return priceRepository.findOne(input.id);
             }
         };
     }

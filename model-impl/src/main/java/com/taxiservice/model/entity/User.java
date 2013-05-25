@@ -19,13 +19,13 @@ public class User extends AbstractPersistable<Long> {
     private String email;
     private String passwordHash;
     private String lastName;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserBonus> bonuses = newHashSet();
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "favorite")
     private Collection<TaxiDriver> userFavourites = newHashSet();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserPlace> userPlaces = newHashSet();
 
     public User(Long id) {

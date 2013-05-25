@@ -5,8 +5,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.taxiservice.model.entity.DriveType;
 import com.taxiservice.model.entity.PhoneNumber;
+import com.taxiservice.model.entity.Price;
 import com.taxiservice.model.entity.TaxiDriver;
-import com.taxiservice.model.entity.TaxiDriverHasDriveType;
 import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
 
@@ -32,11 +32,11 @@ public class Transformers {
         }
     };
 
-    public static final Function<TaxiDriverHasDriveType, DriverManagement.Type> TO_DRIVE_TYPE = new Function<TaxiDriverHasDriveType, DriverManagement.Type>() {
+    public static final Function<Price, DriverManagement.Type> TO_DRIVE_TYPE = new Function<Price, DriverManagement.Type>() {
         @Override
-        public DriverManagement.Type apply(TaxiDriverHasDriveType input) {
+        public DriverManagement.Type apply(Price input) {
             final DriveType type = input.getDriveType();
-            return new DriverManagement.Type(type.getId(), type.getName(), (input.getPrice().getMaxValue() + input.getPrice().getMinValue())/2);
+            return new DriverManagement.Type(type.getId(), type.getName(), (input.getInfo().getMaximum() + input.getInfo().getMaximum())/2);
         }
     };
     public static final Function<TaxiDriver, DriverReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<TaxiDriver, DriverReader.DriverLine>() {

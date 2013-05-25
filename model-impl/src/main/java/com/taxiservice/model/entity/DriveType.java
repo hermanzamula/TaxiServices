@@ -8,7 +8,7 @@ import java.util.Collection;
 import static com.google.common.collect.Sets.newHashSet;
 
 
-@Table(name = "drive_type", schema = "", catalog = "taxiservice")
+@Table(name = "drive_type")
 @Entity
 public class DriveType extends AbstractPersistable<Long> {
 
@@ -17,9 +17,8 @@ public class DriveType extends AbstractPersistable<Long> {
     private String description;
     @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
     private Collection<UserBonus> userBonuses = newHashSet();
-    @ManyToMany
-    @JoinTable(name = "taxi_driver_has_drive_type")
-    private Collection<TaxiDriver> taxiDrivers = newHashSet();
+    @OneToMany(mappedBy = "driveType", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    private Collection<Price> taxiDrivers = newHashSet();
 
     public DriveType() {
     }
@@ -28,7 +27,7 @@ public class DriveType extends AbstractPersistable<Long> {
         setId(id);
     }
 
-    public DriveType(String name, String description, Collection<TaxiDriver> taxiDrivers, Collection<UserBonus> userBonuses) {
+    public DriveType(String name, String description, Collection<Price> taxiDrivers, Collection<UserBonus> userBonuses) {
         this.name = name;
         this.description = description;
         this.taxiDrivers = taxiDrivers;
@@ -60,7 +59,7 @@ public class DriveType extends AbstractPersistable<Long> {
         return userBonuses;
     }
 
-    public Collection<TaxiDriver> getTaxiDrivers() {
+    public Collection<Price> getTaxiDrivers() {
         return taxiDrivers;
     }
 

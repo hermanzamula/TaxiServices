@@ -2,6 +2,7 @@ package com.taxiservice.model.reader;
 
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.repository.*;
 import com.taxiservice.model.writer.DriverManagement;
@@ -38,10 +39,11 @@ public class DriverReaderImpl implements DriverReader {
     @Override
     public List<DriverManagement.DriverDetails> readDriversByDriveType(long driveType, long city) {
         DriveType type = driveTypeRepository.findOne(driveType);
-
-        return from(type.getTaxiDrivers())
-                .transform(DRIVER_INFO_TRANSFORMER)
-                .toImmutableList();
+        List<TaxiDriver> drivers = Lists.newArrayList();
+        for(Price driver: type.getTaxiDrivers()) {
+            drivers.add(driver.getTaxiDriver());
+        }
+        return from(drivers).transform(DRIVER_INFO_TRANSFORMER).toImmutableList();
     }
 
     @Override

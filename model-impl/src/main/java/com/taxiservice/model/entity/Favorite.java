@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-@Table(name = "favorite", schema = "", catalog = "taxiservice")
+@Table(name = "favorite")
 @Entity
 public class Favorite implements Serializable {
 

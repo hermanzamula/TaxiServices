@@ -32,6 +32,9 @@ public class DemoDataCreator {
         add("(050) 633-04-43");
         add("(097) 623-33-55");
     }};
+
+
+
     private static final List<Long> driveTypes = newArrayList();
     @Inject
     UserManagement userManagement;
@@ -58,6 +61,7 @@ public class DemoDataCreator {
         createDriveTypes();
 
         initiator.createDriver("BONUS", BONUS_DESCRIPTION, "bonustaxi.com", kharkiv, BONUS_PHONES, getAnyDriveTypes());
+
 
     }
 

@@ -23,6 +23,10 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     @Inject
     CountryRepository countryRepository;
 
+    @Inject
+    PriceRepository driveTypeRepository;
+
+
     @Override
     public long createAdmin(String name, String lastName, String email, String password) {
         final User user = new User(name, lastName, email, password);
@@ -42,7 +46,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
         driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toImmutableSet());
         for (HasDriveType type : driveTypes) {
             final DriveType one = typeRepository.findOne(type.driveType);
-            final TaxiDriverHasDriveType hasType = new TaxiDriverHasDriveType(driver, one, new Price(type.minVal, type.maxVal, type.description));
+            final Price hasType = new Price(driver, one, new PriceInfo((long)type.minVal, (long)type.maxVal, type.description));
             driver.getPrices().add(hasType);
         }
         return driverRepository.save(driver).getId();

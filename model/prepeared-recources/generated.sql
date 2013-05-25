@@ -166,7 +166,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `taxiservice`.`taxi_driver_has_drive_type`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `taxiservice`.`taxi_driver_has_drive_type` ;
+DROP TABLE IF EXISTS `taxiservice`.price ;
 
 CREATE  TABLE IF NOT EXISTS `taxiservice`.`taxi_driver_has_drive_type` (
   `taxi_driver_id` BIGINT NOT NULL ,
