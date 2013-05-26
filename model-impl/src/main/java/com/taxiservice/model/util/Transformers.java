@@ -41,7 +41,7 @@ public class Transformers {
         @Override
         public DriverManagement.DriverPrice apply(Price input) {
             final DriveType type = input.getDriveType();
-            return new DriverManagement.DriverPrice(type.getId(), type.getName(), input.getInfo().getMinimum(), input.getInfo().getMaximum());
+            return new DriverManagement.DriverPrice(type.getId(), type.getName(), input.getInfo().getMinimum().doubleValue(), input.getInfo().getMaximum().doubleValue());
         }
     };
     public static final Function<TaxiDriver, DriverReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<TaxiDriver, DriverReader.DriverLine>() {

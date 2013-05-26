@@ -9,6 +9,7 @@ import com.taxiservice.model.repository.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -135,7 +136,7 @@ public class DriverManagementImpl implements DriverManagement {
         return new Function<PriceList, Price>() {
             @Override
             public Price apply(PriceList input) {
-                return new Price(driver, driveTypeRepository.findOne(input.driveType), new PriceInfo((long) input.min, (long) input.max, input.description));
+                return new Price(driver, driveTypeRepository.findOne(input.driveType), new PriceInfo(BigDecimal.valueOf(input.min),  BigDecimal.valueOf(input.max), input.description));
             }
         };
     }

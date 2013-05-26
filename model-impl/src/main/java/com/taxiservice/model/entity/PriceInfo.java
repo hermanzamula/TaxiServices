@@ -3,21 +3,27 @@ package com.taxiservice.model.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 @Embeddable
 public class PriceInfo {
 
+
+    private static final DecimalFormat FORMAT = new DecimalFormat(".##");
+
     @Basic(optional = false)
-    long minimum;
+    BigDecimal minimum;
     @Basic(optional = false)
-    long maximum;
+    BigDecimal maximum;
     @Basic
     String description;
     @Basic
     String currency = "UAH";
 
-    public PriceInfo(long minimum, long maximum, String description) {
-        this.minimum = minimum;
+    public PriceInfo(BigDecimal minimum, BigDecimal maximum, String description) {
+        this.minimum =  minimum;
         this.maximum = maximum;
         this.description = description;
     }
@@ -25,19 +31,19 @@ public class PriceInfo {
     public PriceInfo() {
     }
 
-    public long getMinimum() {
+    public BigDecimal getMinimum() {
         return minimum;
     }
 
-    public void setMinimum(long minimum) {
+    public void setMinimum(BigDecimal minimum) {
         this.minimum = minimum;
     }
 
-    public long getMaximum() {
+    public BigDecimal getMaximum() {
         return maximum;
     }
 
-    public void setMaximum(long maximum) {
+    public void setMaximum(BigDecimal maximum) {
         this.maximum = maximum;
     }
 

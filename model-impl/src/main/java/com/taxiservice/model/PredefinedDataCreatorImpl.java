@@ -5,9 +5,11 @@ import com.taxiservice.model.repository.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.taxiservice.model.util.Transformers.phoneNumbersFromStrings;
+import static java.math.BigDecimal.valueOf;
 
 @Service
 public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
@@ -46,7 +48,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
         driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toImmutableSet());
         for (HasDriveType type : driveTypes) {
             final DriveType one = typeRepository.findOne(type.driveType);
-            final Price hasType = new Price(driver, one, new PriceInfo((long)type.minVal, (long)type.maxVal, type.description));
+            final Price hasType = new Price(driver, one, new PriceInfo(valueOf(type.minVal) , valueOf(type.maxVal), type.description));
             driver.getPrices().add(hasType);
         }
         driver.getCities().add(cityRepository.findOne(city));
