@@ -18,7 +18,8 @@ public class City extends AbstractPersistable<Long> {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private Country country;
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+
+    @ManyToMany(mappedBy = "cities", cascade = CascadeType.ALL)
     private Collection<TaxiDriver> taxiDrivers = newHashSet();
 
     public City() {

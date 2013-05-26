@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -71,6 +72,17 @@ public class DemoDataCreator {
 
         driverManagement.comment(dmitry, bonus, "Cool cool coooooooool");
         driverManagement.comment(sergiy, bonus, "Хорошее такси, мне понравилось");
+
+        driverManagement.createDriver(new DriverManagement.DriverInfo(
+                "Some Driver",
+                new ArrayList<String>(){{add("(056) 444-66-88");}},
+                new ArrayList<Long>(){{ add(kharkiv);}},
+                from(driveTypes).transform(new Function<Long, DriverManagement.PriceList>() {
+                    @Override
+                    public DriverManagement.PriceList apply(Long input) {
+                          return new DriverManagement.PriceList(input, 44, 55, "");
+                    }
+                }).toImmutableList(), "some.com", "" ));
     }
 
     private List<HasDriveType> getAnyDriveTypes() {

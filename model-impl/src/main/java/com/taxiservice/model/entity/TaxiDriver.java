@@ -20,9 +20,12 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     private String name;
     @OneToMany(mappedBy = "taxiDriver", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<PhoneNumber> phoneNumbers = newHashSet();
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
-    City city;
+
+    @ManyToMany
+    @JoinTable(name = "city_driver", joinColumns =
+    @JoinColumn(name = "driver_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"))
+    private Collection<City> cities = newHashSet();
 
     @Column
     long rate = 0;
@@ -44,11 +47,10 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     public TaxiDriver() {
     }
 
-    public TaxiDriver(String name, City city, String site, String description) {
+    public TaxiDriver(String name, String site, String description) {
         this.name = name;
         this.description = description;
         this.site = site;
-        this.city = city;
     }
 
     public String getName() {
@@ -61,14 +63,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
 
     public Collection<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City cityByCityId) {
-        this.city = cityByCityId;
     }
 
     public long getRate() {
@@ -102,5 +96,9 @@ public class TaxiDriver extends AbstractPersistable<Long> {
 
     public Collection<Comment> getComments() {
         return comments;
+    }
+
+    public Collection<City> getCities() {
+        return cities;
     }
 }

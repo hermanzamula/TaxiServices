@@ -6,11 +6,14 @@ import com.google.common.collect.FluentIterable;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.google.common.collect.FluentIterable.from;
 
+@Component
 public class Transformers {
 
     public static final Function<PhoneNumber, String> PHONE_NUMBER_TRANSFORMER = new Function<PhoneNumber, String>() {
@@ -19,21 +22,26 @@ public class Transformers {
             return input.getNumber();
         }
     };
-
+    public static final Function<City, Long> CITY_TO_ID = new Function<City, Long>() {
+        @Override
+        public Long apply(City input) {
+            return input.getId();
+        }
+    };
     public static final Function<TaxiDriver, DriverManagement.DriverDetails> TO_DRIVER_DETAILS = new Function<TaxiDriver, DriverManagement.DriverDetails>() {
         @Override
         public DriverManagement.DriverDetails apply(TaxiDriver input) {
-            return new DriverManagement.DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(TO_DRIVE_TYPE).toImmutableList(), input.getCity().getId(),
+            return new DriverManagement.DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(TO_DRIVE_TYPE).toImmutableList(),
+                    from(input.getCities()).transform(CITY_TO_ID).toImmutableList(),
                     from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toImmutableList(),
                     input.getRate(), input.getSite(), input.getDescription());
         }
     };
-
-    public static final Function<Price, DriverManagement.Type> TO_DRIVE_TYPE = new Function<Price, DriverManagement.Type>() {
+    public static final Function<Price, DriverManagement.DriverPrice> TO_DRIVE_TYPE = new Function<Price, DriverManagement.DriverPrice>() {
         @Override
-        public DriverManagement.Type apply(Price input) {
+        public DriverManagement.DriverPrice apply(Price input) {
             final DriveType type = input.getDriveType();
-            return new DriverManagement.Type(type.getId(), type.getName(), (input.getInfo().getMaximum() + input.getInfo().getMaximum())/2);
+            return new DriverManagement.DriverPrice(type.getId(), type.getName(), input.getInfo().getMinimum(), input.getInfo().getMaximum());
         }
     };
     public static final Function<TaxiDriver, DriverReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<TaxiDriver, DriverReader.DriverLine>() {
@@ -46,6 +54,26 @@ public class Transformers {
                             .toImmutableList());
         }
     };
+    public static final Function<Comment, DriverReader.Feedback> TO_FEEDBACK = new Function<Comment, DriverReader.Feedback>() {
+        @Override
+        public DriverReader.Feedback apply(Comment input) {
+            return new DriverReader.Feedback(input.getUser(),
+                    input.getDriver().getId(), input.getMessage(),
+                    input.getDate());
+        }
+    };
+    public static final Function<Long, City> CITY_FROM_ID = new Function<Long, City>() {
+        @Override
+        public City apply(Long input) {
+            return new City(input);
+        }
+    };
+    public static final Function<Long, DriveType> DRIVE_TYPE_FROM_ID = new Function<Long, DriveType>() {
+        @Override
+        public DriveType apply(Long input) {
+            return new DriveType(input);
+        }
+    };
 
     public static FluentIterable<PhoneNumber> phoneNumbersFromStrings(final TaxiDriver driver, List<String> phones) {
         return from(phones).transform(new Function<String, PhoneNumber>() {
@@ -55,13 +83,4 @@ public class Transformers {
             }
         });
     }
-
-    public static final Function<Comment,DriverReader.Feedback> TO_FEEDBACK = new Function<Comment, DriverReader.Feedback>() {
-        @Override
-        public DriverReader.Feedback apply(Comment input) {
-            return new DriverReader.Feedback(input.getUser(),
-                    input.getDriver().getId(), input.getMessage(),
-                    input.getDate());
-        }
-    };
 }

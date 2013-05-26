@@ -27,7 +27,7 @@ public class User extends AbstractPersistable<Long> {
     @JoinTable(name = "favorite", joinColumns =
     @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id"))
-    private Collection<TaxiDriver> taxiDrivers = newHashSet();
+    private Collection<TaxiDriver> favourites = newHashSet();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_place", joinColumns =
@@ -91,8 +91,8 @@ public class User extends AbstractPersistable<Long> {
         return bonuses;
     }
 
-    public Collection<TaxiDriver> getTaxiDrivers() {
-        return taxiDrivers;
+    public Collection<TaxiDriver> getFavourites() {
+        return favourites;
     }
 
     public boolean isAdmin() {
