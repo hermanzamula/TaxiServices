@@ -1,0 +1,22 @@
+.taxi-list {
+    width: 100%;
+}
+
+.taxi-list-item {
+    display: table
+}
+
+.taxi-list-item .taxi-info {
+    display: table-cell;
+    width: 100%;
+}
+
+.taxi-list-item .info-button-holder {
+    display: table-cell;
+    width: 24%;
+}
+
+.taxi-list-item .info-button-holder>a{
+    display: run-in;
+    margin-bottom: 5px;
+}

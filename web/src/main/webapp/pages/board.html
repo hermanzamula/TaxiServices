@@ -1,9 +1,89 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+<div class="span9" style="margin-left: 2%; width: 73%">
+    <div class="row-fluid">
+        <div class="span3">
+            <ul class="nav  nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">Популярные города</a>
+                </li>
+            </ul>
+            <div class="well">
+                <p>
+                    <a class="active"><b>Харьков</b></a>
+                </p>
+                <p>
+                    <b>Киев</b>
+                </p>
+                <p></p>
+                <p>
+                    <b>Днепропетровск</b>
+                </p>
+                <p>
+                    <b>Москва</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+                <p>
+                    <b>Абу-Даби</b>
+                </p>
+            </div>
+        </div>
+        <div class="span9">
+            <ul class="nav  nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">Популярное такси</a>
+                </li>
+            </ul>
+            <div class="well">
+                <div class="container taxi-list" ng-repeat="driver in drivers">
+                    <div class="taxi-list-item">
+                        <div class="taxi-info">
+                            <p ng-bind="driver.name">Бонус-такси</p>
+                            <div style="font-size: 8pt" ng-bind="driver.description">Лучшее такси Харькова блабла</div>
+                            <div style="font-size: 8pt">Сайт:
+                                <a href="#" ng-bind="driver.site">bonustaxi.com</a>
+                            </div>
+                            <div style="font-size: 8pt" ng-bind="driver.phones">Телефоны: 057 44-88-111, 098 33-11-333</div>
 
-</body>
-</html>
+                        </div>
+                        <div class="info-button-holder" style="">
+                            <a class="btn">Заказать</a>
+                            <a class="btn">Подробнее</a>
+                        </div>
+                    </div>
+                    <hr style="border: 1px solid grey;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

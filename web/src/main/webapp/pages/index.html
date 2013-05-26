@@ -1,0 +1,96 @@
+<!doctype html>
+<html ng-app="taxi-service" ng-controller="main">
+
+<head>
+    <title>board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <script src="../lib/jquery/jquery-2.0.1.min.js"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../lib/angularjs/angular.min.js"></script>
+    <script src="../lib/angularjs/angular-resource.min.js"></script>
+
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="../js/service/taxi-back.js"></script>
+    <script src="../js/controller/taxi-front.js"></script>
+    <script src="../js/controller/user-front.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">Твое Такси</a>
+
+            <div class="navbar-content">
+                <ul class="nav">
+                    <li class="active">
+                        <a href="#">Главная</a>
+                    </li>
+                    <li>
+                        <a href="#">О сервисе</a>
+                    </li>
+                    <li>
+                        <a href="#">Контакты</a>
+                    </li>
+                </ul>
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#">Поиск</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <ul class="nav  nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">Последние комментарии</a>
+                </li>
+            </ul>
+            <div class="well">
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b><span style="display: block;">Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a> </span>
+                </p>
+
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a>
+                </p>
+
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a>
+                </p>
+
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a>
+                </p>
+
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a>
+                </p>
+
+                <p>
+                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
+                    <a href="#">&gt;</a>
+                </p>
+            </div>
+        </div>
+        <div ng-view>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

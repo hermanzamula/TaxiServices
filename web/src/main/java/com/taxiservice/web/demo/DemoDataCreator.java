@@ -73,17 +73,10 @@ public class DemoDataCreator {
         driverManagement.comment(dmitry, bonus, "Cool cool coooooooool");
         driverManagement.comment(sergiy, bonus, "Хорошее такси, мне понравилось");
 
-        driverManagement.createDriver(new DriverManagement.DriverInfo(
-                "Some Driver",
-                new ArrayList<String>(){{add("(056) 444-66-88");}},
-                new ArrayList<Long>(){{ add(kharkiv);}},
-                from(driveTypes).transform(new Function<Long, DriverManagement.PriceList>() {
-                    @Override
-                    public DriverManagement.PriceList apply(Long input) {
-                          return new DriverManagement.PriceList(input, 44, 55, "");
-                    }
-                }).toImmutableList(), "some.com", "" ));
+        createTestDriver(kharkiv);
     }
+
+
 
     private List<HasDriveType> getAnyDriveTypes() {
         return from(driveTypes).transform(new Function<Long, HasDriveType>() {
@@ -102,5 +95,17 @@ public class DemoDataCreator {
         driveTypes.add(l);
         driveTypes.add(l2);
         driveTypes.add(l1);
+    }
+
+    private void createTestDriver(final long kharkiv) {
+        driverManagement.createDriver(new DriverManagement.DriverInfo(
+                "Some Driver", new ArrayList<String>(){{add("(056) 444-66-88");}},
+                new ArrayList<Long>(){{ add(kharkiv);}},
+                from(driveTypes).transform(new Function<Long, DriverManagement.PriceList>() {
+                    @Override
+                    public DriverManagement.PriceList apply(Long input) {
+                        return new DriverManagement.PriceList(input, 44, 55, "");
+                    }
+                }).toImmutableList(), "some.com", "" ));
     }
 }

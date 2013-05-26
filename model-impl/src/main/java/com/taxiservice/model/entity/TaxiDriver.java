@@ -35,6 +35,17 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     @Field
     String description;
 
+    @Basic
+    String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @OneToMany(mappedBy = "taxiDriver", cascade = CascadeType.ALL)
     private Collection<Price> prices = newHashSet();
 

@@ -1,16 +1,11 @@
-
-
-angular.module('users', ['ngResource']).
-    factory('Users', function($resource) {
-        return $resource('../user/');
-    });
-
-angular.module('main',['users'],
-    function ($locationProvider) {
-//        $locationProvider.html5Mode(true);
-    }).
-    controller("main", function($scope, Users) {
-        console.log(Users.get());
+angular.module('taxi-service',['users', 'taxi-front'])
+    .config(function($routeProvider){
+        $routeProvider.
+            when('/taxi/list', {controller: 'taxi-list', templateUrl: '../pages/board.html'}).
+            when('/', {templateUrl: '../pages/main.html'}).
+            otherwise({redirectTo: '/'});
+    })
+    .controller("main", function($scope, Users) {
         var request = {};
         request.name = "herman";
         request.lastName = "zamula";
