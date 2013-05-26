@@ -3,6 +3,7 @@ package com.taxiservice.model.reader;
 import com.taxiservice.model.writer.DriverManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -20,6 +21,8 @@ public interface DriverReader {
 
     List<DriverManagement.DriverDetails> readCityFavourites(long actor, long cityId);
 
+    List<Feedback> readComments(long driver);
+
     public class DriverLine {
         public final long id;
         public final String name;
@@ -31,6 +34,20 @@ public interface DriverReader {
             this.name = name;
             this.rate = rate;
             this.phones = phones;
+        }
+    }
+
+    public class Feedback {
+        public final String username;
+        public final long driver;
+        public final String message;
+        public final Date date;
+
+        public Feedback(String username, long driver, String message, Date date) {
+            this.username = username;
+            this.driver = driver;
+            this.message = message;
+            this.date = date;
         }
     }
 

@@ -4,6 +4,9 @@ package com.taxiservice.web.controller;
 import com.google.common.collect.ImmutableMap;
 import com.taxiservice.model.UserCredentialsService;
 import com.taxiservice.model.writer.UserManagement;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +23,6 @@ public class BasicSecurityController {
 
     //TODO [herman.zamula]: Implement removing tokens by expires date
     private static final Map<String, UserDetails> ENTERED_USERS = ImmutableMap.of();
-
     @Inject
     UserCredentialsService userCredentials;
 
@@ -32,6 +34,7 @@ public class BasicSecurityController {
     @ResponseBody
     public String errorHandler(Exception ex, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendError(500, ex.getMessage());
+        LOGGER.log(Level.ERROR, ex.getMessage());
         return "Uncaught Error: " + ex.getMessage();
     }
 
@@ -42,7 +45,7 @@ public class BasicSecurityController {
         return token;
     }
 
-    protected void remove(String token){
+    protected void remove(String token) {
         checkNotNull(token);
         ENTERED_USERS.remove(token);
     }
@@ -73,4 +76,6 @@ public class BasicSecurityController {
             this.city = city;
         }
     }
+
+    public static final Logger LOGGER = Logger.getLogger(BasicSecurityController.class);
 }

@@ -69,6 +69,8 @@ public class DemoDataCreator {
         userManagement.addUserToPlace(sergiy, kharkiv);
         userManagement.addUserToPlace(dmitry, kyiv);
 
+        driverManagement.comment(dmitry, bonus, "Cool cool coooooooool");
+        driverManagement.comment(sergiy, bonus, "Хорошее такси, мне понравилось");
     }
 
     private List<HasDriveType> getAnyDriveTypes() {

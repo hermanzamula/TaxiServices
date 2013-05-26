@@ -8,8 +8,10 @@ import com.taxiservice.model.repository.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.FluentIterable.from;
 import static com.taxiservice.model.util.Transformers.phoneNumbersFromStrings;
 
@@ -83,6 +85,21 @@ public class DriverManagementImpl implements DriverManagement {
         taxiDriver.getPrices().clear();
         taxiDriver.getPrices().addAll(from(driverDetails.driveTypes).transform(toDriveType()).toImmutableSet());
         taxiDriver.setDescription(driverDetails.description);
+    }
+
+    @Override
+    public void comment(long user, long driver, String message) {
+        checkNotNull(message);
+        final TaxiDriver one = driverRepository.findOne(driver);
+        one.getComments().add(newComment(user, message, one));
+        driverRepository.save(one);
+    }
+
+    private Comment newComment(long user, String message, TaxiDriver driver) {
+        final String email = userRepository.findOne(user).getEmail();
+        final Comment comment = new Comment(message, email, driver);
+        comment.setDate(new Date());
+        return comment;
     }
 
     private Function<Type, Price> toDriveType() {

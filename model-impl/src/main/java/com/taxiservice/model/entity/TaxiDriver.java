@@ -19,12 +19,10 @@ public class TaxiDriver extends AbstractPersistable<Long> {
     @Field
     private String name;
     @OneToMany(mappedBy = "taxiDriver", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Collection<PhoneNumber> phoneNumbers = newHashSet();
+    private Collection<PhoneNumber> phoneNumbers = newHashSet();
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     City city;
-    @OneToMany(mappedBy = "taxiDriver", cascade = CascadeType.ALL)
-    Collection<UserBonus> userBonuses = newHashSet();
 
     @Column
     long rate = 0;
@@ -36,6 +34,9 @@ public class TaxiDriver extends AbstractPersistable<Long> {
 
     @OneToMany(mappedBy = "taxiDriver", cascade = CascadeType.ALL)
     private Collection<Price> prices = newHashSet();
+
+    @OneToMany(mappedBy = "driver", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Collection<Comment> comments = newHashSet();
 
     public TaxiDriver(Long id) {
     }
@@ -70,14 +71,6 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         this.city = cityByCityId;
     }
 
-    public Collection<UserBonus> getUserBonuses() {
-        return userBonuses;
-    }
-
-    public void setUserBonuses(Collection<UserBonus> userBonusesById) {
-        this.userBonuses = userBonusesById;
-    }
-
     public long getRate() {
         return rate;
     }
@@ -106,4 +99,8 @@ public class TaxiDriver extends AbstractPersistable<Long> {
         return prices;
     }
 
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
 }

@@ -3,10 +3,7 @@ package com.taxiservice.model.util;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
-import com.taxiservice.model.entity.DriveType;
-import com.taxiservice.model.entity.PhoneNumber;
-import com.taxiservice.model.entity.Price;
-import com.taxiservice.model.entity.TaxiDriver;
+import com.taxiservice.model.entity.*;
 import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
 
@@ -23,7 +20,7 @@ public class Transformers {
         }
     };
 
-    public static final Function<TaxiDriver, DriverManagement.DriverDetails> DRIVER_INFO_TRANSFORMER = new Function<TaxiDriver, DriverManagement.DriverDetails>() {
+    public static final Function<TaxiDriver, DriverManagement.DriverDetails> TO_DRIVER_DETAILS = new Function<TaxiDriver, DriverManagement.DriverDetails>() {
         @Override
         public DriverManagement.DriverDetails apply(TaxiDriver input) {
             return new DriverManagement.DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(TO_DRIVE_TYPE).toImmutableList(), input.getCity().getId(),
@@ -58,4 +55,13 @@ public class Transformers {
             }
         });
     }
+
+    public static final Function<Comment,DriverReader.Feedback> TO_FEEDBACK = new Function<Comment, DriverReader.Feedback>() {
+        @Override
+        public DriverReader.Feedback apply(Comment input) {
+            return new DriverReader.Feedback(input.getUser(),
+                    input.getDriver().getId(), input.getMessage(),
+                    input.getDate());
+        }
+    };
 }

@@ -14,11 +14,12 @@ public class DriveType extends AbstractPersistable<Long> {
 
 
     private String name;
+
+    @Column(name = "description", length = 1024)
+    @Basic
     private String description;
-    @OneToMany(mappedBy = "driveType", cascade = CascadeType.ALL)
-    private Collection<UserBonus> userBonuses = newHashSet();
     @OneToMany(mappedBy = "driveType", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    private Collection<Price> taxiDrivers = newHashSet();
+    private Collection<Price> prices = newHashSet();
 
     public DriveType() {
     }
@@ -27,11 +28,10 @@ public class DriveType extends AbstractPersistable<Long> {
         setId(id);
     }
 
-    public DriveType(String name, String description, Collection<Price> taxiDrivers, Collection<UserBonus> userBonuses) {
+    public DriveType(String name, String description, Collection<Price> taxiDrivers) {
         this.name = name;
         this.description = description;
-        this.taxiDrivers = taxiDrivers;
-        this.userBonuses = userBonuses;
+        this.prices = taxiDrivers;
     }
 
     @Column(name = "name", nullable = true, insertable = true, updatable = true, length = 45, precision = 0)
@@ -44,8 +44,6 @@ public class DriveType extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    @Column(name = "description", length = 1024)
-    @Basic
     public String getDescription() {
         return description;
     }
@@ -54,13 +52,8 @@ public class DriveType extends AbstractPersistable<Long> {
         this.description = description;
     }
 
-
-    public Collection<UserBonus> getUserBonuses() {
-        return userBonuses;
-    }
-
-    public Collection<Price> getTaxiDrivers() {
-        return taxiDrivers;
+    public Collection<Price> getPrices() {
+        return prices;
     }
 
 }

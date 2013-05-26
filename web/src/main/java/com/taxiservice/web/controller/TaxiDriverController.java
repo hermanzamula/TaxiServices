@@ -51,14 +51,26 @@ public class TaxiDriverController extends BasicSecurityController {
 
     @RequestMapping(value = "/like", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void likeDriver(LikeRequest likeRequest) {
+    public void likeDriver(@RequestBody LikeRequest likeRequest) {
         driverManagement.likeDriver(getUserId(likeRequest.token), likeRequest.driver);
+    }
+
+    @RequestMapping(value = "/comment/{driver}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DriverReader.Feedback> getComments(@PathVariable long driver) {
+        return driverReader.readComments(driver);
     }
 
     @RequestMapping(value = "/dislike", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void dislikeDriver(LikeRequest likeRequest) {
+    public void dislikeDriver(@RequestBody LikeRequest likeRequest) {
         driverManagement.dislikeDriver(getUserId(likeRequest.token), likeRequest.driver);
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void commentDriver(@RequestBody CommentRequest request) {
+        driverManagement.comment(getUserId(request.token),  request.driver, request.message);
     }
 
     private class LikeRequest {
@@ -68,6 +80,15 @@ public class TaxiDriverController extends BasicSecurityController {
         private LikeRequest(long driver, String token) {
             this.driver = driver;
             this.token = token;
+        }
+    }
+
+    private class CommentRequest extends LikeRequest{
+        public final String message;
+
+        private CommentRequest(long driver, String token, String message) {
+            super(driver, token);
+            this.message = message;
         }
     }
 }

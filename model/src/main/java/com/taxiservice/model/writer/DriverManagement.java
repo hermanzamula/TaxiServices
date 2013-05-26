@@ -18,6 +18,8 @@ public interface DriverManagement {
 
     void updateDriverInfo(long driver, DriverDetails driverDetails);
 
+    void comment(long user, long driver, String message);
+
     public static class DriverDetails {
 
         final public long id;
