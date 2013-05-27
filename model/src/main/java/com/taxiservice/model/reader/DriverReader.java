@@ -23,6 +23,10 @@ public interface DriverReader {
 
     List<Feedback> readComments(long driver);
 
+    List<DriverLine> readShortInfo(long city);
+
+    DriverManagement.DriverDetails readDetails(long id);
+
     public class DriverLine {
         public final long id;
         public final String name;

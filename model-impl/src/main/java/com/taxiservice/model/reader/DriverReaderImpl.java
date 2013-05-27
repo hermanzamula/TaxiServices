@@ -2,17 +2,19 @@ package com.taxiservice.model.reader;
 
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.repository.*;
+import com.taxiservice.model.util.Transformers;
 import com.taxiservice.model.writer.DriverManagement;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Iterables.tryFind;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.taxiservice.model.util.Transformers.TO_DRIVER_DETAILS;
 import static com.taxiservice.model.util.Transformers.TO_FEEDBACK;
 
@@ -40,7 +42,7 @@ public class DriverReaderImpl implements DriverReader {
     @Override
     public List<DriverManagement.DriverDetails> readDriversByDriveType(long driveType, long city) {
         DriveType type = driveTypeRepository.findOne(driveType);
-        List<TaxiDriver> drivers = Lists.newArrayList();
+        List<TaxiDriver> drivers = newArrayList();
         for (Price driver : type.getPrices()) {
             drivers.add(driver.getTaxiDriver());
         }
@@ -85,6 +87,19 @@ public class DriverReaderImpl implements DriverReader {
         return from(taxiDriverRepository.findOne(driver).getComments())
                 .transform(TO_FEEDBACK)
                 .toImmutableList();
+    }
+
+    @Override
+    public List<DriverLine> readShortInfo(long city) {
+        return from(cityRepository.findOne(city).getTaxiDrivers())
+                .transform(Transformers.TO_DRIVE_LINE)
+                .toImmutableList();
+    }
+
+    @Override
+    public DriverManagement.DriverDetails readDetails(long id) {
+        final TaxiDriver driver = checkNotNull(taxiDriverRepository.findOne(id));
+        return TO_DRIVER_DETAILS.apply(driver);
     }
 
     private Predicate<TaxiDriver> driverByCity(final City city) {

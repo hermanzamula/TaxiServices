@@ -49,7 +49,7 @@ public class SearcherImpl implements Searcher {
     public List<DriverReader.DriverLine> drivers(String query) {
         //TODO: investigate search by foreighn keys
         Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description"));
-        return from(drivers).transform(Transformers.DRIVER_LINE_TRANSFORMER).toImmutableList();
+        return from(drivers).transform(Transformers.TO_DRIVE_LINE).toImmutableList();
     }
 
     private <T> Iterable<T> search(final Class<T> clazz, String keyword, Iterable<String> additionalFields) {

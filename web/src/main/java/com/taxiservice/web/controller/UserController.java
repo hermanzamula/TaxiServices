@@ -23,12 +23,12 @@ public class UserController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Long register(@RequestBody UserRequest userInfo) {
-
-        //TODO: Create separate class for user registration data
+    public Long register(@RequestBody UserCreationRequest request) {
         return userManagement.createUser(new UserManagement.UserInfo(
-                0, userInfo.lastName, userInfo.email, userInfo.name,
-                new UserManagement.Place(userInfo.city, userInfo.country)), userInfo.password);
+                request.firstName, request.lastName, request.email,
+                new UserManagement.Place(request.city, request.country)),
+                request.password
+        );
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -48,8 +48,8 @@ public class UserController extends BasicSecurityController {
         super.remove(token);
     }
 
-    public static class UserRequest extends LoginRequest {
-        public String name;
+    public static class UserCreationRequest extends LoginRequest {
+        public String firstName;
         public String lastName;
         public long city;
         public long country;

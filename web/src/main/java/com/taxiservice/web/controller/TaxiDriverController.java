@@ -55,7 +55,7 @@ public class TaxiDriverController extends BasicSecurityController {
         driverManagement.likeDriver(getUserId(likeRequest.token), likeRequest.driver);
     }
 
-    @RequestMapping(value = "/comment/{driver}", method = RequestMethod.GET)
+    @RequestMapping(value = "/comments/{driver}", method = RequestMethod.GET)
     @ResponseBody
     public List<DriverReader.Feedback> getComments(@PathVariable long driver) {
         return driverReader.readComments(driver);
@@ -72,6 +72,20 @@ public class TaxiDriverController extends BasicSecurityController {
     public void commentDriver(@RequestBody CommentRequest request) {
         driverManagement.comment(getUserId(request.token),  request.driver, request.message);
     }
+
+    @RequestMapping(value = "/city/{cityId}/short", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DriverReader.DriverLine> driverLine(@PathVariable long cityId) {
+        return driverReader.readShortInfo(cityId);
+    }
+
+    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public DriverManagement.DriverDetails details(@PathVariable long id) {
+        return driverReader.readDetails(id);
+    }
+
+
 
     private class LikeRequest {
         public final long driver;

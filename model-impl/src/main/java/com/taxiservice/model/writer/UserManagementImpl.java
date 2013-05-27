@@ -2,13 +2,13 @@ package com.taxiservice.model.writer;
 
 
 import com.taxiservice.model.AccessDenied;
+import com.taxiservice.model.Validator;
 import com.taxiservice.model.entity.City;
 import com.taxiservice.model.entity.User;
 import com.taxiservice.model.entity.UserPlace;
 import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.repository.UserPlaceRepository;
 import com.taxiservice.model.repository.UserRepository;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -23,29 +23,32 @@ public class UserManagementImpl implements UserManagement {
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
     private final UserPlaceRepository userPlaceRepository;
-
-    public static final Logger LOGGER = Logger.getLogger(UserManagementImpl.class);
+    private final Validator validator;
 
     @Inject
-    public UserManagementImpl(UserRepository userRepository, CityRepository cityRepository, UserPlaceRepository userPlaceRepository) {
+    public UserManagementImpl(UserRepository userRepository,
+                              CityRepository cityRepository,
+                              UserPlaceRepository userPlaceRepository,
+                              Validator validator) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.userPlaceRepository = userPlaceRepository;
+        this.validator = validator;
     }
 
     @Override
-    public long createUser(UserInfo userInfo, String passwordHash) {
+    public long createUser(UserInfo userData, String passwordHash) {
         checkNotNull(passwordHash);
-        if(userRepository.findOneByEmail(userInfo.email) != null) {
-              throw new AccessDenied("User with email '" + userInfo.email + "' already registered");
+        if (validator.isUserCanBeCreated(userData.email)) {
+            throw new AccessDenied("Can't create user with email '" + userData.email + "'");
         }
-        User user = new User(userInfo.firstName, userInfo.lastName, userInfo.email, passwordHash);
-        return updateUser(userInfo, user);
+        User user = new User(userData.firstName, userData.lastName, userData.email, passwordHash);
+        return updateUser(userData, user);
     }
 
     private long updateUser(UserInfo userInfo, User user) {
         City city = cityRepository.findOne(userInfo.place.city);
-        if(city == null) {
+        if (city == null) {
             return saveUser(user);
         }
         user.getUserPlaces().add(city);
@@ -62,7 +65,7 @@ public class UserManagementImpl implements UserManagement {
     public void addUserToPlace(long actor, long city) {
         final City city1 = checkNotNull(cityRepository.findOne(city));
         final User user = checkNotNull(userRepository.findOne(actor));
-        if(user.getUserPlaces().contains(city1)) {
+        if (!validator.canCityBeAddedToPlaces(actor, city)) {
             throw new IllegalStateException("City already added to user place");
         }
         user.getUserPlaces().add(city1);

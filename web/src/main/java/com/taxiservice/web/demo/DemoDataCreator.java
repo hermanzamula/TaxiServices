@@ -4,7 +4,6 @@ package com.taxiservice.web.demo;
 import com.google.common.base.Function;
 import com.taxiservice.model.HasDriveType;
 import com.taxiservice.model.PredefinedDataCreator;
-import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.writer.DriverManagement;
 import com.taxiservice.model.writer.UserManagement;
 import org.springframework.context.annotation.DependsOn;
@@ -66,8 +65,8 @@ public class DemoDataCreator {
         driverManagement.dislikeDriver(sergiy, driver);
         driverManagement.likeDriver(dmitry, гранит);
 
-        userManagement.addUserToPlace(admin, kharkiv);
-        userManagement.addUserToPlace(sergiy, kharkiv);
+        userManagement.addUserToPlace(admin, kyiv);
+        userManagement.addUserToPlace(sergiy, kyiv);
         userManagement.addUserToPlace(dmitry, kyiv);
 
         driverManagement.comment(dmitry, bonus, "Cool cool coooooooool");
@@ -106,6 +105,7 @@ public class DemoDataCreator {
                     public DriverManagement.PriceList apply(Long input) {
                         return new DriverManagement.PriceList(input, 44, 55, "");
                     }
-                }).toImmutableList(), "some.com", "" ));
+                }).toImmutableList(), "some.com", "", "ololo@gmail.com"
+        ));
     }
 }

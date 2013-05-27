@@ -2,16 +2,18 @@ package com.taxiservice.model.writer;
 
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.taxiservice.model.AccessDenied;
+import com.taxiservice.model.Validator;
 import com.taxiservice.model.entity.*;
-import com.taxiservice.model.repository.*;
+import com.taxiservice.model.repository.CityRepository;
+import com.taxiservice.model.repository.DriveTypeRepository;
+import com.taxiservice.model.repository.TaxiDriverRepository;
+import com.taxiservice.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.FluentIterable.from;
@@ -24,30 +26,30 @@ public class DriverManagementImpl implements DriverManagement {
 
     private final TaxiDriverRepository driverRepository;
     private final UserRepository userRepository;
-    private final PriceRepository priceRepository;
     private final CityRepository cityRepository;
     private final DriveTypeRepository driveTypeRepository;
+    private final Validator validator;
 
     @Inject
-    public DriverManagementImpl(TaxiDriverRepository driverRepository, UserRepository userRepository, PriceRepository priceRepository, CityRepository cityRepository, DriveTypeRepository driveTypeRepository) {
+    public DriverManagementImpl(TaxiDriverRepository driverRepository,
+                                UserRepository userRepository,
+                                CityRepository cityRepository,
+                                DriveTypeRepository driveTypeRepository,
+                                Validator validator) {
         this.driverRepository = driverRepository;
         this.userRepository = userRepository;
-        this.priceRepository = priceRepository;
         this.cityRepository = cityRepository;
         this.driveTypeRepository = driveTypeRepository;
+        this.validator = validator;
     }
 
     @Override
     public long createDriver(DriverInfo driverDetails) {
-        final ImmutableList<City> cities = from(driverDetails.cities).transform(toCity()).toImmutableList();
         final TaxiDriver driver = new TaxiDriver(driverDetails.name, driverDetails.site, driverDetails.description);
-        final List<String> phones = driverDetails.phones;
-        driver.getPrices().addAll(from(driverDetails.prices).transform(toPrice(driver)).toImmutableSet());
-        driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, phones).toImmutableList());
-        driver.getCities().addAll(cities);
+        driver.setEmail(driverDetails.email);
+        updateCollectionsInfo(driverDetails, driver);
         return driverRepository.save(driver).getId();
     }
-
 
     @Override
     public void removeDriver(long user, long driver) {
@@ -61,8 +63,7 @@ public class DriverManagementImpl implements DriverManagement {
     public void likeDriver(long user, long driver) {
         final TaxiDriver taxiDriver = driverRepository.findOne(driver);
         final User actor = userRepository.findOne(user);
-        //TODO: Create validator
-        if (actor.getFavourites().contains(taxiDriver)) {
+        if (!validator.canUserLikeDriver(user, driver)) {
             return;
         }
         actor.getFavourites().add(taxiDriver);
@@ -74,7 +75,7 @@ public class DriverManagementImpl implements DriverManagement {
     public void dislikeDriver(long user, long driver) {
         final TaxiDriver taxiDriver = driverRepository.findOne(driver);
         final User actor = userRepository.findOne(user);
-        if (!actor.getFavourites().remove(taxiDriver)) {
+        if (!validator.canUserDislikeDriver(user, driver)) {
             return;
         }
         taxiDriver.setRate(taxiDriver.getRate() - 1);
@@ -84,22 +85,28 @@ public class DriverManagementImpl implements DriverManagement {
     @Override
     public void updateDriverInfo(long driver, DriverInfo driverDetails) {
         final TaxiDriver taxiDriver = driverRepository.findOne(driver);
-        taxiDriver.getPhoneNumbers().clear();
-        taxiDriver.getPhoneNumbers().addAll(phoneNumbersFromStrings(taxiDriver, driverDetails.phones).toImmutableSet());
         taxiDriver.setName(driverDetails.name);
         taxiDriver.setSite(driverDetails.site);
+        taxiDriver.setDescription(driverDetails.description);
+        taxiDriver.setEmail(driverDetails.email);
+        updateCollectionsInfo(driverDetails, taxiDriver);
+    }
+
+    private void updateCollectionsInfo(DriverInfo driverDetails, TaxiDriver taxiDriver) {
+        taxiDriver.getPhoneNumbers().clear();
+        taxiDriver.getPhoneNumbers().addAll(phoneNumbersFromStrings(taxiDriver, driverDetails.phones).toImmutableSet());
         taxiDriver.getPrices().clear();
         taxiDriver.getPrices().addAll(from(driverDetails.prices).transform(toPrice(taxiDriver)).toImmutableSet());
+        taxiDriver.getCities().clear();
         taxiDriver.getCities().addAll(from(driverDetails.cities).transform(toCity()).toImmutableSet());
-        taxiDriver.setDescription(driverDetails.description);
     }
 
     @Override
     public void comment(long user, long driver, String message) {
         checkNotNull(message);
-        final TaxiDriver one = driverRepository.findOne(driver);
-        one.getComments().add(newComment(user, message, one));
-        driverRepository.save(one);
+        final TaxiDriver taxiDriver = driverRepository.findOne(driver);
+        taxiDriver.getComments().add(newComment(user, message, taxiDriver));
+        driverRepository.save(taxiDriver);
     }
 
     private Comment newComment(long user, String message, TaxiDriver driver) {
@@ -107,15 +114,6 @@ public class DriverManagementImpl implements DriverManagement {
         final Comment comment = new Comment(message, email, driver);
         comment.setDate(new Date());
         return comment;
-    }
-
-    private Function<DriverPrice, Price> toDriveType() {
-        return new Function<DriverPrice, Price>() {
-            @Override
-            public Price apply(DriverPrice input) {
-                return priceRepository.findOne(input.id);
-            }
-        };
     }
 
     private void save(TaxiDriver taxiDriver, User actor) {
@@ -136,7 +134,7 @@ public class DriverManagementImpl implements DriverManagement {
         return new Function<PriceList, Price>() {
             @Override
             public Price apply(PriceList input) {
-                return new Price(driver, driveTypeRepository.findOne(input.driveType), new PriceInfo(BigDecimal.valueOf(input.min),  BigDecimal.valueOf(input.max), input.description));
+                return new Price(driver, driveTypeRepository.findOne(input.driveType), new PriceInfo(BigDecimal.valueOf(input.min), BigDecimal.valueOf(input.max), input.description));
             }
         };
     }

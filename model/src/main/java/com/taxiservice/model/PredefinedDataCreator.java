@@ -19,4 +19,5 @@ public interface PredefinedDataCreator {
     long createCountry(String name);
 
     long driveType(String name, String description);
+
 }

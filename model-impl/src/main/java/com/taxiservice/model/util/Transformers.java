@@ -7,7 +7,6 @@ import com.taxiservice.model.entity.*;
 import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class Transformers {
             return new DriverManagement.DriverPrice(type.getId(), type.getName(), input.getInfo().getMinimum().doubleValue(), input.getInfo().getMaximum().doubleValue());
         }
     };
-    public static final Function<TaxiDriver, DriverReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<TaxiDriver, DriverReader.DriverLine>() {
+    public static final Function<TaxiDriver, DriverReader.DriverLine> TO_DRIVE_LINE = new Function<TaxiDriver, DriverReader.DriverLine>() {
         @Override
         public DriverReader.DriverLine apply(TaxiDriver input) {
             return new DriverReader.DriverLine(input.getId(),
@@ -62,18 +61,7 @@ public class Transformers {
                     input.getDate());
         }
     };
-    public static final Function<Long, City> CITY_FROM_ID = new Function<Long, City>() {
-        @Override
-        public City apply(Long input) {
-            return new City(input);
-        }
-    };
-    public static final Function<Long, DriveType> DRIVE_TYPE_FROM_ID = new Function<Long, DriveType>() {
-        @Override
-        public DriveType apply(Long input) {
-            return new DriveType(input);
-        }
-    };
+
 
     public static FluentIterable<PhoneNumber> phoneNumbersFromStrings(final TaxiDriver driver, List<String> phones) {
         return from(phones).transform(new Function<String, PhoneNumber>() {

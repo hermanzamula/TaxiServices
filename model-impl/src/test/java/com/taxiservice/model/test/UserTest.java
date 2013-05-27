@@ -2,6 +2,7 @@ package com.taxiservice.model.test;
 
 
 import com.taxiservice.model.writer.UserManagement;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -9,12 +10,10 @@ import java.util.Random;
 
 public class UserTest{
 
-
-    private final UserManagement userManagement;
-
     @Inject
-    public UserTest(UserManagement userManagement) {
-        this.userManagement = userManagement;
+    private   UserManagement userManagement;
+
+    public UserTest() {
     }
 
     @Test

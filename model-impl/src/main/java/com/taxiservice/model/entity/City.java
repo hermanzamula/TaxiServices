@@ -12,8 +12,6 @@ import static com.google.common.collect.Sets.newHashSet;
 public class City extends AbstractPersistable<Long> {
     private String name;
 
-    //TODO: add column indicates city phone code
-
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
@@ -21,6 +19,9 @@ public class City extends AbstractPersistable<Long> {
 
     @ManyToMany(mappedBy = "cities", cascade = CascadeType.ALL)
     private Collection<TaxiDriver> taxiDrivers = newHashSet();
+
+    @Basic
+    private String cityCode;
 
     public City() {
     }
@@ -58,5 +59,13 @@ public class City extends AbstractPersistable<Long> {
 
     public void setTaxiDrivers(Collection<TaxiDriver> taxiDriversById) {
         this.taxiDrivers = taxiDriversById;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 }

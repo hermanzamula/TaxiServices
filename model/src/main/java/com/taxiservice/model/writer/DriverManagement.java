@@ -79,14 +79,16 @@ public interface DriverManagement {
         final public List<PriceList> prices;
         final public String site;
         final public String description;
+        final public String email;
 
-        public DriverInfo(String name, List<String> phones, List<Long> cities, List<PriceList> prices, String site, String description) {
+        public DriverInfo(String name, List<String> phones, List<Long> cities, List<PriceList> prices, String site, String description, String email) {
             this.name = name;
             this.phones = phones;
             this.cities = cities;
             this.prices = prices;
             this.site = site;
             this.description = description;
+            this.email = email;
         }
     }
 }

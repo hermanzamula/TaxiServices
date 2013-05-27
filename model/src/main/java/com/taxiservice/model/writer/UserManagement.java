@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserManagement {
 
-    long createUser(UserInfo userInfo, String passwordHash);
+    long createUser(UserInfo userData, String passwordHash);
 
     void addUserToPlace(long actor, long city);
 
@@ -23,7 +23,6 @@ public interface UserManagement {
         public final long id;
         public final Place place;
 
-
         public UserInfo(long id, String lastName, String email, String firstName, Place place) {
             this.id = id;
             this.firstName = firstName;
@@ -31,7 +30,16 @@ public interface UserManagement {
             this.email = email;
             this.place = place;
         }
+
+        public UserInfo(String firstName, String lastName, String email, Place place) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.place = place;
+            this.id = 0;
+        }
     }
+
 
     public static class Place {
         public final long city;
