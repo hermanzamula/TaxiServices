@@ -40,36 +40,20 @@
                     <h4>Описание</h4>
                     <p ng-bind="details.description"></p>
                 </div>
-                <div class="container">
-                    <h1>Комментарии</h1>
-                    <h1></h1>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>
-                                <br>
-                            </th>
-                            <th>
-                                <br>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Michael</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jake</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <h1>Отзывы</h1>
+
+                <div class="container" style="width: 100%;">
+                    <div class="container taxi-list" ng-repeat="comment in comments">
+                        <p><span ng-bind="comment.username"></span>: <span ng-bind="comment.date| date"></span></p>
+
+                        <p ng-bind="comment.message"></p>
+                        <hr style="border: 1px solid grey">
+                    </div>
+                    <div class="container taxi-list" ng-show="comments.length == 0">
+                        <p style="margin: 0 auto">Нет Комментариев</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</body>
-
-</html>

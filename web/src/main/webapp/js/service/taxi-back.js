@@ -4,6 +4,7 @@
             'all': {method: 'GET', isArray: true, params: {filter: 'all'}},
             'city': {method: 'GET', isArray: true, params: {filter: 'city'}},
             'short': {method: 'GET', isArray: true, params: {path: 'short', filter: 'city' }},
-            'details': {method: 'GET', params: {filter: 'details'}}
+            'details': {method: 'GET', params: {filter: 'details'}},
+            'comments': {method: 'GET', isArray: true, params: {filter: 'comments'}}
         });
     });
