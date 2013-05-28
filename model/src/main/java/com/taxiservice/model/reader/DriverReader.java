@@ -56,5 +56,14 @@ public interface DriverReader {
     }
 
     public class CityLine {
+        public final String name;
+        public final long id;
+        public final long taxiCount;
+
+        public CityLine(String name, long id, long taxiCount) {
+            this.name = name;
+            this.id = id;
+            this.taxiCount = taxiCount;
+        }
     }
 }

@@ -6,4 +6,9 @@
             'short': {method: 'GET', isArray: true, params: {path: 'short', filter: 'city' }},
             'details': {method: 'GET', params: {filter: 'details'}}
         });
-    });
+    })
+     .factory('Cities', function($resource){
+         return $resource('../cities/:path/:id', {}, {
+             'byCountry': {method: "GET", isArray: true, params:{path: 'country'}}
+         })
+     });

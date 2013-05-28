@@ -26,6 +26,7 @@ import static com.taxiservice.web.demo.SeedDataCreator.*;
 public class DemoDataCreator {
 
     private static final List<Long> driveTypes = newArrayList();
+    public static final String DESCRIPTION_1629 = "Заказывайте такси представительского класса на любое время и в любую точку города! Гибкая система скидок. Тариф называет оператор.Наличный и безналичный расчет.";
     private static boolean isInit = false;
     @Inject
     UserManagement userManagement;
@@ -45,6 +46,7 @@ public class DemoDataCreator {
         final long usa = initiator.createCountry("USA");
         final long kharkiv = initiator.createCity("Харьков", ukraine);
         final long kyiv = initiator.createCity("Киев", ukraine);
+        createMoreCities(ukraine);
 
         final long admin = initiator.createAdmin("Герман", "Замула", "herman.zamula@gmail.com", "pwd");
         final long sergiy = initiator.createUser("Сергей", "Сергиенко", "sergey@gmail.com", "pwd");
@@ -56,7 +58,7 @@ public class DemoDataCreator {
         final long русалочка = initiator.createDriver("Русалочка", "", "", kharkiv, RUSALKA_PHONES, getAnyDriveTypes());
         final long diana = initiator.createDriver("Diana", "", "", kharkiv, DIANA_PHONES, getAnyDriveTypes());
         final long гранит = initiator.createDriver("Гранит", "", "", kharkiv, GRANIT_PHONES, getAnyDriveTypes());
-        final long driver = initiator.createDriver("Такси-1629", "", "taxi-1629.com.ua", kyiv, SeedDataCreator.KIEV_1629PHONES, getAnyDriveTypes());
+        final long driver = initiator.createDriver("Такси-1629", DESCRIPTION_1629, "taxi-1629.com.ua", kyiv, SeedDataCreator.KIEV_1629PHONES, getAnyDriveTypes());
 
         driverManagement.likeDriver(admin, bonus);
         driverManagement.likeDriver(sergiy, diana);
@@ -71,10 +73,22 @@ public class DemoDataCreator {
 
         driverManagement.comment(dmitry, bonus, "Cool cool coooooooool");
         driverManagement.comment(sergiy, bonus, "Хорошее такси, мне понравилось");
+        driverManagement.comment(sergiy, bonus, "Плохое обслуживание, все плохо. Беспредел и безысходность.");
 
         createTestDriver(kharkiv);
     }
 
+    private void createMoreCities(long ukraine) {
+        initiator.createCity("Луганск", ukraine);
+        initiator.createCity("Днепропетровск", ukraine);
+        initiator.createCity("Кировоград", ukraine);
+        initiator.createCity("Львов", ukraine);
+        initiator.createCity("Чернигов", ukraine);
+        initiator.createCity("Суммы", ukraine);
+        initiator.createCity("Полтава", ukraine);
+        initiator.createCity("Черновцы", ukraine);
+        initiator.createCity("Донецк", ukraine);
+    }
 
 
     private List<HasDriveType> getAnyDriveTypes() {
