@@ -6,12 +6,13 @@ angular.module('taxi-service',['users', 'taxi-front'])
             when('/', {templateUrl: '../pages/main.html'}).
             otherwise({redirectTo: '/'});
     })
-    .controller("main", function($scope, Users) {
+    .controller("main", function($scope, Users, Comments) {
         var request = {};
         request.name = "herman";
         request.lastName = "zamula";
         request.email = "herman@com";
         request.password = "pwd";
+        $scope.topComments = Comments.query();
 
         $scope.click =  function () {
             Users.save(request, function(response) {

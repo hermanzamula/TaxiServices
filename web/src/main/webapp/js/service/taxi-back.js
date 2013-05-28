@@ -12,4 +12,7 @@
          return $resource('../cities/:path/:id', {}, {
              'byCountry': {method: "GET", isArray: true, params:{path: 'country'}}
          })
+     })
+     .factory("Comments", function($resource){
+         return $resource('../comments/top/:value');
      });

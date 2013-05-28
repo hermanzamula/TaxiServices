@@ -56,34 +56,9 @@
                 </li>
             </ul>
             <div class="well">
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b><span style="display: block;">Хороший сервис, буду рекомендовать его свои...
+                <p ng-repeat="comment in topComments">
+                    <b ng-bind="comment.username">Herman Zamula <span ng-bind="comment.date | date"></span>:</b><span style="display: block;" ng-bind="comment.message">Хороший сервис, буду рекомендовать его свои...
                     <a href="#">&gt;</a> </span>
-                </p>
-
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a>
-                </p>
-
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a>
-                </p>
-
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a>
-                </p>
-
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a>
-                </p>
-
-                <p>
-                    <b>Herman Zamula <span>[12:55]</span>:</b> Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a>
                 </p>
             </div>
         </div>

@@ -6,6 +6,7 @@ import com.taxiservice.model.reader.DriverReader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
@@ -21,6 +22,12 @@ public class AdditionalController extends BasicSecurityController {
     @ResponseBody
     List<DriverReader.CityLine> getCities(@PathVariable long id) {
         return additionalReader.readCities(id);
+    }
+
+    @RequestMapping(value = "/comments/top", method = RequestMethod.GET)
+    @ResponseBody
+    List<DriverReader.Feedback> getTopComments() {
+        return additionalReader.readLastComments(10);
     }
 
 }
