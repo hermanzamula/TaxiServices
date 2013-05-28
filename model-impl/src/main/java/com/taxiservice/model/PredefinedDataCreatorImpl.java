@@ -40,9 +40,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     }
 
     @Override
-    public long createDriver(String name,
-                             String description,
-                             String site,
+    public long createDriver(String name,  String description, String site,
                              long city, List<String> numbers, List<HasDriveType> driveTypes) {
         final TaxiDriver driver = new TaxiDriver(name, site, description);
         driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toImmutableSet());

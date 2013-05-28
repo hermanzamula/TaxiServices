@@ -7,4 +7,9 @@
             'details': {method: 'GET', params: {filter: 'details'}},
             'comments': {method: 'GET', isArray: true, params: {filter: 'comments'}}
         });
-    });
+    })
+     .factory('Cities', function($resource){
+         return $resource('../cities/:path/:id', {}, {
+             'byCountry': {method: "GET", isArray: true, params:{path: 'country'}}
+         })
+     });

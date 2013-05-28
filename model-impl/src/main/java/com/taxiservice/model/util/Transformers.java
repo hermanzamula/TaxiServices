@@ -62,6 +62,13 @@ public class Transformers {
         }
     };
 
+    public static final Function<City,DriverReader.CityLine> TO_CITY_LINE = new Function<City, DriverReader.CityLine>() {
+        @Override
+        public DriverReader.CityLine apply(City input) {
+            return new DriverReader.CityLine(input.getName(), input.getId(), input.getTaxiDrivers().size());
+        }
+    };
+
 
     public static FluentIterable<PhoneNumber> phoneNumbersFromStrings(final TaxiDriver driver, List<String> phones) {
         return from(phones).transform(new Function<String, PhoneNumber>() {
