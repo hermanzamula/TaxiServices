@@ -1,7 +1,8 @@
 angular.module('taxi-service',['users', 'taxi-front'])
     .config(function($routeProvider){
         $routeProvider.
-            when('/taxi/list', {controller: 'taxi-list', templateUrl: '../pages/board.html'}).
+            when('/taxi/list/:city/', {controller: 'taxi-city-list', templateUrl: '../pages/board.html'}).
+            when('/taxi/details/:city/:id/', {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'}).
             when('/', {templateUrl: '../pages/main.html'}).
             otherwise({redirectTo: '/'});
     })

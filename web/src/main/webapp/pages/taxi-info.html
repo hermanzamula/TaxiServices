@@ -1,0 +1,75 @@
+<div class="span9" style="margin-left: 2%; width: 73%">
+    <div class="row-fluid">
+        <div class="span3">
+            <ul class="nav  nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">Популярное Такси (Харьков)</a>
+                </li>
+            </ul>
+            <div class="well">
+                <p ng-repeat="driver in driversByCity">
+                    <a class="active" href="#/taxi/details/{{city}}/{{driver.id}}"><b ng-bind="driver.name"></b></a>
+                </p>
+            </div>
+        </div>
+        <div class="span9">
+            <ul class="nav  nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">Информация</a>
+                </li>
+            </ul>
+            <div class="well">
+                <div class="container" style=" width: 100%">
+                    <h1 ng-bind="details.name">Бонус-Такси</h1>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Тип Услуги</th>
+                            <th>Стоимость</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="price in details.prices">
+                            <td ng-bind="price.name">Тариф по городу</td>
+                            <td ng-bind="'От ' + price.min + 'UAH'">грн</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p>Телефоны:</p>
+                    <p ng-bind="details.phones"></p>
+                    <h4>Описание</h4>
+                    <p ng-bind="details.description"></p>
+                </div>
+                <div class="container">
+                    <h1>Комментарии</h1>
+                    <h1></h1>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <br>
+                            </th>
+                            <th>
+                                <br>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Michael</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jake</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
