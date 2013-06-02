@@ -1,22 +1,27 @@
-angular.module('taxi-service',['users', 'taxi-front'])
+angular.module('taxi-service',['users-back', 'taxi-front'])
     .config(function($routeProvider){
+        var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.
-            when('/taxi/list/:city/', {controller: 'taxi-city-list', templateUrl: '../pages/board.html'}).
-            when('/taxi/details/:city/:id/', {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'}).
+            when('/taxi/list/:city/', {controller: 'taxi-city-list', templateUrl: '../pages/list.html'}).
+            when('/taxi/details/:city/:id/', detailsController).
+            when('/taxi/details/:id', detailsController).
             when('/', {templateUrl: '../pages/main.html'}).
             otherwise({redirectTo: '/'});
     })
     .controller("main", function($scope, Users, Comments) {
-        var request = {};
-        request.name = "herman";
-        request.lastName = "zamula";
-        request.email = "herman@com";
-        request.password = "pwd";
         $scope.topComments = Comments.query();
 
         $scope.click =  function () {
             Users.save(request, function(response) {
                 console.log(response);
             })
+        }
+    })
+    .filter('truncate', function () {
+        return function (input, symbols) {
+            if (input && input.length > symbols) {
+                return input.substring(0, symbols) + "...";
+            }
+            return input;
         }
     });

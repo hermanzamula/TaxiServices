@@ -1,9 +1,9 @@
-<div class="span9" style="margin-left: 2%; width: 73%">
+<div  style="margin-left: 2%;">
     <div class="row-fluid">
         <div class="span3">
             <ul class="nav  nav-pills nav-stacked">
                 <li class="active">
-                    <a href="#">Популярные города</a>
+                    <a href="#/taxi/list/{{city}}">Популярные города</a>
                 </li>
             </ul>
             <div class="well">
@@ -15,14 +15,17 @@
         <div class="span9">
             <ul class="nav  nav-pills nav-stacked">
                 <li class="active">
-                    <a href="#">Популярное такси</a>
+                    <a href="#/taxi/list/{{city}}">Популярное такси</a>
                 </li>
             </ul>
             <div class="well">
                 <div class="container taxi-list" ng-repeat="driver in drivers">
                     <div class="taxi-list-item">
                         <div class="taxi-info">
-                            <p ng-bind="driver.name">Бонус-такси</p>
+                            <div>
+                                <p ng-bind="driver.name">Бонус-такси</p>
+                            </div>
+                            <b style="font-size: 8pt">Рейтинг: <span ng-bind="driver.rate"></span></b>
                             <div style="font-size: 8pt" ng-bind="driver.description">Лучшее такси Харькова блабла</div>
                             <div style="font-size: 8pt">Сайт:
                                 <a href="#" ng-bind="driver.site">bonustaxi.com</a>
@@ -37,6 +40,7 @@
                     </div>
                     <hr style="border: 1px solid grey;">
                 </div>
+                <div class="container taxi-list"><p class="" ng-show="drivers.length == 0">Нет информации</p></div>
             </div>
         </div>
     </div>

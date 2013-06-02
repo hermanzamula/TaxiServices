@@ -67,7 +67,7 @@ public class TaxiDriverController extends BasicSecurityController {
         driverManagement.dislikeDriver(getUserId(likeRequest.token), likeRequest.driver);
     }
 
-    @RequestMapping(value = "/comment", method = RequestMethod.PUT)
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void commentDriver(@RequestBody CommentRequest request) {
         driverManagement.comment(getUserId(request.token),  request.driver, request.message);
@@ -86,23 +86,12 @@ public class TaxiDriverController extends BasicSecurityController {
     }
 
 
-
-    private class LikeRequest {
-        public final long driver;
-        public final String token;
-
-        private LikeRequest(long driver, String token) {
-            this.driver = driver;
-            this.token = token;
-        }
+    public static class LikeRequest {
+        public long driver;
+        public String token;
     }
 
-    private class CommentRequest extends LikeRequest{
-        public final String message;
-
-        private CommentRequest(long driver, String token, String message) {
-            super(driver, token);
-            this.message = message;
-        }
+    public static class CommentRequest extends LikeRequest {
+        public String message;
     }
 }

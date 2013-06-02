@@ -20,3 +20,17 @@
     display: run-in;
     margin-bottom: 5px;
 }
+
+.raiting {
+    float: right;
+}
+
+.control-group>label{
+    display: inline-block;
+    width: 150px;
+}
+
+.control-group>input{
+    display: inline-block;;
+    width: 300px;
+}

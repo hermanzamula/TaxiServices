@@ -1,0 +1,50 @@
+<div>
+    <p><b>Регистрация</b></p>
+
+    <div class="control-group clearfix">
+        <label for="firstName">Имя</label>
+        <input id="firstName" name="firstName" ng-model="signIn.firstName" class="" type="text" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="lastName">Фамилия</label>
+        <input id="lastName" class="" name="lastName" ng-model="signIn.lastName" type="text" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="new-user-email">E-mail</label>
+        <input id="new-user-email" name="email" class="" ng-model="signIn.email" type="email" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="new-user-email-confirm">Подтвердите E-mail</label>
+        <input id="new-user-email-confirm" name="confirmEmail" class="" ng-model="signInHelper.confirmEmail" type="email" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="new-user-password">Пароль</label>
+        <input id="new-user-password" name="password" class="" ng-model="signIn.password" type="password" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="new-user-confirm-password">Подтвердите пароль</label>
+        <input id="new-user-confirm-password" name="confirmPassword" class="" ng-model="signInHelper.confirmPassword"
+               type="password" required="">
+    </div>
+    <div class="control-group clearfix">
+        <label for="country">Страна</label>
+        <select id="country" name="country" ng-model="signIn.country"
+                data-placeholder="-- Select One --"
+                class="dialog-select" required>
+            <option></option>
+            <option value="{{country.id}}" ng-repeat="country in countries">
+                {{country.name}}
+            </option>
+        </select>
+    </div>
+    <div class="control-group clearfix">
+        <label for="city">Город</label>
+        <select id="city" name="city" ng-model="signIn.city" data-placeholder="-- Select One --"
+                class="dialog-select" required ng-disabled="!signIn.country">
+            <option></option>
+            <option value="{{city.id}}" ng-repeat="city in cities">
+                {{city.name}}
+            </option>
+        </select>
+    </div>
+</div>

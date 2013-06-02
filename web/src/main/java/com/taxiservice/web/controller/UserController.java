@@ -23,12 +23,16 @@ public class UserController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Long register(@RequestBody UserCreationRequest request) {
-        return userManagement.createUser(new UserManagement.UserInfo(
+    public LoginResponse register(@RequestBody UserCreationRequest request) {
+        userManagement.createUser(new UserManagement.UserInfo(
                 request.firstName, request.lastName, request.email,
                 new UserManagement.Place(request.city, request.country)),
                 request.password
         );
+        final LoginRequest loginRequest = new LoginRequest();
+        loginRequest.email = request.email;
+        loginRequest.password = request.password;
+        return login(loginRequest);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -37,7 +41,7 @@ public class UserController extends BasicSecurityController {
         try {
             String token = enter(request.email, request.password);
             return new LoginResponse("You entered successfully", null, token);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return new LoginResponse(null, e.getMessage(), null);
         }
     }

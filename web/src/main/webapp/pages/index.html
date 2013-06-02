@@ -7,17 +7,22 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <script src="../lib/jquery/jquery-2.0.1.min.js"></script>
     <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/jquery.cookie.js"></script>
+
     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="../lib/angularjs/angular.min.js"></script>
     <script src="../lib/angularjs/angular-resource.min.js"></script>
+    <script src="../lib/angular-ui/angular-ui.min.js"></script>
+
 
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../lib/angular-ui/angular-ui.min.css">
     <link rel="stylesheet" href="../css/style.css">
 
     <script src="../js/service/taxi-back.js"></script>
     <script src="../js/controller/taxi-front.js"></script>
-    <script src="../js/controller/user-front.js"></script>
+    <script src="../js/service/users-back.js"></script>
     <script src="../js/main.js"></script>
 </head>
 <body>
@@ -47,9 +52,9 @@
         </div>
     </div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="width: 1050px; display: block;">
     <div class="row-fluid">
-        <div class="span3">
+        <div class="span3" style="width: 250px; display: inline-block;">
             <ul class="nav  nav-pills nav-stacked">
                 <li class="active">
                     <a href="#">Последние комментарии</a>
@@ -57,14 +62,13 @@
             </ul>
             <div class="well">
                 <p ng-repeat="comment in topComments">
-                    <b ng-bind="comment.username">Herman Zamula <span ng-bind="comment.date | date"></span>:</b><span style="display: block;" ng-bind="comment.message">Хороший сервис, буду рекомендовать его свои...
-                    <a href="#">&gt;</a> </span>
+                    <b ng-bind="comment.username" style="display: block;">Herman Zamula <span ng-bind="comment.date | date"></span>:</b><span
+                        ng-bind="comment.message| truncate: 50">
+                    </span><a style="margin-left: 5px" href="#/taxi/details/{{comment.driver}}">&gt;</a>
                 </p>
             </div>
         </div>
-        <div ng-view>
-
-        </div>
+        <div ng-view style="display: inline-block; width: 800px"></div>
     </div>
 </div>
 </body>

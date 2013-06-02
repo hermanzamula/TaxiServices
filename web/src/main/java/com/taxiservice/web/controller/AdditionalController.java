@@ -18,6 +18,12 @@ public class AdditionalController extends BasicSecurityController {
     @Inject
     AdditionalReader additionalReader;
 
+    @RequestMapping(value = "/countries")
+    @ResponseBody
+    List<DriverReader.CountryLine> getCountries(){
+         return  additionalReader.readCountries();
+    }
+
     @RequestMapping(value = "/cities/country/{id}")
     @ResponseBody
     List<DriverReader.CityLine> getCities(@PathVariable long id) {

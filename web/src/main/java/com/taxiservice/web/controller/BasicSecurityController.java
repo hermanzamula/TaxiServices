@@ -2,6 +2,7 @@ package com.taxiservice.web.controller;
 
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.taxiservice.model.UserCredentialsService;
 import com.taxiservice.model.writer.UserManagement;
 import org.apache.log4j.Level;
@@ -18,16 +19,17 @@ import java.util.Map;
 import java.util.Random;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.newHashMap;
 
 public class BasicSecurityController {
 
     //TODO [herman.zamula]: Implement removing tokens by expires date
-    private static final Map<String, UserDetails> ENTERED_USERS = ImmutableMap.of();
+    private static final Map<String, UserDetails> ENTERED_USERS = newHashMap();
     @Inject
     UserCredentialsService userCredentials;
 
     private static String createToken() {
-        return String.valueOf(new Random().nextLong());
+        return "t" + String.valueOf(new Random().nextLong());
     }
 
     @ExceptionHandler(Exception.class)
@@ -59,7 +61,7 @@ public class BasicSecurityController {
     }
 
     protected UserDetails getUser(String token) {
-        return ENTERED_USERS.get(token);
+        return checkNotNull(ENTERED_USERS.get(token), "Application token is not valid");
     }
 
     public static class UserDetails {

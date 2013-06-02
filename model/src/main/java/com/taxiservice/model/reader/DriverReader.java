@@ -66,4 +66,15 @@ public interface DriverReader {
             this.taxiCount = taxiCount;
         }
     }
+
+    public class CountryLine {
+        public final String name;
+        public final long id;
+
+
+        public CountryLine(String name, long id) {
+            this.name = name;
+            this.id = id;
+        }
+    }
 }

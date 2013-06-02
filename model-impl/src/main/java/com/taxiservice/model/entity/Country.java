@@ -11,10 +11,6 @@ import static com.google.common.collect.Sets.newHashSet;
 @Entity
 public class Country extends AbstractPersistable<Long> {
     private String name;
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-    private Collection<City> cities = newHashSet();
-
-
     public Country() {
     }
 
@@ -36,11 +32,4 @@ public class Country extends AbstractPersistable<Long> {
         this.name = name;
     }
 
-    public Collection<City> getCities() {
-        return cities;
-    }
-
-    public void setCities(Collection<City> citiesById) {
-        this.cities = citiesById;
-    }
 }

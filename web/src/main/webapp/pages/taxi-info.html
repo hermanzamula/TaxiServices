@@ -1,14 +1,14 @@
-<div class="span9" style="margin-left: 2%; width: 73%">
+<div style="margin-left: 2%;">
     <div class="row-fluid">
         <div class="span3">
             <ul class="nav  nav-pills nav-stacked">
                 <li class="active">
-                    <a href="#">Популярное Такси (Харьков)</a>
+                    <a href="#/taxi/list/{{details.cities[0]}}">Популярное Такси</a>
                 </li>
             </ul>
             <div class="well">
                 <p ng-repeat="driver in driversByCity">
-                    <a class="active" href="#/taxi/details/{{city}}/{{driver.id}}"><b ng-bind="driver.name"></b></a>
+                    <a class="active" href="#/taxi/details/{{details.cities[0]}}/{{driver.id}}"><b ng-bind="driver.name"></b></a>
                 </p>
             </div>
         </div>
@@ -20,6 +20,7 @@
             </ul>
             <div class="well">
                 <div class="container" style=" width: 100%">
+                    <span class="raiting">Рейтинг: <span ng-bind="details.rate"></span></span>
                     <h1 ng-bind="details.name">Бонус-Такси</h1>
                     <table class="table">
                         <thead>
@@ -44,7 +45,7 @@
 
                 <div class="container" style="width: 100%;">
                     <div class="container taxi-list" ng-repeat="comment in comments">
-                        <p><span ng-bind="comment.username"></span>: <span ng-bind="comment.date| date"></span></p>
+                        <p><b><span ng-bind="comment.username"></span>:</b> <span ng-bind="comment.date| date"></span></p>
 
                         <p ng-bind="comment.message"></p>
                         <hr style="border: 1px solid grey">
@@ -53,7 +54,38 @@
                         <p style="margin: 0 auto">Нет Комментариев</p>
                     </div>
                 </div>
+
+                <div>
+                    <p><b>Оставить отзыв</b></p>
+                    <form accept-charset="UTF-8" action="" method="POST">
+                        <label for="new_message"></label><textarea class="span12" id="new_message" name="new_message"
+                                  placeholder="Введите сообщение" ng-model="message" rows="5"></textarea>
+                        <button ng-disabled="message.length == 0" ng-click="sendMessage()" class="btn btn-info">Отправить</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<div id="confirm" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Оставить отзыв</h3>
+    </div>
+    <p ng-hide="registration != undefined"><a class="btn" ng-click="registration = false">Войдите</a><b> или </b><a
+            class="btn" ng-click="registration = true">Зарегистрируйтесь</a></p>
+
+    <form name="form">
+        <div class="modal-body" ng-switch="registration">
+            <div class="table submit-message" ng-switch-when="false" ng-include="'../pages/templates/login-form.html'">
+            </div>
+            <div class="table submit-message" ng-switch-when="true" ng-include="'../pages/templates/registration-form.html'">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a data-dismiss="modal" class="btn" ng-click="registration = undefined">Закрыть</a>
+            <button ng-disabled="form.$invalid" class="btn btn-primary" ng-click="confirm()">Подтвердить</button>
+        </div>
+    </form>
 </div>
