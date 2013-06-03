@@ -21,9 +21,33 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <script src="../js/service/taxi-back.js"></script>
-    <script src="../js/controller/taxi-front.js"></script>
     <script src="../js/service/users-back.js"></script>
+    <script src="../js/service/search-back.js"></script>
+
+
+    <script src="../js/controller/taxi-front.js"></script>
+    <script src="../js/controller/search-front.js"></script>
+
     <script src="../js/main.js"></script>
+
+    <style>
+        .navbar-search {
+            position: relative;
+        }
+
+        .navbar-search .search-query {
+            padding-left: 29px;
+        }
+
+        .navbar-search .icon-search {
+            position: absolute;
+            top: 7px;
+            left: 11px;
+            background-image: url("http://twitter.github.com/bootstrap/assets/img/glyphicons-halflings.png");
+        }
+    </style>
+
+
 </head>
 <body>
 <div class="navbar">
@@ -43,11 +67,10 @@
                         <a href="#">Контакты</a>
                     </li>
                 </ul>
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="#">Поиск</a>
-                    </li>
-                </ul>
+                <form class="navbar-search" ng-controller="search-input">
+                    <input id="searchInput" ng-model="query" type="text" class="search-query span3" on-enter="search(query)" placeholder="Поиск">
+                    <div class="icon-search" ng-click="search(query)"></div>
+                </form>
             </div>
         </div>
     </div>
@@ -63,12 +86,12 @@
             <div class="well">
                 <p ng-repeat="comment in topComments">
                     <b ng-bind="comment.username" style="display: block;">Herman Zamula <span ng-bind="comment.date | date"></span>:</b><span
-                        ng-bind="comment.message| truncate: 50">
+                        ng-bind="comment.message| truncate: 45">
                     </span><a style="margin-left: 5px" href="#/taxi/details/{{comment.driver}}">&gt;</a>
                 </p>
             </div>
         </div>
-        <div ng-view style="display: inline-block; width: 800px"></div>
+        <div ng-view class="main-taxi-view" style="display: inline-block; width: 800px"></div>
     </div>
 </div>
 </body>

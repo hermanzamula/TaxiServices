@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>YoursTaxi</artifactId>
-        <groupId>YoursTaxi</groupId>
+        <groupId>com.taxiservice</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,13 +13,13 @@
     <dependencies>
 
         <dependency>
-            <groupId>YoursTaxi</groupId>
+            <groupId>com.taxiservice</groupId>
             <artifactId>model</artifactId>
             <version>1.0</version>
         </dependency>
 
         <dependency>
-            <groupId>YoursTaxi</groupId>
+            <groupId>com.taxiservice</groupId>
             <artifactId>model-impl</artifactId>
             <version>1.0</version>
         </dependency>
