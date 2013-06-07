@@ -38,7 +38,7 @@ angular.module('taxi-front', ['taxi-back', 'users-back'])
         }
 
         $scope.sendMessage = function () {
-            var cookie = $.cookie("yoursTaxiTokenId");
+            var cookie = $.cookie(TOKEN);
             if (cookie && cookie != 'null') {
                 comment(cookie);
                 return;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="taxi-service" ng-controller="main">
+<html ng-app="taxi-service" ng-controller="main" xmlns="">
 
 <head>
     <title>board</title>
@@ -25,6 +25,8 @@
     <script src="../js/service/taxi-back.js"></script>
     <script src="../js/service/users-back.js"></script>
     <script src="../js/service/search-back.js"></script>
+
+    <script src="../js/validators.js"></script>
 
 
     <script src="../js/controller/taxi-front.js"></script>
@@ -73,6 +75,10 @@
                     <input id="searchInput" ng-model="query" type="text" class="search-query span3" on-enter="search(query)" placeholder="Поиск">
                     <div class="icon-search" ng-click="search(query)"></div>
                 </form>
+                <div class="navbar-text pull-right">
+                    <a href ng-click="login()" ng-show="!isUserLogged()">Войти</a>
+                    <a href ng-click="logout()" ng-show="isUserLogged">Выйти</a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-angular.module('taxi-service',['users-back', 'taxi-front', 'search-front'])
+angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'validators'])
     .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.
@@ -11,6 +11,11 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front'])
     })
     .controller("main", function($scope, Users, topCommentsScheduler) {
         topCommentsScheduler($scope);
+        $scope.isUserLogged = isUserLogged;
+        $scope.logout = function() {
+            Users.logout($.cookie(TOKEN));
+            $.cookie(TOKEN, null);
+        }
     })
     .filter('truncate', function () {
         return function (input, symbols) {
@@ -29,3 +34,11 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front'])
             }, 10000);
         }
     });
+
+var TOKEN = "yoursTaxiTokenId";
+
+function isUserLogged(){
+    var cookie = $.cookie(TOKEN);
+    return cookie && cookie != 'null';
+
+}

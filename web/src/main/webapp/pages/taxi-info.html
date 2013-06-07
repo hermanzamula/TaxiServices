@@ -73,11 +73,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Оставить отзыв</h3>
     </div>
-    <p ng-hide="registration != undefined"><a class="btn" ng-click="registration = false">Войдите</a><b> или </b><a
-            class="btn" ng-click="registration = true">Зарегистрируйтесь</a></p>
-
-    <form name="form">
+    <form name="form" novalidate>
         <div class="modal-body" ng-switch="registration">
+            <div ng-hide="registration != undefined" class="alert">
+                <span>Чтобы оставить отзыв, </span><a class="btn-link" ng-click="registration = false">Войдите</a> или <a
+                    class="btn-link" ng-click="registration = true">Зарегистрируйтесь</a>
+            </div>
             <div class="table submit-message" ng-switch-when="false" ng-include="'../pages/templates/login-form.html'">
             </div>
             <div class="table submit-message" ng-switch-when="true" ng-include="'../pages/templates/registration-form.html'">
@@ -85,7 +86,7 @@
         </div>
         <div class="modal-footer">
             <a data-dismiss="modal" class="btn" ng-click="registration = undefined">Закрыть</a>
-            <button ng-disabled="form.$invalid" class="btn btn-primary" ng-click="confirm()">Подтвердить</button>
+            <button ng-disabled="form.$invalid" class="btn btn-primary" ng-click="confirm()" ng-show="registration != undefined">Подтвердить</button>
         </div>
     </form>
 </div>
