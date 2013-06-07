@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.taxiservice.model.Searcher;
 import com.taxiservice.model.entity.TaxiDriver;
-import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.util.Transformers;
 import org.hibernate.CacheMode;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -25,11 +24,22 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import static com.google.common.collect.FluentIterable.from;
+import static com.taxiservice.model.util.Transformers.PHONE_NUMBER_TRANSFORMER;
+import static com.taxiservice.model.util.Transformers.TO_CITY_LINE;
 import static org.hibernate.search.jpa.Search.getFullTextEntityManager;
 
 @Service
 public class SearcherImpl implements Searcher {
 
+    public static final Function<TaxiDriver, DriverDetails> DETAILS_FUNCTION = new Function<TaxiDriver, DriverDetails>() {
+        @Override
+        public DriverDetails apply(TaxiDriver input) {
+            return new DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(Transformers.TO_DRIVE_TYPE).toImmutableList(),
+                    from(input.getCities()).transform(TO_CITY_LINE).toImmutableList(),
+                    from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toImmutableList(),
+                    input.getRate(), input.getSite(), input.getDescription());
+        }
+    };
     private EntityManager entityManager;
 
     @PostConstruct
@@ -46,10 +56,10 @@ public class SearcherImpl implements Searcher {
     }
 
     @Override
-    public List<DriverReader.DriverLine> drivers(String query) {
+    public List<DriverDetails> drivers(String query) {
         //TODO: investigate search by foreighn keys
         Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description"));
-        return from(drivers).transform(Transformers.TO_DRIVE_LINE).toImmutableList();
+        return from(drivers).transform(DETAILS_FUNCTION).toImmutableList();
     }
 
     private <T> Iterable<T> search(final Class<T> clazz, String keyword, Iterable<String> additionalFields) {

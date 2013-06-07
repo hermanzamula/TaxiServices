@@ -13,4 +13,6 @@ public interface AdditionalReader {
     List<DriverReader.Feedback> readLastComments(int size);
 
     List<DriverReader.CountryLine> readCountries();
+
+    DriverReader.CityLine readCity(long id);
 }

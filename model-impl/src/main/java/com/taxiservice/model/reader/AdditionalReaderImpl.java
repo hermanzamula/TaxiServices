@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.FluentIterable.from;
 import static com.taxiservice.model.util.Transformers.TO_CITY_LINE;
 import static com.taxiservice.model.util.Transformers.TO_FEEDBACK;
@@ -26,15 +27,7 @@ public class AdditionalReaderImpl implements AdditionalReader {
             return new DriverReader.CountryLine(input.getName(), input.getId());
         }
     };
-    public static final Comparator<DriverReader.Feedback> FEEDBACK_COMPARATOR = new Comparator<DriverReader.Feedback>() {
-        @Override
-        public int compare(DriverReader.Feedback o1, DriverReader.Feedback o2) {
-            if (o1.date.equals(o2.date)) {
-                return o1.hashCode() - o2.hashCode();
-            }
-            return o1.date.compareTo(o2.date);
-        }
-    };
+
     public static final Comparator<Comment> COMMENT_COMPARATOR = new Comparator<Comment>() {
         @Override
         public int compare(Comment o1, Comment o2) {
@@ -76,5 +69,10 @@ public class AdditionalReaderImpl implements AdditionalReader {
         return from(countryRepository.findAll())
                 .transform(TO_COUNTRY_LINE)
                 .toImmutableList();
+    }
+
+    @Override
+    public DriverReader.CityLine readCity(long id) {
+        return TO_CITY_LINE.apply(checkNotNull(cityRepository.findOne(id)));
     }
 }

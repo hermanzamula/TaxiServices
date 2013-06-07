@@ -36,4 +36,10 @@ public class AdditionalController extends BasicSecurityController {
         return additionalReader.readLastComments(10);
     }
 
+    @RequestMapping(value = "/cities/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    DriverReader.CityLine getCity(@PathVariable long id) {
+        return additionalReader.readCity(id);
+    }
+
 }
