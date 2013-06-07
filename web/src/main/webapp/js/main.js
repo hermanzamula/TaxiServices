@@ -9,14 +9,8 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front'])
             when('/', {templateUrl: '../pages/main.html'}).
             otherwise({redirectTo: '/'});
     })
-    .controller("main", function($scope, Users, Comments) {
-        $scope.topComments = Comments.query();
-
-        $scope.click =  function () {
-            Users.save(request, function(response) {
-                console.log(response);
-            })
-        }
+    .controller("main", function($scope, Users, topCommentsScheduler) {
+        topCommentsScheduler($scope);
     })
     .filter('truncate', function () {
         return function (input, symbols) {
@@ -24,5 +18,14 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front'])
                 return input.substring(0, symbols) + "...";
             }
             return input;
+        }
+    })
+    .factory('topCommentsScheduler', function (Comments) {
+        return function ($scope) {
+            $scope.topComments = Comments.query();
+
+            setInterval(function () {
+                $scope.topComments = Comments.query();
+            }, 10000);
         }
     });
