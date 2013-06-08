@@ -81,3 +81,16 @@ angular.module('validators', [])
             }
         }
     });
+
+//TODO: Move to separate module UserHelper
+
+var TOKEN = "yoursTaxiTokenId";
+
+function isUserLogged(){
+    var cookie = $.cookie(TOKEN);
+    return cookie && cookie != 'null';
+}
+
+function setUserToken(token){
+    $.cookie(TOKEN, token);
+}

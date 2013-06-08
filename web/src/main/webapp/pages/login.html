@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="login">
+<head>
+    <title>Вход</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <script src="../lib/jquery/jquery-2.0.1.min.js"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/jquery.cookie.js"></script>
+    <script src="../lib/lodash.compat.min.js"></script>
+
+
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../lib/angularjs/angular.min.js"></script>
+    <script src="../lib/angularjs/angular-resource.min.js"></script>
+    <script src="../lib/angular-ui/angular-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../lib/angular-ui/angular-ui.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="../js/service/taxi-back.js"></script>
+    <script src="../js/service/users-back.js"></script>
+    <script src="../js/service/search-back.js"></script>
+
+    <script src="../js/validators.js"></script>
+    <script src="../js/login.js"></script>
+
+</head>
+<body ng-controller="login-controller">
+
+<div  class="center-frame">
+    <h1 class="main-logo">
+        <a href="../"><img alt="Taxi Service Logotype" src=""/></a>
+    </h1>
+</div>
+<div class="well well-large center-form ">
+    <div class="alert-error alert" ng-show="error">Неверный логин или пароль</div>
+    <form name="form" novalidate="">
+        <div ng-include="'../pages/templates/login-form.html'"></div>
+        <div>
+            <button class="btn btn-primary" ng-click="enter()">Войти</button>
+            &nbsp;&nbsp;
+            <a class="btn-link" href="register.html">Зарегистрироваться</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

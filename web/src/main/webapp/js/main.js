@@ -35,10 +35,3 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'vali
         }
     });
 
-var TOKEN = "yoursTaxiTokenId";
-
-function isUserLogged(){
-    var cookie = $.cookie(TOKEN);
-    return cookie && cookie != 'null';
-
-}

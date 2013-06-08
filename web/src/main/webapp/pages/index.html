@@ -2,7 +2,7 @@
 <html ng-app="taxi-service" ng-controller="main" xmlns="">
 
 <head>
-    <title>board</title>
+    <title>Твое Такси</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <script src="../lib/jquery/jquery-2.0.1.min.js"></script>
@@ -76,8 +76,8 @@
                     <div class="icon-search" ng-click="search(query)"></div>
                 </form>
                 <div class="navbar-text pull-right">
-                    <a href ng-click="login()" ng-show="!isUserLogged()">Войти</a>
-                    <a href ng-click="logout()" ng-show="isUserLogged">Выйти</a>
+                    <a href="login.html" ng-show="!isUserLogged()">Войти</a>
+                    <a href ng-click="logout()" ng-show="isUserLogged()">Выйти</a>
                 </div>
             </div>
         </div>
@@ -99,6 +99,17 @@
                 </p>
             </div>
         </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Original</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">And Another</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">Last One</li>
+        </ul>
         <div ng-view class="main-taxi-view" style="display: inline-block; width: 800px"></div>
     </div>
 </div>
