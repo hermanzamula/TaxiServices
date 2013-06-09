@@ -30,11 +30,16 @@
     <script src="../js/login.js"></script>
 </head>
 <body ng-controller="registration">
+<div  class="center-frame">
+    <h1 class="main-logo">
+        <a href="../pages/index.html"><img alt="Taxi Service Logotype" src="../img/logo2.png"/></a>
+    </h1>
+</div>
 <div class="well well-large center-form ">
     <form name="form" novalidate="">
         <div ng-include="'../pages/templates/registration-form.html'"></div>
         <div>
-            <button class="btn btn-primary" ng-click="register()" ng-disabled="form.$invalid">Подтвердить</button>
+            <button class="btn btn-primary" ng-click="register()" ng-disabled="false">Подтвердить</button>
             &nbsp;&nbsp;
         </div>
     </form>

@@ -49,10 +49,16 @@ angular.module('taxi-front', ['taxi-back', 'users-back'])
     });
 
 function setupConfirmation($scope, Countries, Cities, Users, comment) {
-    $scope.countries = Countries.query();
+
     $scope.login = {};
     $scope.signIn = {};
     $scope.signInHelper = {};
+    $scope.countries = Countries.query();
+
+    $scope.$watch("signIn.country", function(val){
+        if(!val) return;
+        $scope.cities = Cities.byCountry({id: val});
+    });
 
     function checkResponse(response) {
         if (response.successMessage) {
@@ -81,10 +87,6 @@ function setupConfirmation($scope, Countries, Cities, Users, comment) {
         })
     };
 
-    $scope.$watch("signIn.country", function(val){
-        if(!val) return;
-        $scope.cities = Cities.byCountry({id: val});
-    });
 }
 
 function showModal() {

@@ -23,7 +23,7 @@
                     <div class="taxi-list-item">
                         <div class="taxi-info">
                             <div>
-                                <p ng-bind="driver.name">Бонус-такси</p>
+                                <p><a  ng-bind="driver.name" href="#/taxi/details/{{city}}/{{driver.id}}"> </a></p>
                             </div>
                             <b style="font-size: 8pt">Рейтинг: <span ng-bind="driver.rate"></span></b>
                             <div style="font-size: 8pt" ng-bind="driver.description">Лучшее такси Харькова блабла</div>
