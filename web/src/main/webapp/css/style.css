@@ -70,3 +70,7 @@
     width:229px;
     margin:0 auto;
 }
+
+.nav-logo{
+    background: url(../img/logo.png) center 0 no-repeat;
+}
