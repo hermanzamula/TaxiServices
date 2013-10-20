@@ -30,6 +30,18 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>1.9.0</version>
@@ -37,19 +49,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>13.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <!--logging-->
         <dependency>
@@ -64,15 +73,19 @@
             <version>1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-
     </dependencies>
 
-  <build>
-    <finalName>YoursTaxi</finalName>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

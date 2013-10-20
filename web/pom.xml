@@ -66,31 +66,79 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- File upload/download helpers-->
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.2.1</version>
         </dependency>
 
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.168</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-       <!-- <dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-     <!--   <dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-guava</artifactId>
@@ -102,28 +150,78 @@
             <version>3.3</version>
             <scope>test</scope>
         </dependency>
-       <!-- <dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>-->
+        </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.2</version>
+        </dependency>
 
-
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>6.1.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.6</version>
+        </dependency>
     </dependencies>
 
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.1.1</version>
+                <!--<configuration>-->
+                <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
+                <!--</configuration>-->
                 <configuration>
                     <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <attachClasses>true</attachClasses>
+
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**/*.html</include>
+                            </includes>
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/webapp</directory>
+                            <excludes>
+                                <exlude>**/*.html</exlude>
+                            </excludes>
+                            <filtering>false</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
         </plugins>

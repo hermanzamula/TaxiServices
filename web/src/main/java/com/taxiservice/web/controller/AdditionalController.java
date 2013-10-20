@@ -41,5 +41,4 @@ public class AdditionalController extends BasicSecurityController {
     DriverReader.CityLine getCity(@PathVariable long id) {
         return additionalReader.readCity(id);
     }
-
 }
