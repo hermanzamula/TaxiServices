@@ -70,7 +70,17 @@
 
     <properties>
         <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
+        <jdbc.properties>jdbc.properties</jdbc.properties>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>heroku</id>
+            <properties>
+                <jdbc.properties>heroku.jdbc.properties</jdbc.properties>
+            </properties>
+        </profile>
+    </profiles>
 
 
 </project>
