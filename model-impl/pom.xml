@@ -77,7 +77,7 @@
         <profile>
             <id>heroku</id>
             <properties>
-                <jdbc.properties>heroku.jdbc.properties</jdbc.properties>
+                <jdbc.properties>jdbc.properties</jdbc.properties>
             </properties>
         </profile>
     </profiles>

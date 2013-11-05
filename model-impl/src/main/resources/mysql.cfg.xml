@@ -11,7 +11,7 @@
 
     <context:property-placeholder ignore-resource-not-found="true"
                                   ignore-unresolvable="true"
-            location="classpath:${jdbc.properties}"/>
+            location="classpath: heroku.jdbc.properties"/>
 
     <!-- DataSource configuration -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
