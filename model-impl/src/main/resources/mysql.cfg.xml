@@ -9,9 +9,8 @@
         <property name="database" value="MYSQL"/>
     </bean>
 
-    <context:property-placeholder ignore-resource-not-found="true"
-                                  ignore-unresolvable="true"
-            location="classpath: heroku.jdbc.properties"/>
+    <context:property-placeholder ignore-resource-not-found="true" ignore-unresolvable="true"
+            location="classpath*:jdbc.properties, file:jdbc.properties"/>
 
     <!-- DataSource configuration -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">

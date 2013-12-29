@@ -34,9 +34,9 @@ public class SearcherImpl implements Searcher {
     public static final Function<TaxiDriver, DriverDetails> DETAILS_FUNCTION = new Function<TaxiDriver, DriverDetails>() {
         @Override
         public DriverDetails apply(TaxiDriver input) {
-            return new DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(Transformers.TO_DRIVE_TYPE).toImmutableList(),
-                    from(input.getCities()).transform(TO_CITY_LINE).toImmutableList(),
-                    from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toImmutableList(),
+            return new DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(Transformers.TO_DRIVE_TYPE).toList(),
+                    from(input.getCities()).transform(TO_CITY_LINE).toList(),
+                    from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toList(),
                     input.getRate(), input.getSite(), input.getDescription());
         }
     };
@@ -59,7 +59,7 @@ public class SearcherImpl implements Searcher {
     public List<DriverDetails> drivers(String query) {
         //TODO: investigate search by foreighn keys
         Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description"));
-        return from(drivers).transform(DETAILS_FUNCTION).toImmutableList();
+        return from(drivers).transform(DETAILS_FUNCTION).toList();
     }
 
     private <T> Iterable<T> search(final Class<T> clazz, String keyword, Iterable<String> additionalFields) {

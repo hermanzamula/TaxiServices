@@ -8,8 +8,7 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath*:model.cfg.xml"/>
     <import resource="classpath*:mysql.cfg.xml"/>
-
+    <import resource="classpath*:model.cfg.xml"/>
 
 </beans>

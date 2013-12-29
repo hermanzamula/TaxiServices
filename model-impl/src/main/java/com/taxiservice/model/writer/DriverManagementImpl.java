@@ -94,11 +94,11 @@ public class DriverManagementImpl implements DriverManagement {
 
     private void updateCollectionsInfo(DriverInfo driverDetails, TaxiDriver taxiDriver) {
         taxiDriver.getPhoneNumbers().clear();
-        taxiDriver.getPhoneNumbers().addAll(phoneNumbersFromStrings(taxiDriver, driverDetails.phones).toImmutableSet());
+        taxiDriver.getPhoneNumbers().addAll(phoneNumbersFromStrings(taxiDriver, driverDetails.phones).toList());
         taxiDriver.getPrices().clear();
-        taxiDriver.getPrices().addAll(from(driverDetails.prices).transform(toPrice(taxiDriver)).toImmutableSet());
+        taxiDriver.getPrices().addAll(from(driverDetails.prices).transform(toPrice(taxiDriver)).toList());
         taxiDriver.getCities().clear();
-        taxiDriver.getCities().addAll(from(driverDetails.cities).transform(toCity()).toImmutableSet());
+        taxiDriver.getCities().addAll(from(driverDetails.cities).transform(toCity()).toList());
     }
 
     @Override

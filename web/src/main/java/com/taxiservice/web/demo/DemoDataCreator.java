@@ -35,8 +35,7 @@ public class DemoDataCreator {
     @Inject
     DriverManagement driverManagement;
 
-    //TODO: Implement
-    @PostConstruct
+     @PostConstruct
     public void init() {
         if (isInit) {
             return;
@@ -144,7 +143,7 @@ public class DemoDataCreator {
                 final double minVal = new Random().nextDouble() * 100;
                 return new HasDriveType(input, minVal, minVal + 10, "");
             }
-        }).toImmutableList();
+        }).toList();
     }
 
     private void createDriveTypes() {
@@ -165,7 +164,7 @@ public class DemoDataCreator {
                     public DriverManagement.PriceList apply(Long input) {
                         return new DriverManagement.PriceList(input, 44, 55, "");
                     }
-                }).toImmutableList(), "some.com", "", "ololo@gmail.com"
+                }).toList(), "some.com", "", "ololo@gmail.com"
         ));
     }
 }

@@ -52,7 +52,7 @@ public class AdditionalReaderImpl implements AdditionalReader {
     public List<DriverReader.CityLine> readCities(long country) {
         return from(cityRepository.findByCountry(countryRepository.findOne(country)))
                 .transform(TO_CITY_LINE)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
@@ -61,14 +61,14 @@ public class AdditionalReaderImpl implements AdditionalReader {
         return from(builder.addAll(commentRepository.findAll()).build())
                 .limit(size)
                 .transform(TO_FEEDBACK)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
     public List<DriverReader.CountryLine> readCountries() {
         return from(countryRepository.findAll())
                 .transform(TO_COUNTRY_LINE)
-                .toImmutableList();
+                .toList();
     }
 
     @Override

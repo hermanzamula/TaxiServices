@@ -36,7 +36,7 @@ public class DriverReaderImpl implements DriverReader {
     public List<DriverManagement.DriverDetails> readDriversByCity(long city) {
         return from(cityRepository.findOne(city).getTaxiDrivers())
                 .transform(TO_DRIVER_DETAILS)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
@@ -46,21 +46,21 @@ public class DriverReaderImpl implements DriverReader {
         for (Price driver : type.getPrices()) {
             drivers.add(driver.getTaxiDriver());
         }
-        return from(drivers).transform(TO_DRIVER_DETAILS).toImmutableList();
+        return from(drivers).transform(TO_DRIVER_DETAILS).toList();
     }
 
     @Override
     public List<DriverManagement.DriverDetails> readAll() {
         return from(taxiDriverRepository.findAll())
                 .transform(TO_DRIVER_DETAILS)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
     public List<DriverManagement.DriverDetails> readFavourites(long userId) {
         return from(userRepository.findOne(userId).getFavourites())
                 .transform(TO_DRIVER_DETAILS)
-                .toImmutableList();
+                .toList  ();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class DriverReaderImpl implements DriverReader {
         return from(user.getFavourites())
                 .filter(driverByCity(last.getCity()))
                 .transform(TO_DRIVER_DETAILS)
-                .toImmutableList();
+                .toList  ();
     }
 
     @Override
@@ -79,21 +79,21 @@ public class DriverReaderImpl implements DriverReader {
         return from(userRepository.findOne(actor).getFavourites())
                 .filter(driverFromCity(cityId))
                 .transform(TO_DRIVER_DETAILS)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
     public List<Feedback> readComments(long driver) {
         return from(taxiDriverRepository.findOne(driver).getComments())
                 .transform(TO_FEEDBACK)
-                .toImmutableList();
+                .toList();
     }
 
     @Override
     public List<DriverLine> readShortInfo(long city) {
         return from(cityRepository.findOne(city).getTaxiDrivers())
                 .transform(Transformers.TO_DRIVE_LINE)
-                .toImmutableList();
+                .toList();
     }
 
     @Override

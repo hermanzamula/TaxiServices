@@ -30,9 +30,9 @@ public class Transformers {
     public static final Function<TaxiDriver, DriverManagement.DriverDetails> TO_DRIVER_DETAILS = new Function<TaxiDriver, DriverManagement.DriverDetails>() {
         @Override
         public DriverManagement.DriverDetails apply(TaxiDriver input) {
-            return new DriverManagement.DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(TO_DRIVE_TYPE).toImmutableList(),
-                    from(input.getCities()).transform(CITY_TO_ID).toImmutableList(),
-                    from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toImmutableList(),
+            return new DriverManagement.DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(TO_DRIVE_TYPE).toList(),
+                    from(input.getCities()).transform(CITY_TO_ID).toList(),
+                    from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toList(),
                     input.getRate(), input.getSite(), input.getDescription());
         }
     };
@@ -50,7 +50,7 @@ public class Transformers {
                     input.getName(), input.getRate(),
                     from(input.getPhoneNumbers())
                             .transform(PHONE_NUMBER_TRANSFORMER)
-                            .toImmutableList());
+                            .toList());
         }
     };
     public static final Function<Comment, DriverReader.Feedback> TO_FEEDBACK = new Function<Comment, DriverReader.Feedback>() {

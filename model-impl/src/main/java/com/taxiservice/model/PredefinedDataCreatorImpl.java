@@ -43,7 +43,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     public long createDriver(String name,  String description, String site,
                              long city, List<String> numbers, List<HasDriveType> driveTypes) {
         final TaxiDriver driver = new TaxiDriver(name, site, description);
-        driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toImmutableSet());
+        driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toList());
         for (HasDriveType type : driveTypes) {
             final DriveType one = typeRepository.findOne(type.driveType);
             final Price hasType = new Price(driver, one, new PriceInfo(valueOf(type.minVal), valueOf(type.maxVal), type.description));
