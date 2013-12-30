@@ -2,6 +2,10 @@ angular.module("login", ['users-back', 'validators', 'taxi-back'])
     .controller("login-controller", function($scope, Users){
         $scope.login = {};
         $scope.enter = function(){
+            $scope.login = {
+                email: $("#user-email").val(),
+                password: $("#user-password").val()
+            };
             Users.login($scope.login, function(response){
                 if(response.successMessage){
                     setUserToken(response.token);

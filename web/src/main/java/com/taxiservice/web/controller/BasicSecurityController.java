@@ -8,6 +8,7 @@ import com.taxiservice.model.writer.UserManagement;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,8 +31,10 @@ public class BasicSecurityController {
     @Inject
     UserCredentialsService userCredentials;
 
-    private static String createToken() {
-        return "t" + String.valueOf(new Random().nextLong());
+    private SecureRandom secureRandom = new SecureRandom();
+
+    private String createToken() {
+        return new BigInteger(512, secureRandom).toString(32);
     }
 
     @ExceptionHandler(Exception.class)

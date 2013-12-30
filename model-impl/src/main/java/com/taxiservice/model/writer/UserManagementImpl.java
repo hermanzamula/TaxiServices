@@ -9,6 +9,7 @@ import com.taxiservice.model.entity.UserPlace;
 import com.taxiservice.model.repository.CityRepository;
 import com.taxiservice.model.repository.UserPlaceRepository;
 import com.taxiservice.model.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -24,24 +25,28 @@ public class UserManagementImpl implements UserManagement {
     private final CityRepository cityRepository;
     private final UserPlaceRepository userPlaceRepository;
     private final Validator validator;
+    private final PasswordEncoder encoder;
 
     @Inject
     public UserManagementImpl(UserRepository userRepository,
                               CityRepository cityRepository,
                               UserPlaceRepository userPlaceRepository,
-                              Validator validator) {
+                              Validator validator, PasswordEncoder encoder) {
+
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.userPlaceRepository = userPlaceRepository;
         this.validator = validator;
+        this.encoder = encoder;
     }
 
     @Override
-    public long createUser(UserInfo userData, String passwordHash) {
-        checkNotNull(passwordHash);
+    public long createUser(UserInfo userData, String password) {
+        checkNotNull(password);
         if (validator.isUserCanBeCreated(userData.email)) {
             throw new AccessDenied("Can't create user with email '" + userData.email + "'");
         }
+        final String passwordHash = encoder.encode(password);
         User user = new User(userData.firstName, userData.lastName, userData.email, passwordHash);
         return updateUser(userData, user);
     }
@@ -88,13 +93,15 @@ public class UserManagementImpl implements UserManagement {
     }
 
     @Override
-    public void updatePassword(long userId, String oldPassword, String passwordHash) {
+    public void updatePassword(long userId, String oldPassword, String password) {
         User user = checkNotNull(userRepository.findOne(userId));
 
         //TODO: implement password hash encoding
-        if (!user.getPasswordHash().equals(oldPassword)) {
+        if (!user.getPasswordHash().equals(encoder.encode(oldPassword))) {
             throw new AccessDenied("Old password is invalid");
         }
+
+        final String passwordHash = encoder.encode(password);
         user.setPasswordHash(passwordHash);
     }
 

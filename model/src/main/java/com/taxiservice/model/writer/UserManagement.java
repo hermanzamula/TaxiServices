@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserManagement {
 
-    long createUser(UserInfo userData, String passwordHash);
+    long createUser(UserInfo userData, String password);
 
     void addUserToPlace(long actor, long city);
 
@@ -14,7 +14,7 @@ public interface UserManagement {
 
     void updateUserInfo(long userId, UserInfo userInfo);
 
-    void updatePassword(long user, String oldPassword, String passwordHash);
+    void updatePassword(long user, String oldPassword, String password);
 
     public static class UserInfo {
         public final String firstName;

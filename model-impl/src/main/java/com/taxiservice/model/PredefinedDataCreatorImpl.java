@@ -2,6 +2,7 @@ package com.taxiservice.model;
 
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.repository.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -25,17 +26,22 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     CountryRepository countryRepository;
     @Inject
     PriceRepository driveTypeRepository;
+    @Inject
+    PasswordEncoder encoder;
 
     @Override
     public long createAdmin(String name, String lastName, String email, String password) {
-        final User user = new User(name, lastName, email, password);
+        String passwordHash = encoder.encode(password);
+        final User user = new User(name, lastName, email, passwordHash);
         user.setAdmin(true);
         return userRepository.save(user).getId();
     }
 
     @Override
     public long createUser(String name, String lastName, String email, String password) {
-        final User user = new User(name, lastName, email, password);
+
+        String passwordHash = encoder.encode(password);
+        final User user = new User(name, lastName, email, passwordHash);
         return userRepository.save(user).getId();
     }
 
