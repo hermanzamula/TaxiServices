@@ -1,4 +1,5 @@
-angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'validators'])
+angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'validators',
+        'map-front', 'ui.bootstrap', 'ngRoute'])
     .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.

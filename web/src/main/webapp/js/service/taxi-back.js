@@ -19,4 +19,9 @@
      })
      .factory("Comments", function($resource){
          return $resource('../comments/top/:value');
+     })
+     .factory('DriversLocation', function($resource, $http) {
+         return $resource('http://127.0.0.1:3000\:3000/api/drivers', {}, {
+             query: {isArray: true, method: "GET"}
+         });
      });

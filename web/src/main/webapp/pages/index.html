@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="taxi-service" ng-controller="main" xmlns="">
+<html ng-app="taxi-service" xmlns="">
 
 <head>
     <title>Твое Такси</title>
@@ -10,12 +10,14 @@
     <script src="../lib/jquery/jquery.cookie.js"></script>
     <script src="../lib/lodash.compat.min.js"></script>
 
-
     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../lib/angularjs/angular.min.js"></script>
+    <script src="../lib/angularjs/angular.js"></script>
     <script src="../lib/angularjs/angular-resource.min.js"></script>
+    <script src="../lib/angularjs/angular-route.js"></script>
     <script src="../lib/angular-ui/angular-ui.min.js"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="../lib/angularjs/angular-google-maps.js"></script>
+    <script src="../lib/angular-ui/ui-bootstrap-0.9.0.min.js"></script>
 
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap-responsive.min.css">
@@ -25,12 +27,14 @@
     <script src="../js/service/taxi-back.js"></script>
     <script src="../js/service/users-back.js"></script>
     <script src="../js/service/search-back.js"></script>
+    <script src="../js/service/map-back.js"></script>
 
     <script src="../js/validators.js"></script>
 
 
     <script src="../js/controller/taxi-front.js"></script>
     <script src="../js/controller/search-front.js"></script>
+    <script src="../js/controller/map-front.js"></script>
 
     <script src="../js/main.js"></script>
 
@@ -53,7 +57,7 @@
 
 
 </head>
-<body>
+<body  ng-controller="main">
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container">

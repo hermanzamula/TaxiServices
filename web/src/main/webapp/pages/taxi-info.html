@@ -79,9 +79,11 @@
                 <span>Чтобы оставить отзыв, </span><a class="btn-link" ng-click="registration = false">Войдите</a> или <a
                     class="btn-link" ng-click="registration = true">Зарегистрируйтесь</a>
             </div>
-            <div class="table submit-message" ng-switch-when="false" ng-include="'../pages/templates/login-form.html'">
+            <div class="table submit-message" ng-switch-when="false">
+                <div  ng-include="'../pages/templates/login-form.html'"></div>
             </div>
-            <div class="table submit-message" ng-switch-when="true" ng-include="'../pages/templates/registration-form.html'">
+            <div class="table submit-message" ng-switch-when="true">
+                <div  ng-include="'../pages/templates/registration-form.html'"></div>
             </div>
         </div>
         <div class="modal-footer">
