@@ -1,5 +1,5 @@
 angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'validators',
-        'map-front', 'ui.bootstrap', 'ngRoute'])
+        'map-front', 'ngRoute'])
     .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.
@@ -28,11 +28,14 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'vali
     })
     .factory('topCommentsScheduler', function (Comments) {
         return function ($scope) {
-            $scope.topComments = Comments.query();
 
-            setInterval(function () {
-                $scope.topComments = Comments.query();
-            }, 10000);
+            var updateComments = function () {
+                Comments.query(function(data) {
+                    $scope.topComments = data;
+                });
+            };
+            setInterval(updateComments, 10000);
+            updateComments();
         }
     });
 

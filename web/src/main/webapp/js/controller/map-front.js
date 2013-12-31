@@ -23,7 +23,7 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
                     longitude: 16,
                     markers: [],
                     events: {
-                        'bounds_changed': function (mapModel, eventName, originalEventArgs) {
+                        'bounds_changed': function (mapModel) {
                             var center = mapModel.getCenter();
                             var northEast = mapModel.getBounds().getNorthEast();
                             var southWest = mapModel.getBounds().getSouthWest();
@@ -46,21 +46,32 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
                 });
             }
 
+            var driverImg = {
+                "free": '../img/taxi-free.png',
+                "busy": '../img/taxi-busy.png'
+            };
 
             function convertToMarkers(data) {
-                var markersWithComments = [];
-                var i = data.length - 1;
-                while (i >= 0) {
-                    var driver = data[i];
-                    var markerData = {
+
+                function createIconSettings(status) {
+
+                    var size = 32, iconSettings = {};
+
+                    iconSettings.url = driverImg[status];
+                    iconSettings.scaledSize = new google.maps.Size(size, size);
+                    return iconSettings;
+                }
+
+                return $.map(data, function(driver) {
+                    var icon = createIconSettings(driver.status);
+                    return {
                         latitude: driver.location.latitude,
                         longitude: driver.location.longitude,
-                        title: "Driver: " + driver.driverId
-                    };
-                    markersWithComments.push(markerData);
-                    i--;
-                }
-                return markersWithComments;
+                        icon: icon,
+                        title: "driver " + driver.driverId
+                    }
+                });
+
             }
 
             // Enable the new Google Maps visuals until it gets enabled by default.
@@ -70,8 +81,13 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
             Coordinates.setCenter($scope.map.center.latitude, $scope.map.center.longitude);
             Coordinates.setLeftCorner($scope.map.latitude, $scope.map.longitude);
 
+            //TODO: make scheduler
+            var interval = setInterval(updateMarkers, 1000);
 
-            updateMarkers();
+            $scope.$on("$locationChangeSuccess", function () {
+                console.log("Clear interval: " + interval);
+                clearInterval(interval);
+            });
 
         }]
     )
@@ -106,7 +122,6 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
                             } else {
                                 map.setCenter(place.geometry.location);
                                 map.setZoom(17);  // Why 17? Because it looks good.
-
                             }
                             var markerData = {
                                 latitude: place.geometry.location.nb,
@@ -151,30 +166,30 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
             getCoords: function () {
                 return coordinate;
             },
-            setCoords: function(lt, lng) {
+            setCoords: function (lt, lng) {
                 coordinate.latitude = lt;
                 coordinate.longitude = lng;
             },
-            setCenter: function(lt, lng) {
+            setCenter: function (lt, lng) {
                 coordinate.center = {
                     latitude: lt,
                     longitude: lng
                 }
             },
-            setLeftCorner: function(lt, lng) {
+            setLeftCorner: function (lt, lng) {
                 coordinate.corner = {
                     latitude: lt,
                     longitude: lng
                 }
             },
-            setRightCorner: function(lt, lng) {
+            setRightCorner: function (lt, lng) {
                 coordinate.cornerRight = {
                     latitude: lt,
                     longitude: lng
                 }
             },
-            getRadius: function() {
-                if(coordinate.cornerRight) {
+            getRadius: function () {
+                if (coordinate.cornerRight) {
                     return (distHaversine(coordinate.cornerRight, coordinate.corner) / 2);
                 }
                 return distHaversine(coordinate.center, coordinate.corner)
