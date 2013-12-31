@@ -1,4 +1,4 @@
-TaxiServices-YoursTaxi
-======================
+Taxi Services - Yours Taxi
+==========================
 
-Taxi Services
+Designed to simplify the taxi call from any place.
