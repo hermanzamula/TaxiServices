@@ -1,4 +1,4 @@
- angular.module('taxi-back', ['ngResource'])
+ angular.module('taxi-back', ['ngResource', 'security-back'])
     .factory('Drivers', function($resource){
         return $resource('../drivers/:filter/:id/:path', {}, {
             'all': {method: 'GET', isArray: true, params: {filter: 'all'}},
@@ -20,8 +20,6 @@
      .factory("Comments", function($resource){
          return $resource('../comments/top/:value');
      })
-     .factory('DriversLocation', function($resource, $http) {
-         return $resource('http://127.0.0.1:3000\:3000/api/drivers', {}, {
-             query: {isArray: true, method: "GET"}
-         });
-     });
+     .factory('DriversLocation', function($resource) {
+         return $resource('http://:locationServerBaseUrl/api/drivers');
+     }) ;

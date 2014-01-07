@@ -1,8 +1,8 @@
-angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
-    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$http', '$timeout', '$log', 'Location', 'Coordinates', 'DriversLocation',
-        function ($scope, $rootScope, $location, $http, $timeout, $log, Location, Coordinates, DriversLocation) {
+angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-back'])
+    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$http', '$timeout', '$log', 'Location', 'Coordinates', 'DriversLocation', 'Security',
+        function ($scope, $rootScope, $location, $http, $timeout, $log, Location, Coordinates, DriversLocation, Security) {
 
-            $scope.markerDetails = new DetailsPopUp('#markerDetails', updateMarkers);
+           // $scope.markerDetails = new DetailsPopUp('#markerDetails', updateMarkers);
 
             var center = {
                 latitude: 50,
@@ -35,16 +35,27 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
                 }
             });
 
-            function updateMarkers() {
-                DriversLocation.query({
-                    latitude: Coordinates.getCoords().center.latitude,
-                    longitude: Coordinates.getCoords().center.longitude,
-                    radius: Coordinates.getRadius()/*,
-                     limit: limit*/
-                }, function (data) {
-                    $scope.map.markers = convertToMarkers(data);
-                });
-            }
+            var interval;
+
+            Security.locationServerBaseUrl(function(response) {
+                function updateMarkers() {
+                    var locationServerBaseUrl = response.value.replace("http://", "");
+                    DriversLocation.query({
+                        locationServerBaseUrl: locationServerBaseUrl,
+                        latitude: Coordinates.getCoords().center.latitude,
+                        longitude: Coordinates.getCoords().center.longitude,
+                        radius: Coordinates.getRadius()/*,
+                         limit: limit*/
+                    }, function (data) {
+                        $scope.map.markers = convertToMarkers(data);
+                    });
+                }
+
+                //TODO: make scheduler
+                interval = setInterval(updateMarkers, 1000);
+                updateMarkers();
+
+            });
 
             var driverImg = {
                 "free": '../img/taxi-free.png',
@@ -81,8 +92,6 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps"])
             Coordinates.setCenter($scope.map.center.latitude, $scope.map.center.longitude);
             Coordinates.setLeftCorner($scope.map.latitude, $scope.map.longitude);
 
-            //TODO: make scheduler
-            var interval = setInterval(updateMarkers, 1000);
 
             $scope.$on("$locationChangeSuccess", function () {
                 console.log("Clear interval: " + interval);

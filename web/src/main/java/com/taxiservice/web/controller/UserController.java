@@ -1,6 +1,8 @@
 package com.taxiservice.web.controller;
 
 import com.taxiservice.model.writer.UserManagement;
+import com.taxiservice.web.request.LoginRequest;
+import com.taxiservice.web.request.UserCreationRequest;
 import com.taxiservice.web.response.LoginResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,15 +54,4 @@ public class UserController extends BasicSecurityController {
         super.remove(token);
     }
 
-    public static class UserCreationRequest extends LoginRequest {
-        public String firstName;
-        public String lastName;
-        public long city;
-        public long country;
-    }
-
-    public static class LoginRequest {
-        public String email;
-        public String password;
-    }
 }
