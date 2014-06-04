@@ -1,11 +1,8 @@
 package com.taxiservice.model.writer;
 
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
-@Transactional
 public interface DriverManagement {
 
     long createDriver(DriverInfo driverInfo);

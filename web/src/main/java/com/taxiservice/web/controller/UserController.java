@@ -34,24 +34,7 @@ public class UserController extends BasicSecurityController {
         final LoginRequest loginRequest = new LoginRequest();
         loginRequest.email = request.email;
         loginRequest.password = request.password;
-        return login(loginRequest);
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        try {
-            String token = enter(request.email, request.password);
-            return new LoginResponse("You entered successfully", null, token);
-        } catch (RuntimeException e) {
-            return new LoginResponse(null, e.getMessage(), null);
-        }
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseBody
-    public void remove(@RequestBody String token) {
-        super.remove(token);
+        return null;
     }
 
 }

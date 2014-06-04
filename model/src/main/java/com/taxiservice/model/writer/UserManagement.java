@@ -1,9 +1,6 @@
 package com.taxiservice.model.writer;
 
 
-import org.springframework.transaction.annotation.Transactional;
-
-@Transactional
 public interface UserManagement {
 
     long createUser(UserInfo userData, String password);

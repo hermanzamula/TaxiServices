@@ -1,9 +1,6 @@
 package com.taxiservice.model.writer;
 
 
-import org.springframework.transaction.annotation.Transactional;
-
-@Transactional
 public interface BonusManagement {
 
     long addBonus(long actor, long driver, Bonus bonus);

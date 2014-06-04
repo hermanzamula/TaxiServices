@@ -12,7 +12,7 @@
 
 
     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../lib/angularjs/angular.min.js"></script>
+    <script src="../lib/angularjs/angular.js"></script>
     <script src="../lib/angularjs/angular-resource.min.js"></script>
     <script src="../lib/angular-ui/angular-ui.min.js"></script>
 
@@ -25,6 +25,7 @@
     <script src="../js/service/taxi-back.js"></script>
     <script src="../js/service/users-back.js"></script>
     <script src="../js/service/search-back.js"></script>
+    <script src="../js/service/security-back.js"></script>
 
     <script src="../js/validators.js"></script>
     <script src="../js/login.js"></script>
@@ -39,10 +40,10 @@
 </div>
 <div class="well well-large center-form ">
     <div class="alert-error alert" ng-show="error">Неверный логин или пароль</div>
-    <form name="form" novalidate="">
+    <form name="form" novalidate="" action="/login" method="POST">
         <div ng-include="'../pages/templates/login-form.html'"></div>
         <div>
-            <button class="btn btn-primary" ng-click="enter()">Войти</button>
+            <button class="btn btn-primary" type="submit">Войти</button>
             &nbsp;&nbsp;
             <a class="btn-link" href="register.html">Зарегистрироваться</a>
         </div>

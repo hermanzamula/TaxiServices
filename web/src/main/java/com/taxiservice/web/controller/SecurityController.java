@@ -26,4 +26,5 @@ public class SecurityController {
         return new ValueResponse<>(locationServerBaseUrl);
     }
 
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -33,8 +34,8 @@ public class TaxiDriverController extends BasicSecurityController {
 
     @RequestMapping(value = "/favourite/city/{token}")
     @ResponseBody
-    public List<DriverManagement.DriverDetails> getFavouritesByCity(@PathVariable String token) {
-        return driverReader.readCurrentCityFavourites(getUserId(token));
+    public List<DriverManagement.DriverDetails> getFavouritesByCity(Principal principal) {
+        return driverReader.readCurrentCityFavourites(getUserId(principal));
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -69,8 +70,8 @@ public class TaxiDriverController extends BasicSecurityController {
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void commentDriver(@RequestBody CommentRequest request) {
-        driverManagement.comment(getUserId(request.token),  request.driver, request.message);
+    public void commentDriver(@RequestBody CommentRequest request, Principal principal) {
+        driverManagement.comment(getUserId(principal),  request.driver, request.message);
     }
 
     @RequestMapping(value = "/city/{cityId}/short", method = RequestMethod.GET)

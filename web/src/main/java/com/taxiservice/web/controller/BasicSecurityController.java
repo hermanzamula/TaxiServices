@@ -1,14 +1,12 @@
 package com.taxiservice.web.controller;
 
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.taxiservice.model.UserCredentialsService;
+import com.taxiservice.model.AuthenticationService;
 import com.taxiservice.model.writer.UserManagement;
+import com.taxiservice.web.security.RichUser;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.Principal;
 import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Random;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newHashMap;
@@ -29,7 +27,7 @@ public class BasicSecurityController {
     //TODO [herman.zamula]: Implement removing tokens by expires date
     private static final Map<String, UserDetails> ENTERED_USERS = newHashMap();
     @Inject
-    UserCredentialsService userCredentials;
+    AuthenticationService userCredentials;
 
     private SecureRandom secureRandom = new SecureRandom();
 
@@ -63,6 +61,11 @@ public class BasicSecurityController {
 
     protected long getUserId(String token) {
         return getUser(token).id;
+    }
+
+    protected long getUserId(Principal principal) {
+        final RichUser details = (RichUser) ((Authentication) principal).getDetails();
+        return details.getId();
     }
 
     protected UserDetails getUser(String token) {

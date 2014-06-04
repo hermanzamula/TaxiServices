@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.taxiservice.web.security"/>
+
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/fonts/**" security="none"/>
+    <security:http pattern="/img/**" security="none"/>
+    <security:http pattern="/lib/**" security="none"/>
+    <security:http pattern="/script/**" security="none"/>
+
+    <security:http use-expressions="true" entry-point-ref="authenticationEntryPoint"
+                   authentication-manager-ref="authenticationManager">
+        <security:intercept-url pattern="/**" access="permitAll"/>
+
+        <security:form-login login-processing-url="/login"
+                             password-parameter="password"
+                             username-parameter="username"/>
+        <security:logout logout-success-url="/logout"/>
+
+    </security:http>
+
+    <bean id="authenticationEntryPoint"
+          class="org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint">
+        <constructor-arg>
+            <map>
+                <entry key="hasHeader('X-Requested-With','XMLHttpRequest')">
+                    <bean class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+                </entry>
+            </map>
+        </constructor-arg>
+        <property name="defaultEntryPoint">
+            <bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+                <constructor-arg value="/"/>
+            </bean>
+        </property>
+    </bean>
+
+    <security:authentication-manager id="authenticationManager">
+        <security:authentication-provider ref="userAuthenticationProvider"/>
+        <security:authentication-provider user-service-ref="userRestProvider">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

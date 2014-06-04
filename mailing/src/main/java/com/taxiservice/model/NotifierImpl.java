@@ -18,9 +18,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Stanislav Kurilin
- */
 @Component
 class NotifierImpl implements Notifier {
     @Inject

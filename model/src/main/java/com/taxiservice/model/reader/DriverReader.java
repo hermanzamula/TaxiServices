@@ -1,12 +1,10 @@
 package com.taxiservice.model.reader;
 
 import com.taxiservice.model.writer.DriverManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-@Transactional(readOnly = true)
 public interface DriverReader {
 
     List<DriverManagement.DriverDetails> readDriversByCity(long city);

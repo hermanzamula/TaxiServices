@@ -3,11 +3,9 @@ package com.taxiservice.model;
 
 import com.taxiservice.model.reader.DriverReader;
 import com.taxiservice.model.writer.DriverManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
 public interface Searcher {
 
     List<DriverDetails> drivers(String query);
