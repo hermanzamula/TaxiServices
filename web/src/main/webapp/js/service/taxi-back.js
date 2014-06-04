@@ -1,4 +1,4 @@
- angular.module('taxi-back', ['ngResource', 'security-back'])
+ angular.module('taxi-back', ['ngResource'])
     .factory('Drivers', function($resource){
         return $resource('../drivers/:filter/:id/:path', {}, {
             'all': {method: 'GET', isArray: true, params: {filter: 'all'}},
