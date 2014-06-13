@@ -46,7 +46,7 @@ public class Transformers {
     public static final Function<Trip, CarpoolReader.TripLine> TRIP_LINE_TRANSFORMER = new Function<Trip, CarpoolReader.TripLine>() {
         @Override
         public CarpoolReader.TripLine apply(Trip input) {
-            return new CarpoolReader.TripLine<Long>(input.getId(), input.getName(), input.getDescription(), input.getPassengersLimit(), Iterables.size(input.getSubscribedPassengers()),
+            return new CarpoolReader.TripLine<>(input.getId(), input.getName(), input.getDescription(), input.getPassengersLimit(), Iterables.size(input.getSubscribedPassengers()),
                     new Location(input.getStart().lng, input.getStart().lat), new Location(input.getEnd().lng, input.getEnd().lat));
         }
     };

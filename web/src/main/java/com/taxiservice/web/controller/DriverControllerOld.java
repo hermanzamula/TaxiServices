@@ -13,9 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Controller
-@RequestMapping(value = "/drivers")
-public class DriverController extends BasicSecurityController {
+//@RequestMapping(value = "/drivers")
+public class DriverControllerOld extends BasicSecurityController {
 
     @Inject
     private CarpoolReader<Long> carpoolReader;
@@ -57,7 +56,6 @@ public class DriverController extends BasicSecurityController {
     @RequestMapping(value = "/like", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void likeDriver(@RequestBody LikeRequest likeRequest) {
-        driverManagement.likeDriver(getUserId(likeRequest.token), likeRequest.driver);
     }
 
     @RequestMapping(value = "/comments/{driver}", method = RequestMethod.GET)

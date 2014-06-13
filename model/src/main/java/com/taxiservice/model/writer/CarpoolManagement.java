@@ -1,7 +1,6 @@
 package com.taxiservice.model.writer;
 
 import com.taxiservice.model.Location;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;

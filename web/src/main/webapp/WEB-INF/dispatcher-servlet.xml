@@ -18,5 +18,14 @@
 
     <context:property-placeholder location="classpath*:application.properties"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven >
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.taxiservice.web.json.Mapper"/>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
 </beans>
