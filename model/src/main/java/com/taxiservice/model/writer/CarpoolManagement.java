@@ -1,6 +1,7 @@
 package com.taxiservice.model.writer;
 
 import com.taxiservice.model.Location;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ public interface CarpoolManagement<ID> {
 
     void subscribe(@NotNull ID actor, @NotNull ID trip);
 
-    void removeSubscriber(@NotNull ID actor, @NotNull ID passenger);
+    void removeSubscriber(@NotNull ID actor, ID trip, @NotNull ID passenger);
 
     void rateDriver(@NotNull ID actor, @NotNull ID driver, int rate);
 

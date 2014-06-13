@@ -2,7 +2,7 @@ package com.taxiservice.model;
 
 import com.taxiservice.model.entity.Driver;
 import com.taxiservice.model.entity.User;
-import com.taxiservice.model.repository.TaxiDriverRepository;
+import com.taxiservice.model.repository.DriverRepository;
 import com.taxiservice.model.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     @Inject
     UserRepository userRepository;
     @Inject
-    TaxiDriverRepository driverRepository;
+    DriverRepository driverRepository;
 
     @Inject
     PasswordEncoder encoder;
@@ -40,7 +40,7 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     }
 
     @Override
-    public long createDriver(String name,  String description, String site,
+    public long createDriver(String name, String description, String site,
                              long city, List<String> numbers) {
         final Driver driver = new Driver(name, site, description);
         driver.getPhoneNumbers().addAll(phoneNumbersFromStrings(driver, numbers).toList());
@@ -49,7 +49,8 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
     }
 
     @Override
-    public long createCity(String name, long country) {return 0;
+    public long createCity(String name, long country) {
+        return 0;
     }
 
     @Override
@@ -59,6 +60,6 @@ public class PredefinedDataCreatorImpl implements PredefinedDataCreator {
 
     @Override
     public long driveType(String name, String description) {
-       return 0;
+        return 0;
     }
 }

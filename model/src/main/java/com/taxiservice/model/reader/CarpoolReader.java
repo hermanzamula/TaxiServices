@@ -1,5 +1,6 @@
 package com.taxiservice.model.reader;
 
+import com.google.common.collect.ImmutableSet;
 import com.taxiservice.model.Location;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public interface CarpoolReader<ID> {
     Set<Feedback> readComments(@NotNull ID driver);
 
     public class DriverLine<ID> {
+
         public final ID id;
         public final String name;
         public final long rate;
@@ -36,6 +38,7 @@ public interface CarpoolReader<ID> {
     }
 
     public class Feedback<ID> {
+
         public final String username;
         public final ID driver;
         public final String message;
@@ -49,9 +52,43 @@ public interface CarpoolReader<ID> {
         }
     }
 
-    class PassengerLine {
+    class PassengerLine<ID> {
+
+        public final ID id;
+        public final String name;
+        public final String description;
+        public final Location location;
+        public final long rate;
+        public final ImmutableSet<String> phones;
+
+        public PassengerLine(ID id, String fullName, String description, Location location, long rate, ImmutableSet<String> phones) {
+            this.id = id;
+            this.name = fullName;
+            this.description = description;
+            this.location = location;
+            this.rate = rate;
+            this.phones = phones;
+        }
     }
 
-    class TripLine {
+    class TripLine <ID> {
+
+        public final ID id;
+        public final String name;
+        public final String description;
+        public final int passengersLimit;
+        public final int free;
+        public final Location start;
+        public final Location end;
+
+        public TripLine(ID id, String name, String description, int passengersLimit, int size, Location start, Location end) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.passengersLimit = passengersLimit;
+            free = size;
+            this.start = start;
+            this.end = end;
+        }
     }
 }

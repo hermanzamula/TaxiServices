@@ -14,14 +14,53 @@ import java.util.Date;
 public class Message extends AbstractPersistable<Long> {
 
     @Lob
-    public String body;
-    public String heading;
-    public Date date;
+    private String body;
+    private String heading;
+    private Date date;
 
     @ManyToOne
-    public User sender;
+    private User sender;
 
     @ManyToOne
-    public User recipient;
+    private User recipient;
 
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getHeading() {
+        return heading;
+    }
+
+    public void setHeading(String heading) {
+        this.heading = heading;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
+    }
 }

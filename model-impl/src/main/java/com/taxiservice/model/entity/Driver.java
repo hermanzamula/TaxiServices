@@ -5,6 +5,7 @@ import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 
@@ -13,23 +14,25 @@ import static com.google.common.collect.Sets.newHashSet;
 @Indexed
 @Entity
 @SecondaryTable(name = "driver_location")
-public class Driver extends UserRole {
+public class Driver extends UserRole implements Located {
 
     @ElementCollection
     @CollectionTable(name = "driver_phone", joinColumns = @JoinColumn(name = "driver_id"))
     private Collection<PhoneNumber> phoneNumbers = newHashSet();
 
     @OneToMany
-    public Collection<Trip> trips;
+    private Set<Trip> trips = newHashSet();
 
     @OneToMany(mappedBy = "driver")
-    public Collection<Car> cars;
+    private Set<Car> cars = newHashSet();
 
     @Column
-    long rate = 0;
+    private long rate = 0;
+    @Column
+    private long ratedCount = 0;
     @Lob
     @Field
-    public String description;
+    private String description;
 
     @Embedded
     @AttributeOverrides({
@@ -37,22 +40,24 @@ public class Driver extends UserRole {
                     column = @Column(name = "lat", table = "driver_location")),
             @AttributeOverride(name = "lng",
                     column = @Column(name = "lng", table = "driver_location"))})
-    public Location currentLocation;
+    private Location currentLocation;
 
 
     @OneToMany(mappedBy = "driver", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Collection<Comment> comments = newHashSet();
+    private Set<Comment> comments = newHashSet();
 
     public Driver(Long id) {
+        super.setId(id);
     }
 
-    public Driver() {
+    protected Driver() {
+
     }
 
-    public Driver(String name, String site, String description) {
-        this.description = description;
+    public Driver(String description, Collection<PhoneNumber> phoneNumbers) {
+        this.setDescription(description);
+        this.phoneNumbers = phoneNumbers;
     }
-
 
     public Collection<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
@@ -74,8 +79,37 @@ public class Driver extends UserRole {
         this.description = description;
     }
 
-    public Collection<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
+    @Override
+    @Transient
+    public Location getLocation() {
+        return getCurrentLocation();
+    }
+
+    public Set<Trip> getTrips() {
+        return trips;
+    }
+
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public long getRatedCount() {
+        return ratedCount;
+    }
+
+    public void setRatedCount(long ratedCount) {
+        this.ratedCount = ratedCount;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
 }

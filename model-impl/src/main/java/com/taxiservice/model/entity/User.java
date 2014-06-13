@@ -71,5 +71,9 @@ public class User extends AbstractPersistable<Long> {
         this.lastName = lastName;
     }
 
+    @Transient
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 
 }

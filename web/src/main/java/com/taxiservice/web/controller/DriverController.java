@@ -57,7 +57,7 @@ public class DriverController extends BasicSecurityController {
     @RequestMapping(value = "/like", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void likeDriver(@RequestBody LikeRequest likeRequest) {
-//        driverManagement.likeDriver(getUserId(likeRequest.token), likeRequest.driver);
+        driverManagement.likeDriver(getUserId(likeRequest.token), likeRequest.driver);
     }
 
     @RequestMapping(value = "/comments/{driver}", method = RequestMethod.GET)

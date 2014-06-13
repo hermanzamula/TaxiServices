@@ -1,7 +1,7 @@
 package com.taxiservice.model;
 
 
-import com.taxiservice.model.repository.TaxiDriverRepository;
+import com.taxiservice.model.repository.DriverRepository;
 import com.taxiservice.model.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@ import static org.apache.cxf.common.util.StringUtils.isEmpty;
 public class Validator {
 
     private final UserRepository userRepository;
-    private final TaxiDriverRepository driverRepository;
+    private final DriverRepository driverRepository;
 
     @Inject
     public Validator(UserRepository userRepository,
-                     TaxiDriverRepository driverRepository) {
+                     DriverRepository driverRepository) {
         this.userRepository = userRepository;
         this.driverRepository = driverRepository;
     }

@@ -18,4 +18,10 @@ public class Car extends AbstractPersistable<Long> {
     @ManyToOne
     public Driver driver;
 
+    public Car(Long id) {
+        super.setId(id);
+    }
+
+    protected Car() {
+    }
 }
