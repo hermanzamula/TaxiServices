@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query("select user from User u where u.email = :email")
+    @Query("select u from User u where u.email = :email")
     public User findOneByEmail(@Param("email") String email);
 
-    @Query("select user from User u where u.email = :email and u.passwordHash = :passwordHash")
+    @Query("select u from User u where u.email = :email and u.passwordHash = :passwordHash")
     public User findOneByEmailAndPasswordHash(@Param("email") String email, @Param("passwordHash") String passwordHash);
 
 }

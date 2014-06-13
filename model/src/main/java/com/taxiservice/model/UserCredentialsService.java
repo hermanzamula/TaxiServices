@@ -1,12 +1,24 @@
 package com.taxiservice.model;
 
 
-import com.taxiservice.model.writer.UserManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public interface UserCredentialsService {
+public interface UserCredentialsService<ID> {
 
-    UserManagement.UserInfo checkCredentials(String email, String  passwordHash);
+    UserData<ID> checkCredentials(String email, String passwordHash);
 
+    class UserData<ID> {
+
+        public final ID id;
+        public final String firstName;
+        public final String lastName;
+        public final String email;
+
+        public UserData(ID id, String lastName, String email, String firstName) {
+            this.id = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+        }
+    }
 }

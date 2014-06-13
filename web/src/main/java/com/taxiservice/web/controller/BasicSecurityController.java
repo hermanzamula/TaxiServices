@@ -1,14 +1,9 @@
 package com.taxiservice.web.controller;
 
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.taxiservice.model.UserCredentialsService;
-import com.taxiservice.model.writer.UserManagement;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,17 +14,17 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Random;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.taxiservice.model.UserCredentialsService.UserData;
 
 public class BasicSecurityController {
 
     //TODO [herman.zamula]: Implement removing tokens by expires date
-    private static final Map<String, UserDetails> ENTERED_USERS = newHashMap();
+    private static final Map<String, UserData<Long>> ENTERED_USERS = newHashMap();
     @Inject
-    UserCredentialsService userCredentials;
+    UserCredentialsService<Long> userCredentials;
 
     private SecureRandom secureRandom = new SecureRandom();
 
@@ -46,9 +41,9 @@ public class BasicSecurityController {
     }
 
     protected String enter(String email, String password) {
-        UserManagement.UserInfo userInfo = userCredentials.checkCredentials(email, password);
+        UserData<Long> userInfo = userCredentials.checkCredentials(email, password);
         String token = createToken();
-        ENTERED_USERS.put(token, newUserDetails(userInfo));
+        ENTERED_USERS.put(token, userInfo);
         return token;
     }
 
@@ -57,31 +52,13 @@ public class BasicSecurityController {
         ENTERED_USERS.remove(token);
     }
 
-    private UserDetails newUserDetails(UserManagement.UserInfo userInfo) {
-        return new UserDetails(userInfo.id, userInfo.firstName, userInfo.lastName, userInfo.place.city);
-    }
 
     protected long getUserId(String token) {
         return getUser(token).id;
     }
 
-    protected UserDetails getUser(String token) {
+    protected UserData<Long> getUser(String token) {
         return checkNotNull(ENTERED_USERS.get(token), "Application token is not valid");
-    }
-
-    public static class UserDetails {
-        public final long id;
-        public final String firstName;
-        public final String lastName;
-        public final long city;
-
-
-        public UserDetails(long id, String firstName, String lastName, long city) {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.city = city;
-        }
     }
 
     public static final Logger LOGGER = Logger.getLogger(BasicSecurityController.class);

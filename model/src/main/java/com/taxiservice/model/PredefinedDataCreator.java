@@ -12,7 +12,7 @@ public interface PredefinedDataCreator {
 
     long createUser(String name, String lastName, String email, String password);
 
-    long createDriver(String name, String description, String site, long city, List<String> numbers, List<HasDriveType> driveTypes);
+    long createDriver(String name, String description, String site, long city, List<String> numbers);
 
     long createCity(String name, long country);
 

@@ -10,30 +10,14 @@ import static com.google.common.collect.Sets.newHashSet;
 
 @Entity
 public class User extends AbstractPersistable<Long> {
-
-
-    @Column(name = "isAdmin", nullable = false, insertable = true, updatable = true)
-    @Basic
-    private boolean isAdmin;
+    @Column(name = "is_admin")
+    public boolean isAdmin = false;
     private String firstName;
-    @Column(unique = true)
+    private String lastName;
+
     @Basic
     private String email;
     private String passwordHash;
-    private String lastName;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Collection<UserBonus> bonuses = newHashSet();
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "favorite", joinColumns =
-    @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "taxi_driver_id", referencedColumnName = "id"))
-    private Collection<TaxiDriver> favourites = newHashSet();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_place", joinColumns =
-    @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"))
-    private Collection<City> userPlaces = newHashSet();
 
     public User(Long id) {
         setId(id);
@@ -85,26 +69,6 @@ public class User extends AbstractPersistable<Long> {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Collection<UserBonus> getBonuses() {
-        return bonuses;
-    }
-
-    public Collection<TaxiDriver> getFavourites() {
-        return favourites;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    public Collection<City> getUserPlaces() {
-        return userPlaces;
     }
 
 

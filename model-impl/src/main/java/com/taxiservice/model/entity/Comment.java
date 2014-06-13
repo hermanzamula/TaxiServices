@@ -16,14 +16,14 @@ public class Comment extends AbstractPersistable<Long> {
     @Basic(optional = false)
     Date date;
 
-    @Basic(optional = false)
-    String user;
+    @ManyToOne
+    public User user;
 
     @ManyToOne
     @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
-    TaxiDriver driver;
+    Driver driver;
 
-    public Comment(String message, String user, TaxiDriver driver) {
+    public Comment(String message, User user, Driver driver) {
         this.message = message;
         this.date = new Date();
         this.user = user;
@@ -41,11 +41,11 @@ public class Comment extends AbstractPersistable<Long> {
         return date;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public TaxiDriver getDriver() {
+    public Driver getDriver() {
         return driver;
     }
 

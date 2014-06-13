@@ -27,10 +27,8 @@ public class UserController extends BasicSecurityController {
     @ResponseBody
     public LoginResponse register(@RequestBody UserCreationRequest request) {
         userManagement.createUser(new UserManagement.UserInfo(
-                request.firstName, request.lastName, request.email,
-                new UserManagement.Place(request.city, request.country)),
-                request.password
-        );
+                request.firstName, request.lastName, request.email
+        ), request.password);
         final LoginRequest loginRequest = new LoginRequest();
         loginRequest.email = request.email;
         loginRequest.password = request.password;

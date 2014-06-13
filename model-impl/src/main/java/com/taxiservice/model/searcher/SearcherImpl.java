@@ -5,8 +5,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.taxiservice.model.Searcher;
-import com.taxiservice.model.entity.TaxiDriver;
-import com.taxiservice.model.util.Transformers;
+import com.taxiservice.model.entity.Driver;
 import org.hibernate.CacheMode;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -24,20 +23,18 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import static com.google.common.collect.FluentIterable.from;
-import static com.taxiservice.model.util.Transformers.PHONE_NUMBER_TRANSFORMER;
-import static com.taxiservice.model.util.Transformers.TO_CITY_LINE;
 import static org.hibernate.search.jpa.Search.getFullTextEntityManager;
 
 @Service
 public class SearcherImpl implements Searcher {
 
-    public static final Function<TaxiDriver, DriverDetails> DETAILS_FUNCTION = new Function<TaxiDriver, DriverDetails>() {
+    public static final Function<Driver, DriverDetails> DETAILS_FUNCTION = new Function<Driver, DriverDetails>() {
         @Override
-        public DriverDetails apply(TaxiDriver input) {
-            return new DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(Transformers.TO_DRIVE_TYPE).toList(),
+        public DriverDetails apply(Driver input) {
+            return /*new DriverDetails(input.getId(), input.getName(), from(input.getPrices()).transform(Transformers.TO_DRIVE_TYPE).toList(),
                     from(input.getCities()).transform(TO_CITY_LINE).toList(),
                     from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toList(),
-                    input.getRate(), input.getSite(), input.getDescription());
+                    input.getRate(), input.getSite(), input.getDescription())*/ null;
         }
     };
     private EntityManager entityManager;
@@ -58,7 +55,7 @@ public class SearcherImpl implements Searcher {
     @Override
     public List<DriverDetails> drivers(String query) {
         //TODO: investigate search by foreighn keys
-        Iterable<TaxiDriver> drivers = search(TaxiDriver.class, query, ImmutableSet.of("description"));
+        Iterable<Driver> drivers = search(Driver.class, query, ImmutableSet.of("description"));
         return from(drivers).transform(DETAILS_FUNCTION).toList();
     }
 

@@ -5,6 +5,7 @@
         <properties>
             <property name="hibernate.search.default.directory_provider" value="ram"/>
             <property name="hibernate.search.enable_dirty_check" value="false"/>
+            <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.EJB3NamingStrategy"/>
         </properties>
     </persistence-unit>
 </persistence>
