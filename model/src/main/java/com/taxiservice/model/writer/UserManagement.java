@@ -21,7 +21,7 @@ public interface UserManagement<ID> {
         public final String lastName;
         public final String email;
 
-        public UserInfo(String lastName, String email, String firstName) {
+        public UserInfo(String firstName, String lastName, String email) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;

@@ -15,5 +15,6 @@ public class Mapper extends ObjectMapper {
         addMixInAnnotations(CarpoolManagement.DriverInfo.class, DriverInfoMixin.class);
         addMixInAnnotations(CarpoolManagement.PassengerInfo.class, PassengerInfoMixin.class);
         addMixInAnnotations(CarpoolManagement.TripInfo.class, TripInfoMixin.class);
+        addMixInAnnotations(CarpoolManagement.CarInfo.class, CarInfoMixin.class);
     }
 }

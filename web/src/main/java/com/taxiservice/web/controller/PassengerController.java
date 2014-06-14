@@ -23,14 +23,15 @@ public class PassengerController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void save(CreatePassengerRequest request, @RequestParam String token) {
+    public void save(@RequestBody CreatePassengerRequest request, @RequestParam String token) {
         if (request.id == null) {
             carpoolManagement.createPassenger(getUserId(token), request.passengerInfo);
         }
     }
 
-    @RequestMapping(value = "/rate")
-    public void rate(RateRequest rateRequest, @RequestParam String token) {
+    @RequestMapping(value = "/rate", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void rate(@RequestBody RateRequest rateRequest, @RequestParam String token) {
         carpoolManagement.ratePassenger(getUserId(token), rateRequest.passenger, rateRequest.rate);
     }
 

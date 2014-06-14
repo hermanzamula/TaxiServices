@@ -1,6 +1,7 @@
 package com.taxiservice.model.writer;
 
 import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.taxiservice.model.entity.*;
@@ -9,10 +10,12 @@ import com.taxiservice.model.repository.PassengerRepository;
 import com.taxiservice.model.repository.TripRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Sets.difference;
 import static com.taxiservice.model.util.Transformers.phoneNumbersFromStrings;
@@ -103,8 +106,20 @@ public class CarpoolManagementImpl implements CarpoolManagement<Long> {
     @Override
     public Long createDriver(@NotNull Long actor, final DriverInfo driverInfo) {
         final Driver driver = new Driver(driverInfo.description, phoneNumbersFromStrings(driverInfo.phones));
+
         driver.setUser(new User(actor));
+        final Long id = driverRepository.save(driver).getId();
+        driver.getCars().addAll(from(driverInfo.cars).transform(transformDriverCars(id)).toSet());
         return driverRepository.save(driver).getId();
+    }
+
+    private Function<CarInfo, Car> transformDriverCars(final Long driver) {
+        return new Function<CarInfo, Car>() {
+            @Override
+            public Car apply( CarInfo input) {
+                return new Car(input.brand, input.description, input.model, new Driver(driver));
+            }
+        };
     }
 
     @Override

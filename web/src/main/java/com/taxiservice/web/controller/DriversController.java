@@ -48,7 +48,7 @@ public class DriversController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void save(DriverCreationRequest request, @RequestParam String token) {
+    public void save(@RequestBody DriverCreationRequest request, @RequestParam String token) {
         if (request.id == null) {
             carpoolManagement.createDriver(getUserId(token), request.driverInfo);
         }

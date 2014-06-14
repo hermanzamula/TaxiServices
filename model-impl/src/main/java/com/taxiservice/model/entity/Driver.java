@@ -23,7 +23,7 @@ public class Driver extends UserRole implements Located {
     @OneToMany
     private Set<Trip> trips = newHashSet();
 
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Car> cars = newHashSet();
 
     @Column

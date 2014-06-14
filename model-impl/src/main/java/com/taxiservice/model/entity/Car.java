@@ -24,4 +24,11 @@ public class Car extends AbstractPersistable<Long> {
 
     protected Car() {
     }
+
+    public Car(String brand, String description, String model, Driver driver) {
+        this.brand = brand;
+        this.description = description;
+        this.model = model;
+        this.driver = driver;
+    }
 }

@@ -30,6 +30,7 @@ public interface CarpoolManagement<ID> {
     ID createPassenger(@NotNull ID actor, PassengerInfo passengerInfo);
 
     class TripInfo {
+
         public final String name;
         public final String description;
         public final Location start;
@@ -52,9 +53,24 @@ public interface CarpoolManagement<ID> {
 
         final public Set<String> phones;
         final public String description;
+        final public Set<CarInfo> cars;
 
-        public DriverInfo(Set<String> phones, String description) {
+        public DriverInfo(Set<String> phones, String description, Set<CarInfo> cars) {
             this.phones = phones;
+            this.description = description;
+            this.cars = cars;
+        }
+    }
+
+    class CarInfo {
+
+        final public String model;
+        final public String brand;
+        final public String description;
+
+        public CarInfo(String model, String brand, String description) {
+            this.model = model;
+            this.brand = brand;
             this.description = description;
         }
     }
