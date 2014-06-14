@@ -39,7 +39,7 @@ public class TripsController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void saveTrip(TripCreationRequest request, @RequestParam String token) {
+    public void saveTrip(@RequestBody TripCreationRequest request, @RequestParam String token) {
         if (request.id == null)
             management.createTrip(getUserId(token), request.car, request.tripInfo);
     }

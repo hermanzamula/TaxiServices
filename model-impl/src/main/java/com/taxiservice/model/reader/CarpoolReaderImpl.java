@@ -1,18 +1,15 @@
 package com.taxiservice.model.reader;
 
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.taxiservice.model.Location;
-import com.taxiservice.model.entity.Comment;
 import com.taxiservice.model.entity.Driver;
 import com.taxiservice.model.entity.Located;
 import com.taxiservice.model.entity.Trip;
 import com.taxiservice.model.repository.DriverRepository;
 import com.taxiservice.model.repository.PassengerRepository;
 import com.taxiservice.model.repository.TripRepository;
-import com.taxiservice.model.repository.UserRepository;
 import com.taxiservice.model.util.Transformers;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +22,6 @@ import static com.taxiservice.model.LocationUtil.distanceMeters;
 @Service
 public class CarpoolReaderImpl implements CarpoolReader<Long> {
 
-    @Inject
-    private UserRepository userRepository;
     @Inject
     private DriverRepository driverRepository;
     @Inject
@@ -89,13 +84,8 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     public Set<Feedback> readComments(final Long driver) {
         final Driver entity = driverRepository.findOne(driver);
         return from(entity.getComments())
-                .transform(driverCommentsTransformer(entity))
+                .transform(Transformers.COMMENTS_TRANSFORMER)
                 .toSet();
-    }
-
-    private Function<Comment, Feedback> driverCommentsTransformer(final Driver entity) {
-        return Transformers.COMMENTS_TRANSFORMER;
-
     }
 
     private <T extends Located> Predicate<T> withingLocation(final Location location, final long searchRadius) {

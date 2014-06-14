@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Set;
 
 import static com.google.common.collect.FluentIterable.from;
-import static org.apache.commons.lang.time.DateUtils.truncatedCompareTo;
 
 /**
  * @author Herman Zamula

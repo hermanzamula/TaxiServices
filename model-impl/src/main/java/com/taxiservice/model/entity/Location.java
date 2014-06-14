@@ -1,6 +1,7 @@
 package com.taxiservice.model.entity;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
@@ -9,9 +10,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Location {
 
-    @Basic
+    @Column(precision = 6)
     public float lat;
-    @Basic
+    @Column(precision = 6)
     public float lng;
 
 }

@@ -2,7 +2,6 @@ package com.taxiservice.model.util;
 
 
 import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
 import com.taxiservice.model.Location;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.reader.CarpoolReader;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.size;
 
 @Component
 public class Transformers {
@@ -46,7 +46,8 @@ public class Transformers {
     public static final Function<Trip, CarpoolReader.TripLine> TRIP_LINE_TRANSFORMER = new Function<Trip, CarpoolReader.TripLine>() {
         @Override
         public CarpoolReader.TripLine apply(Trip input) {
-            return new CarpoolReader.TripLine<>(input.getId(), input.getName(), input.getDescription(), input.getPassengersLimit(), Iterables.size(input.getSubscribedPassengers()),
+            int passengersLimit = input.getPassengersLimit();
+            return new CarpoolReader.TripLine<>(input.getId(), input.getName(), input.getDescription(), passengersLimit, passengersLimit - size(input.getSubscribedPassengers()),
                     new Location(input.getStart().lng, input.getStart().lat), new Location(input.getEnd().lng, input.getEnd().lat));
         }
     };

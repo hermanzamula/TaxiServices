@@ -1,7 +1,5 @@
 package com.taxiservice.web.request;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 public class LocationRequest {
 
     private float lat;

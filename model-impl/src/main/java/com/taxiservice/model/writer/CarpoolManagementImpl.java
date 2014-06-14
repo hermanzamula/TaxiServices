@@ -1,7 +1,6 @@
 package com.taxiservice.model.writer;
 
 import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.taxiservice.model.entity.*;
@@ -10,7 +9,6 @@ import com.taxiservice.model.repository.PassengerRepository;
 import com.taxiservice.model.repository.TripRepository;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 

@@ -1,7 +1,6 @@
 package com.taxiservice.model.reader;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.taxiservice.model.Location;
 import com.taxiservice.model.entity.*;
@@ -12,10 +11,9 @@ import com.taxiservice.model.util.Transformers;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-
 import java.util.Collection;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.FluentIterable.from;
 import static com.taxiservice.model.util.Transformers.COMMENTS_TRANSFORMER;
 import static com.taxiservice.model.util.Transformers.TRIP_LINE_TRANSFORMER;
