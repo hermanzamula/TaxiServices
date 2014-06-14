@@ -45,7 +45,7 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
 
     @Override
     public Set<PassengerLine> readPassengers(Long actor, Long trip) {
-        return from(passengerRepository.findByTrip(trip))
+        return from(passengerRepository.findByTrip(new Trip(trip)))
                 .transform(Transformers.PASSENGER_TRANSFORMER)
                 .toSet();
     }

@@ -1,8 +1,11 @@
 package com.taxiservice.model.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -22,7 +25,7 @@ public class Passenger extends UserRole implements Located {
     private Set<PhoneNumber> phoneNumbers = newHashSet();
 
     @ManyToMany(mappedBy = "subscribedPassengers")
-    private Set<Trip> trips = newHashSet();
+    private List<Trip> trips = newArrayList();
 
     @Embedded
     @AttributeOverrides({
@@ -57,7 +60,7 @@ public class Passenger extends UserRole implements Located {
         return phoneNumbers;
     }
 
-    public Set<Trip> getTrips() {
+    public List<Trip> getTrips() {
         return trips;
     }
 
