@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="vdoroge-app">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <link href="../img/ico.ico" rel="shortcut icon">
+
+    <title>вДороге</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../lib/bootstrap/css/bootstrap-datetimepicker.css"/>
+
+
+    <script src="../lib/jquery/jquery-2.0.1.min.js"></script>
+    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../lib/jquery/jquery.cookie.js"></script>
+    <script src="../lib/lodash.compat.min.js"></script>
+
+
+    <script type="text/javascript" src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/bootstrap/js/moment.js"></script>
+    <script type="text/javascript" src="../lib/bootstrap/js/bootstrap-datetimepicker.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="../lib/angularjs/angular.js"></script>
+    <script src="../lib/angularjs/angular-resource.min.js"></script>
+    <script src="../lib/angular-ui/angular-ui.min.js"></script>
+
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src="../lib/angular-google-maps.js"></script>
+
+
+    <script src="../js/main.js"></script>
+
+</head>
+<body>
+
+<div ng-include="'../pages/header.html'"></div>
+
+<div class="container content-body">
+    <div class="map-container">
+        <div class="map-info">
+            <form action="" method="post" role="form" class="form-horizontal">
+                <div class="col-xs-2 form-group">
+                    <select class="form-control">
+                        <option>Пользователь</option>
+                    </select>
+                </div>
+                <div class="col-xs-2 form-group">
+                    <input type="text" class="form-control" placeholder="Харьков">
+                </div>
+                <span class="col-sm-1 glyphicon glyphicon-arrow-right"></span>
+
+                <div class="col-xs-2 form-group">
+                    <input type="text" class="form-control" placeholder="Киев">
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="input-group" id="datetimepicker1" data-date-format="YYYY/MM/DD">
+                        <input type='text' class="form-control" placeholder="Data in"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"
+                                                              style="cursor: pointer;"></span></span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group" id="datetimepicker2" data-date-format="YYYY/MM/DD">
+                        <input type='text' class="form-control" placeholder="Data out"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"
+                                                              style="cursor: pointer;"></span></span>
+                    </div>
+                </div>
+                <button class="col-xs-1 btn btn-sm btn-success" type="submit">Готово</button>
+            </form>
+        </div>
+        <div class="map">`
+
+            <img src="../img/11.jpg"/>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'../pages/footer.html'"></div>
+
+
+</body>
+</html>

@@ -1,6 +1,5 @@
-angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'validators',
-        'map-front', 'ngRoute'])
-    .config(function($routeProvider){
+angular.module('vdoroge-app',[ ])
+/*    .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.
             when('/taxi/list/:city/', {controller: 'taxi-city-list', templateUrl: '../pages/list.html'}).
@@ -9,15 +8,15 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'vali
             when('/taxi/search/:query', {controller: 'search-taxi', templateUrl: '../pages/list.html'}).
             when('/', {templateUrl: '../pages/main.html'}).
             otherwise({redirectTo: '/'});
-    })
-    .controller("main", function($scope, Users, topCommentsScheduler) {
-        topCommentsScheduler($scope);
+    })*/
+    .controller("main", function() {
+    /*    topCommentsScheduler($scope);
         $scope.isUserLogged = isUserLogged;
         $scope.logout = function() {
             Users.logout($.cookie(TOKEN));
             $.cookie(TOKEN, null);
-        }
-    })
+        }*/
+    })/*
     .filter('truncate', function () {
         return function (input, symbols) {
             if (input && input.length > symbols) {
@@ -29,13 +28,6 @@ angular.module('taxi-service',['users-back', 'taxi-front', 'search-front', 'vali
     .factory('topCommentsScheduler', function (Comments) {
         return function ($scope) {
 
-            var updateComments = function () {
-                Comments.query(function(data) {
-                    $scope.topComments = data;
-                });
-            };
-            setInterval(updateComments, 10000);
-            updateComments();
         }
-    });
+    })*/;
 
