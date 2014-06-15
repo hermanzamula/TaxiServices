@@ -80,15 +80,17 @@ public interface CarpoolReader<ID> {
         public final int free;
         public final Location start;
         public final Location end;
+        public final Date startDate;
 
-        public TripLine(ID id, String name, String description, int passengersLimit, int size, Location start, Location end) {
+        public TripLine(ID id, String name, String description, int passengersLimit, int free, Location start, Location end, Date startDate) {
             this.id = id;
             this.name = name;
             this.description = description;
             this.passengersLimit = passengersLimit;
-            free = size;
+            this.free = free;
             this.start = start;
             this.end = end;
+            this.startDate = startDate;
         }
     }
 }

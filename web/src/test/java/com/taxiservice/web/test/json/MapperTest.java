@@ -62,7 +62,8 @@ public class MapperTest {
         assertEquals("pwd", result.password);
     }
 
-    private <T> T readJson(String resourceName, Class<T> clazz) throws IOException {
+    @SuppressWarnings("unchecked")
+    private <T> T readJson(String resourceName, Class<? extends T> clazz) throws IOException {
         MockHttpServletRequest servletRequest = new MockHttpServletRequest();
         byte[] json = Resources.toByteArray(Resources.getResource(/*MapperTest.class, */resourceName));
         servletRequest.setContent(json);

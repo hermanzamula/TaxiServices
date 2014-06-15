@@ -47,8 +47,14 @@ public class Transformers {
         @Override
         public CarpoolReader.TripLine apply(Trip input) {
             int passengersLimit = input.getPassengersLimit();
-            return new CarpoolReader.TripLine<>(input.getId(), input.getName(), input.getDescription(), passengersLimit, passengersLimit - size(input.getSubscribedPassengers()),
-                    new Location(input.getStart().lng, input.getStart().lat), new Location(input.getEnd().lng, input.getEnd().lat));
+            return new CarpoolReader.TripLine<>(input.getId(),
+                    input.getName(),
+                    input.getDescription(),
+                    passengersLimit,
+                    passengersLimit - size(input.getSubscribedPassengers()),
+                    new Location(input.getStart().lng, input.getStart().lat),
+                    new Location(input.getEnd().lng, input.getEnd().lat),
+                    input.getStartDate());
         }
     };
     public static final Function<Message, NotificationReader.NotificationLine> NOTIFICATION_TRANSFORMER = new Function<Message, NotificationReader.NotificationLine>() {
