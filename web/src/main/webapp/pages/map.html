@@ -13,6 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/jquery-ui/jquery-ui.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../lib/bootstrap/css/bootstrap-datetimepicker.css"/>
 
@@ -49,14 +50,14 @@
 
                         <div class="col-xs-2">
                             <div class="input-group" id="datetimepicker1" data-date-format="YYYY/MM/DD">
-                                <input type='text' class="form-control" placeholder="Data in"/>
+                                <input type='text' ui-date ui-date-format="YYYY/MM/DD"  ng-model="details.dateFrom" class="form-control" placeholder="Дата от"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"
                                                               style="cursor: pointer;"></span></span>
                             </div>
                         </div>
                         <div class="col-xs-2">
                             <div class="input-group" id="datetimepicker2" data-date-format="YYYY/MM/DD">
-                                <input type='text' class="form-control" placeholder="Data out"/>
+                                <input ui-date ui-date-format="YYYY/MM/DD" type='text' ng-model="details.dateTo" class="form-control" placeholder="Дата до"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"
                                                               style="cursor: pointer;"></span></span>
                             </div>
@@ -92,6 +93,7 @@
 <script src="../lib/angularjs/angular.js"></script>
 <script src="../lib/angularjs/angular-resource.min.js"></script>
 <script src="../lib/angular-ui/angular-ui.min.js"></script>
+<script src="../lib/angular-ui/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <script src="../lib/angular-google-maps.js"></script>

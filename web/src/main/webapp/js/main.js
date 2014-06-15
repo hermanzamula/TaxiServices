@@ -1,4 +1,4 @@
-angular.module('vdoroge-app',['map-front'])
+angular.module('vdoroge-app',['map-front','ui', 'ui.bootstrap'])
 /*    .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.

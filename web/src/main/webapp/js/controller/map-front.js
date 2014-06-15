@@ -6,13 +6,13 @@ angular.module("map-front", ["google-maps"])
 
             var center = {
                 latitude: 50,
-                longitude: 30
+                longitude: 36.22
             };
 
             angular.extend($scope, {
                 map: {
                     center: center,
-                    zoom: 5,
+                    zoom: 11,
                     dragging: false,
                     bounds: {},
                     options: {
@@ -20,8 +20,8 @@ angular.module("map-front", ["google-maps"])
                         panControl: false,
                         mapTypeControlOptions: {mapTypeIds: [] }
                     },
-                    latitude: 16,
-                    longitude: 16,
+                    latitude: Coordinates.currentLocation().latitude,
+                    longitude: Coordinates.currentLocation().longitude,
                     markers: [],
                     events: {
                         'bounds_changed': function (mapModel) {
@@ -95,6 +95,11 @@ angular.module("map-front", ["google-maps"])
 
             Coordinates.setCenter($scope.map.center.latitude, $scope.map.center.longitude);
             Coordinates.setLeftCorner($scope.map.latitude, $scope.map.longitude);
+
+            $scope.$on("initPosition", function (pos) {
+                $scope.map.center = pos;
+                $scope.$apply("map.center");
+            });
 
         }]
 )
@@ -208,7 +213,7 @@ angular.module("map-front", ["google-maps"])
             }
         }
     }])
-    .service('Coordinates', function () {
+    .service('Coordinates', function ($rootScope) {
 
         //Inspired by http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
         function distHaversine(p1, p2) {
@@ -231,7 +236,24 @@ angular.module("map-front", ["google-maps"])
 
         var coordinate = {};
 
+        var currentLocation = {};
+
+        var setPosition = function (position) {
+            console.log("watch position: " + JSON.stringify(position));
+            currentLocation.longitude = position.coords.longitude;
+            currentLocation.latitude = position.coords.latitude;
+        };
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            setPosition(position);
+            $rootScope.$emit("initPosition", currentLocation);
+        });
+        navigator.geolocation.watchPosition(setPosition);
+
         return {
+            currentLocation: function () {
+                return currentLocation;
+            },
             getCoords: function () {
                 return coordinate;
             },
