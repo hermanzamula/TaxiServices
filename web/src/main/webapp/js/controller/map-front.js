@@ -1,6 +1,6 @@
-angular.module("map-front", ["google-maps"])
-    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$timeout', '$log', 'Coordinates',
-        function ($scope, $rootScope, $location, $timeout, $log, Coordinates) {
+angular.module("map-front", ["google-maps", "drivers-back", 'trips-back'])
+    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$timeout', '$log', 'Coordinates', "Drivers", 'Trips',
+        function ($scope, $rootScope, $location, $timeout, $log, Coordinates, Drivers, Trips) {
 
             // $scope.markerDetails = new DetailsPopUp('#markerDetails', updateMarkers);
 
@@ -8,6 +8,8 @@ angular.module("map-front", ["google-maps"])
                 latitude: 50,
                 longitude: 36.22
             };
+
+            $scope.formData = {};
 
             angular.extend($scope, {
                 map: {
@@ -61,6 +63,12 @@ angular.module("map-front", ["google-maps"])
              });
              */
 
+            $scope.showTripDetails = function (data) {
+                console.log(data);
+                $rootScope.selectedTrip = data.origin;
+                $("#selected-trip").modal("show");
+            };
+
             var driverImg = {
                 "free": '../img/taxi-free.png',
                 "busy": '../img/taxi-busy.png'
@@ -72,18 +80,19 @@ angular.module("map-front", ["google-maps"])
 
                     var size = 32, iconSettings = {};
 
-                    iconSettings.url = driverImg[status];
+                    iconSettings.url = driverImg.free;
                     iconSettings.scaledSize = new google.maps.Size(size, size);
                     return iconSettings;
                 }
 
-                return $.map(data, function (driver) {
-                    var icon = createIconSettings(driver.status);
+                return $.map(data, function (item) {
+                    var icon = createIconSettings();
                     return {
-                        latitude: driver.location.latitude,
-                        longitude: driver.location.longitude,
+                        coords: {latitude: item.start.lat,
+                            longitude: item.start.lng},
                         icon: icon,
-                        title: "driver " + driver.driverId
+                        title: item.name,
+                        origin: item
                     }
                 });
 
@@ -96,10 +105,29 @@ angular.module("map-front", ["google-maps"])
             Coordinates.setCenter($scope.map.center.latitude, $scope.map.center.longitude);
             Coordinates.setLeftCorner($scope.map.latitude, $scope.map.longitude);
 
-            $scope.$on("initPosition", function (pos) {
+            $scope.$on("initPosition", function (e, pos) {
                 $scope.map.center = pos;
                 $scope.$apply("map.center");
             });
+
+            $scope.$on("toLocChoose", function (e, pos) {
+                console.log(pos);
+                $scope.formData.to = pos;
+            });
+            $scope.$on("fromLocChoose", function (e, pos) {
+                console.log(pos);
+                $scope.formData.from = pos;
+            });
+
+            $scope.search = function () {
+                $scope.trips = Trips.query({startLat: $scope.formData.from.latitude,
+                    startLng: $scope.formData.from.longitude,
+                    endLat: $scope.formData.to.latitude,
+                    endLng: $scope.formData.to.longitude,
+                    radius: 100000}, function (data) {
+                    $scope.map.markers = convertToMarkers(data);
+                });
+            }
 
         }]
 )
@@ -137,12 +165,12 @@ angular.module("map-front", ["google-maps"])
                                 //map.setZoom(17);  // Why 17? Because it looks good.
                             }
                             var markerData = {
-                                latitude: place.geometry.location.nb,
-                                longitude: place.geometry.location.ob,
+                                latitude: place.geometry.location.lat(),
+                                longitude: place.geometry.location.lng(),
                                 showWindow: false,
                                 title: place.formatted_address
                             };
-                            scope.$emit('addMarker', markerData);
+                            scope.$emit('fromLocChoose', markerData);
 
                         } else {
                             console.log("Cannot find this place: " + place.name); //Todo: add message
@@ -178,19 +206,19 @@ angular.module("map-front", ["google-maps"])
                         var place = autocomplete.getPlace();
 
                         if (place && place.geometry) {
-                            if (place.geometry.viewport) {
-                                map.fitBounds(place.geometry.viewport);
-                            } else {
-                                map.setCenter(place.geometry.location);
-                                map.setZoom(17);  // Why 17? Because it looks good.
-                            }
+                            /* if (place.geometry.viewport) {
+                             map.fitBounds(place.geometry.viewport);
+                             } else {
+                             map.setCenter(place.geometry.location);
+                             map.setZoom(17);  // Why 17? Because it looks good.
+                             }*/
                             var markerData = {
-                                latitude: place.geometry.location.nb,
-                                longitude: place.geometry.location.ob,
+                                latitude: place.geometry.location.lat(),
+                                longitude: place.geometry.location.lng(),
                                 showWindow: false,
                                 title: place.formatted_address
                             };
-                            scope.$emit('addMarker', markerData);
+                            scope.$emit('toLocChoose', markerData);
 
                         } else {
                             console.log("Cannot find this place: " + place.name); //Todo: add message

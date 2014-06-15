@@ -1,4 +1,4 @@
-angular.module("login", ['users-back', 'validators', 'taxi-back'])
+angular.module("login", ['users-back', 'validators', 'drivers-back'])
     .controller("login-controller", function($scope, Users){
         $scope.login = {};
         $scope.enter = function(){
@@ -16,15 +16,10 @@ angular.module("login", ['users-back', 'validators', 'taxi-back'])
             })
         };
     })
-    .controller("registration", function($scope, Countries, Cities, Users){
+    .controller("registration", function($scope, Users){
         $scope.signIn = {};
         $scope.signInHelper = {};
-        $scope.countries = Countries.query();
 
-        $scope.$watch("signIn.country", function(val){
-            if(!val) return;
-            $scope.cities = Cities.byCountry({id: val});
-        });
         $scope.register = function(){
             Users.save($scope.signIn, function(response){
                 if(response.errorMessage) {

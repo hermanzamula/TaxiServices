@@ -1,4 +1,4 @@
-angular.module('vdoroge-app',['map-front','ui', 'ui.bootstrap'])
+angular.module('vdoroge-app',['map-front','ui', 'ui.bootstrap', 'request-interceptor', 'validators'])
 /*    .config(function($routeProvider){
         var detailsController = {controller: 'taxi-details', templateUrl: '../pages/taxi-info.html'};
         $routeProvider.
@@ -10,13 +10,11 @@ angular.module('vdoroge-app',['map-front','ui', 'ui.bootstrap'])
             otherwise({redirectTo: '/'});
     })*/
     .controller("main", function($scope) {
-        $scope.map = {
-            center: {
-                latitude: 45,
-                longitude: -73
-            },
-            zoom: 8
-        };
+
+        if(!$.cookie(TOKEN)) {
+            window.location.href = "../pages/login.html";
+        }
+
 
     /*    topCommentsScheduler($scope);
         $scope.isUserLogged = isUserLogged;

@@ -34,7 +34,8 @@ public class TripsController extends BasicSecurityController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public Set<CarpoolReader.TripLine> getTrips(RangeLocationRequest request, @RequestParam String token) {
-        return reader.readTrips(getUserId(token), new Location(request.getStartLng(), request.getStartLat()), new Location(request.getEndLng(), request.getEndLat()), request.getRadius());
+        Set<CarpoolReader.TripLine> tripLines = reader.readTrips(getUserId(token), new Location(request.getStartLng(), request.getStartLat()), new Location(request.getEndLng(), request.getEndLat()), request.getRadius());
+        return tripLines;
     }
 
     @RequestMapping(method = RequestMethod.POST)

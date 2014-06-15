@@ -27,25 +27,4 @@
                type="password" required="" input-validator like-as>
         <span ng-show="form.confirmPassword.$inputValidator.$error"></span>
     </div>
-    <div class="control-group clearfix">
-        <label for="country">Страна</label>
-        <select id="country" name="country" ng-model="signIn.country"
-                data-placeholder="-- Select One --"
-                class="dialog-select" required>
-            <option></option>
-            <option value="{{country.id}}" ng-repeat="country in countries">
-                {{country.name}}
-            </option>
-        </select>
-    </div>
-    <div class="control-group clearfix">
-        <label for="city">Город</label>
-        <select id="city" name="city" ng-model="signIn.city" data-placeholder="-- Select One --"
-                class="dialog-select" required ng-disabled="!signIn.country">
-            <option></option>
-            <option value="{{city.id}}" ng-repeat="city in cities">
-                {{city.name}}
-            </option>
-        </select>
-    </div>
 </div>

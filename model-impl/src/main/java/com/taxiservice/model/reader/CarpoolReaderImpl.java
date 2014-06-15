@@ -3,6 +3,8 @@ package com.taxiservice.model.reader;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.taxiservice.model.Location;
 import com.taxiservice.model.entity.Driver;
 import com.taxiservice.model.entity.Located;
@@ -65,8 +67,9 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
 
     @Override
     public Set<TripLine> readTrips(Long actor, Location from, final Location to, final long searchRadius) {
-        return from(tripRepository.findAll())
-                .filter(Predicates.and(withinStart(from, searchRadius), withinEnd(to, searchRadius)))
+        ImmutableSet<Trip> tripFluentIterable = from(tripRepository.findAll())
+                .filter(Predicates.and(withinStart(from, searchRadius), withinEnd(to, searchRadius))).toSet();
+        return from(tripFluentIterable)
                 .transform(Transformers.TRIP_LINE_TRANSFORMER)
                 .toSet();
     }
@@ -98,6 +101,7 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     }
 
     private boolean within(com.taxiservice.model.entity.Location loc, Location location, long searchRadius) {
-        return distanceMeters(location, new Location(loc.lng, loc.lat)) <= searchRadius;
+        boolean res = distanceMeters(location, new Location(loc.lng, loc.lat)) <= searchRadius;
+        return res;
     }
 }

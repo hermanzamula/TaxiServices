@@ -58,7 +58,7 @@ public class MapperTest {
         assertNotNull(result);
         assertEquals("Герман", result.firstName);
         assertEquals("Замула", result.lastName);
-        assertEquals("herman.zamula@gmail.com", result.email);
+        assertEquals("herman.zamula@example.com", result.email);
         assertEquals("pwd", result.password);
     }
 
