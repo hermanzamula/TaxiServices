@@ -42,8 +42,10 @@
 }
 .map-container {
     width: 100%;
-    margin-bottom: 20px;
+    max-width: 1000px;
+    min-width: 1000px;
     position: relative;
+    margin: 0 auto;
 }
 .map-info {
     position: absolute;
@@ -51,6 +53,7 @@
     top: 0;
     background-color: rgba(0, 0, 0, 0.4);
     height: 40px;
+    margin-left: -558px;
     padding: 3px 3px 3px 3%;
 }
 .marketing {
@@ -67,6 +70,8 @@
     width: 4%;
     color: #fff;
     padding: 9px 0 0 20px;
+    margin-left: 160px;
+    margin-right: 160px;
 }
 .col-xs-2 {
     padding-right: 2px;
@@ -93,3 +98,22 @@
     width: 650px;
 }
 
+/* maps */
+
+.angular-google-map-container { height: 550px; }
+
+.angular-google-map-autocomplete {
+    width: 165px;
+    margin-top: 3px;
+    z-index: 100;
+}
+.angular-google-map-autocomplete.from {
+    margin-left: 110px;
+}
+.angular-google-map-autocomplete.to {
+    margin-left: 30px;
+}
+
+.gmnoprint {
+    margin-top: 500px;
+}
