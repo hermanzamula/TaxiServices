@@ -22,7 +22,7 @@
 
 <div ng-include="'../pages/header.html'"></div>
 
-<div class="container content-body" ng-controller="main">
+<div class="container content-body" ng-controller="maps-controller">
     <div class="map-container">
 
 
@@ -31,7 +31,7 @@
                     center="map.center"
                     zoom="map.zoom"
                     draggable="true"
-                    options="{mapTypeControlOptions: { mapTypeIds: [] }}">
+                    options="map.options">
 
                 <div class="map-info" map-header="">
                     <div class="form-horizontal">
@@ -64,6 +64,11 @@
                         <button class="col-xs-1 btn btn-sm btn-success" type="submit">Готово</button>
                     </div>
                 </div>
+
+                <marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="m.onClick()">
+
+                </marker>
+
             </google-map>
             <!--<img src="../img/11.jpg"/>-->
         </div>
@@ -91,7 +96,7 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <script src="../lib/angular-google-maps.js"></script>
 
-
+<script src="../js/controller/map-front.js"></script>
 <script src="../js/main.js"></script>
 
 

@@ -1,8 +1,8 @@
-angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-back'])
-    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$http', '$timeout', '$log', 'Location', 'Coordinates', 'DriversLocation', 'Security',
-        function ($scope, $rootScope, $location, $http, $timeout, $log, Location, Coordinates, DriversLocation, Security) {
+angular.module("map-front", ["google-maps"])
+    .controller("maps-controller", ['$scope', '$rootScope', '$location', '$timeout', '$log', 'Coordinates',
+        function ($scope, $rootScope, $location, $timeout, $log, Coordinates) {
 
-           // $scope.markerDetails = new DetailsPopUp('#markerDetails', updateMarkers);
+            // $scope.markerDetails = new DetailsPopUp('#markerDetails', updateMarkers);
 
             var center = {
                 latitude: 50,
@@ -17,7 +17,8 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
                     bounds: {},
                     options: {
                         streetViewControl: false,
-                        panControl: false
+                        panControl: false,
+                        mapTypeControlOptions: {mapTypeIds: [] }
                     },
                     latitude: 16,
                     longitude: 16,
@@ -35,27 +36,30 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
                 }
             });
 
-            var interval;
+            /*
+             Security.locationServerBaseUrl(function(response) {
+             function updateMarkers() {
+             var locationServerBaseUrl = response.value.replace("http://", "");
+             DriversLocation.query({
+             locationServerBaseUrl: locationServerBaseUrl,
+             latitude: Coordinates.getCoords().center.latitude,
+             longitude: Coordinates.getCoords().center.longitude,
+             radius: Coordinates.getRadius()*/
+            /*,
+             limit: limit*/
+            /*
 
-            Security.locationServerBaseUrl(function(response) {
-                function updateMarkers() {
-                    var locationServerBaseUrl = response.value.replace("http://", "");
-                    DriversLocation.query({
-                        locationServerBaseUrl: locationServerBaseUrl,
-                        latitude: Coordinates.getCoords().center.latitude,
-                        longitude: Coordinates.getCoords().center.longitude,
-                        radius: Coordinates.getRadius()/*,
-                         limit: limit*/
-                    }, function (data) {
-                        $scope.map.markers = convertToMarkers(data);
-                    });
-                }
+             }, function (data) {
+             $scope.map.markers = convertToMarkers(data);
+             });
+             }
 
-                //TODO: make scheduler
-                interval = setInterval(updateMarkers, 1000);
-                updateMarkers();
+             //TODO: make scheduler
+             interval = setInterval(updateMarkers, 1000);
+             updateMarkers();
 
-            });
+             });
+             */
 
             var driverImg = {
                 "free": '../img/taxi-free.png',
@@ -73,7 +77,7 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
                     return iconSettings;
                 }
 
-                return $.map(data, function(driver) {
+                return $.map(data, function (driver) {
                     var icon = createIconSettings(driver.status);
                     return {
                         latitude: driver.location.latitude,
@@ -92,27 +96,69 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
             Coordinates.setCenter($scope.map.center.latitude, $scope.map.center.longitude);
             Coordinates.setLeftCorner($scope.map.latitude, $scope.map.longitude);
 
-
-            $scope.$on("$locationChangeSuccess", function () {
-                console.log("Clear interval: " + interval);
-                clearInterval(interval);
-            });
-
         }]
-    )
-    .directive('autocomplete', ['$timeout', function ($timeout) {
+)
+    .directive('searchFrom', ['$timeout', function ($timeout) {
 
         var createInput = function (map) {
             var input = document.createElement("input");
             input.type = "text";
-            input.className = "angular-google-map-autocomplete";
+            input.className = "form-control angular-google-map-autocomplete from";
+            input.placeholder = "Место отправления";
             map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
             return input;
         };
 
         return {
             restrict: 'E',
-            templateUrl: '',
+            transclude: true,
+            require: '^googleMap',
+            link: function (scope, element, attrs, mapCtrl) {
+                $timeout(function () {
+                    var map = mapCtrl.getMap();
+                    map.mapTypeControl = false; //todo: code smell. refactor
+                    var input = createInput(map);
+                    var autocomplete = new google.maps.places.Autocomplete(input);
+                    autocomplete.bindTo('bounds', map);
+                    $(input).css("z-index", "100");
+                    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                        var place = autocomplete.getPlace();
+
+                        if (place && place.geometry) {
+                            if (place.geometry.viewport) {
+                                map.fitBounds(place.geometry.viewport);
+                            } else {
+                                map.setCenter(place.geometry.location);
+                                //map.setZoom(17);  // Why 17? Because it looks good.
+                            }
+                            var markerData = {
+                                latitude: place.geometry.location.nb,
+                                longitude: place.geometry.location.ob,
+                                showWindow: false,
+                                title: place.formatted_address
+                            };
+                            scope.$emit('addMarker', markerData);
+
+                        } else {
+                            console.log("Cannot find this place: " + place.name); //Todo: add message
+                        }
+                    });
+                });
+            }
+        }
+    }])
+    .directive('searchTo', ['$timeout', function ($timeout) {
+        var createInput = function (map) {
+            var input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control angular-google-map-autocomplete to";
+            input.placeholder = "Место прибытия";
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            return input;
+        };
+
+        return {
+            restrict: 'E',
             transclude: true,
             require: '^googleMap',
             link: function (scope, element, attrs, mapCtrl) {
@@ -121,6 +167,7 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
                     var input = createInput(map);
                     var autocomplete = new google.maps.places.Autocomplete(input);
                     autocomplete.bindTo('bounds', map);
+                    $(input).css("z-index", "100");
 
                     google.maps.event.addListener(autocomplete, 'place_changed', function () {
                         var place = autocomplete.getPlace();
@@ -144,6 +191,19 @@ angular.module("map-front", ['map-back', 'taxi-back', "google-maps", 'security-b
                             console.log("Cannot find this place: " + place.name); //Todo: add message
                         }
                     });
+                });
+            }
+        }
+    }])
+    .directive("mapHeader", ['$timeout', function ($timeout) {
+
+        return {
+            restrict: 'A',
+            require: '^googleMap',
+            link: function (scope, element, attrs, mapCtrl) {
+                $timeout(function () {
+                    var map = mapCtrl.getMap();
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(element[0]);
                 });
             }
         }
