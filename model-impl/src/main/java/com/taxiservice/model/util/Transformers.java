@@ -6,6 +6,7 @@ import com.taxiservice.model.Location;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.reader.CarpoolReader;
 import com.taxiservice.model.reader.NotificationReader;
+import com.taxiservice.model.writer.CarpoolManagement;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -22,9 +23,9 @@ public class Transformers {
             return input.number;
         }
     };
-    public static final Function<Passenger, CarpoolReader.PassengerLine> PASSENGER_TRANSFORMER = new Function<Passenger, CarpoolReader.PassengerLine>() {
+    public static final Function<Passenger, CarpoolReader.PassengerLine<Long>> PASSENGER_TRANSFORMER = new Function<Passenger, CarpoolReader.PassengerLine<Long>>() {
         @Override
-        public CarpoolReader.PassengerLine apply(Passenger input) {
+        public CarpoolReader.PassengerLine<Long> apply(Passenger input) {
             return new CarpoolReader.PassengerLine<>(input.getId(),
                     input.getUser().getFullName(),
                     input.getDescription(),
@@ -34,18 +35,18 @@ public class Transformers {
             );
         }
     };
-    public static final Function<Driver, CarpoolReader.DriverLine> DRIVER_LINE_TRANSFORMER = new Function<Driver, CarpoolReader.DriverLine>() {
+    public static final Function<Driver, CarpoolReader.DriverLine<Long>> DRIVER_LINE_TRANSFORMER = new Function<Driver, CarpoolReader.DriverLine<Long>>() {
         @Override
-        public CarpoolReader.DriverLine apply(Driver input) {
+        public CarpoolReader.DriverLine<Long> apply(Driver input) {
             return new CarpoolReader.DriverLine<>(input.getId(),
                     input.getUser().getFullName(),
                     input.getRate(),
                     from(input.getPhoneNumbers()).transform(PHONE_NUMBER_TRANSFORMER).toList());
         }
     };
-    public static final Function<Trip, CarpoolReader.TripLine> TRIP_LINE_TRANSFORMER = new Function<Trip, CarpoolReader.TripLine>() {
+    public static final Function<Trip, CarpoolReader.TripLine<Long>> TRIP_LINE_TRANSFORMER = new Function<Trip, CarpoolReader.TripLine<Long>>() {
         @Override
-        public CarpoolReader.TripLine apply(Trip input) {
+        public CarpoolReader.TripLine<Long> apply(Trip input) {
             int passengersLimit = input.getPassengersLimit();
             return new CarpoolReader.TripLine<>(input.getId(),
                     input.getName(),
@@ -63,10 +64,19 @@ public class Transformers {
             return new NotificationReader.NotificationLine<>(input.getId(), input.getHeading(), input.getBody(), input.getSender().getFullName(), input.getRecipient().getFullName(), input.getDate());
         }
     };
-    public static final Function<Comment, CarpoolReader.Feedback> COMMENTS_TRANSFORMER = new Function<Comment, CarpoolReader.Feedback>() {
+    public static final Function<Comment, CarpoolReader.Feedback<Long>> COMMENTS_TRANSFORMER = new Function<Comment, CarpoolReader.Feedback<Long>>() {
         @Override
-        public CarpoolReader.Feedback apply(Comment input) {
+        public CarpoolReader.Feedback<Long> apply(Comment input) {
             return new CarpoolReader.Feedback<>(input.getUser().getFullName(), input.getDriver().getId(), input.getMessage(), input.getDate());
+        }
+    };
+    public static final Function<Location, com.taxiservice.model.entity.Location> LOCATION_TRANSFORMER = new Function<Location, com.taxiservice.model.entity.Location>() {
+        @Override
+        public com.taxiservice.model.entity.Location apply(Location input) {
+            final com.taxiservice.model.entity.Location location = new com.taxiservice.model.entity.Location();
+            location.lat = input.lat;
+            location.lng = input.lng;
+            return location;
         }
     };
 
@@ -81,5 +91,14 @@ public class Transformers {
                     }
                 })
                 .toSet();
+    }
+
+    public static Function<CarpoolManagement.CarInfo, Car> transformDriverCars(final Long driver) {
+        return new Function<CarpoolManagement.CarInfo, Car>() {
+            @Override
+            public Car apply( CarpoolManagement.CarInfo input) {
+                return new Car(input.brand, input.description, input.model, new Driver(driver));
+            }
+        };
     }
 }

@@ -48,8 +48,12 @@ public class UserController extends BasicSecurityController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
-    public void remove(@RequestBody String token) {
-        super.remove(token);
+    public void remove(@RequestBody LogoutRequest request) {
+        super.remove(request.token);
+    }
+
+    public static class LogoutRequest {
+        public String token;
     }
 
 }

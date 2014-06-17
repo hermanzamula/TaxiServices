@@ -12,15 +12,15 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public interface CarpoolReader<ID> {
 
-    Set<DriverLine> readDriversNear(@NotNull ID actor, Location location, long searchRadius);
+    Set<DriverLine<ID>> readDriversNear(@NotNull ID actor, Location location, long searchRadius);
 
-    Set<PassengerLine> readPassengers(@NotNull ID actor, @NotNull ID trip);
+    Set<PassengerLine<ID>> readPassengers(@NotNull ID actor, @NotNull ID trip);
 
-    Set<TripLine> readTripsNear(@NotNull ID actor, Location location, long searchRadius);
+    Set<TripLine<ID>> readTripsNear(@NotNull ID actor, Location location, long searchRadius);
 
-    Set<TripLine> readTrips(@NotNull ID actor, Location from, Location to, long searchRadius);
+    Set<TripLine<ID>> readTrips(@NotNull ID actor, Location from, Location to, long searchRadius);
 
-    Set<Feedback> readComments(@NotNull ID driver);
+    Set<Feedback<ID>> readComments(@NotNull ID driver);
 
     public class DriverLine<ID> {
 

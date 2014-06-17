@@ -66,6 +66,9 @@ angular.module("map-front", ["google-maps", "drivers-back", 'trips-back'])
             $scope.showTripDetails = function (data) {
                 console.log(data);
                 $rootScope.selectedTrip = data.origin;
+                Trips.get({id: data.origin.id}, function(data){
+                    angular.extend($rootScope.selectedTrip, data);
+                });
                 $("#selected-trip").modal("show");
             };
 

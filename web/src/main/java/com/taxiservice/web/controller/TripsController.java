@@ -33,9 +33,8 @@ public class TripsController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.TripLine> getTrips(RangeLocationRequest request, @RequestParam String token) {
-        Set<CarpoolReader.TripLine> tripLines = reader.readTrips(getUserId(token), new Location(request.getStartLng(), request.getStartLat()), new Location(request.getEndLng(), request.getEndLat()), request.getRadius());
-        return tripLines;
+    public Set<CarpoolReader.TripLine<Long>> getTrips(RangeLocationRequest request, @RequestParam String token) {
+        return reader.readTrips(getUserId(token), new Location(request.getStartLng(), request.getStartLat()), new Location(request.getEndLng(), request.getEndLat()), request.getRadius());
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -65,13 +64,13 @@ public class TripsController extends BasicSecurityController {
 
     @RequestMapping(value = "/subscribers/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.PassengerLine> subscribers(@PathVariable long id, @RequestParam String token) {
+    public Set<CarpoolReader.PassengerLine<Long>> subscribers(@PathVariable long id, @RequestParam String token) {
         return reader.readPassengers(getUserId(token), id);
     }
 
     @RequestMapping(value = "/near", method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.TripLine> getTripsNear(@RequestParam String token, LocationRequest request) {
+    public Set<CarpoolReader.TripLine<Long>> getTripsNear(@RequestParam String token, LocationRequest request) {
         return reader.readTripsNear(getUserId(token), new Location(request.getLng(), request.getLat()), request.getRadius());
     }
 

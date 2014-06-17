@@ -13,11 +13,11 @@ import java.util.Date;
 @Transactional(readOnly = true)
 public interface DetailsReader<ID> {
 
-    DriverItem readDriver(@NotNull ID actor, @NotNull ID driver);
+    DriverItem<ID> readDriver(@NotNull ID actor, @NotNull ID driver);
 
-    PassengerItem readPassenger(@NotNull ID actor, @NotNull ID passenger);
+    PassengerItem<ID> readPassenger(@NotNull ID actor, @NotNull ID passenger);
 
-    TripItem readTrip(@NotNull ID actor, @NotNull ID trip);
+    TripItem<ID> readTrip(@NotNull ID actor, @NotNull ID trip);
 
     class DriverItem<ID> {
 
@@ -28,11 +28,11 @@ public interface DetailsReader<ID> {
         public final String description;
         public final Location location;
         public final long rate;
-        public final ImmutableSet<CarpoolReader.Feedback> comments;
-        public final ImmutableSet<CarpoolReader.TripLine> trips;
-        public final ImmutableSet<CarInfo> cars;
+        public final ImmutableSet<CarpoolReader.Feedback<ID>> comments;
+        public final ImmutableSet<CarpoolReader.TripLine<ID>> trips;
+        public final ImmutableSet<CarInfo<ID>> cars;
 
-        public DriverItem(ID id, ImmutableSet<String> phones, String name, String email, String description, Location location, long rate, ImmutableSet<CarpoolReader.Feedback> comments, ImmutableSet<CarpoolReader.TripLine> trips, ImmutableSet<CarInfo> transform) {
+        public DriverItem(ID id, ImmutableSet<String> phones, String name, String email, String description, Location location, long rate, ImmutableSet<CarpoolReader.Feedback<ID>> comments, ImmutableSet<CarpoolReader.TripLine<ID>> trips, ImmutableSet<CarInfo<ID>> transform) {
             this.id = id;
             this.phones = phones;
             this.name = name;
@@ -42,7 +42,7 @@ public interface DetailsReader<ID> {
             this.rate = rate;
             this.comments = comments;
             this.trips = trips;
-            cars = transform;
+            this.cars = transform;
         }
     }
 
@@ -55,9 +55,9 @@ public interface DetailsReader<ID> {
         public final long rate;
         public final String description;
         public final Location location;
-        public final ImmutableSet<CarpoolReader.TripLine> trips;
+        public final ImmutableSet<CarpoolReader.TripLine<ID>> trips;
 
-        public PassengerItem(ID id, String name, ImmutableSet<String> phones, String email, long rate, String description, Location location, ImmutableSet<CarpoolReader.TripLine> trips) {
+        public PassengerItem(ID id, String name, ImmutableSet<String> phones, String email, long rate, String description, Location location, ImmutableSet<CarpoolReader.TripLine<ID>> trips) {
 
             this.id = id;
             this.name = name;
@@ -75,14 +75,14 @@ public interface DetailsReader<ID> {
         public final ID id;
         public final String description;
         public final String name;
-        public final CarpoolReader.DriverLine driverLine;
-        public final CarInfo carInfo;
-        public final ImmutableSet<CarpoolReader.PassengerLine> passengerLines;
+        public final CarpoolReader.DriverLine<ID> driverLine;
+        public final CarInfo<ID> carInfo;
+        public final ImmutableSet<CarpoolReader.PassengerLine<ID>> passengerLines;
         public final Location start;
         public final Location end;
         public final Date startDate;
 
-        public TripItem(ID id, String description, String name, CarpoolReader.DriverLine driverLine, CarInfo carInfo, ImmutableSet<CarpoolReader.PassengerLine> passengerLines, Location start, Location end, Date startDate) {
+        public TripItem(ID id, String description, String name, CarpoolReader.DriverLine<ID> driverLine, CarInfo<ID> carInfo, ImmutableSet<CarpoolReader.PassengerLine<ID>> passengerLines, Location start, Location end, Date startDate) {
 
             this.id = id;
             this.description = description;

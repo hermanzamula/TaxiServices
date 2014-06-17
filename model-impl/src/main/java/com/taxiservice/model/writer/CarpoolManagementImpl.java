@@ -1,12 +1,12 @@
 package com.taxiservice.model.writer;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.taxiservice.model.entity.*;
 import com.taxiservice.model.repository.DriverRepository;
 import com.taxiservice.model.repository.PassengerRepository;
 import com.taxiservice.model.repository.TripRepository;
+import com.taxiservice.model.util.Transformers;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -24,15 +24,6 @@ import static com.taxiservice.model.util.Transformers.phoneNumbersFromStrings;
 @Service
 public class CarpoolManagementImpl implements CarpoolManagement<Long> {
 
-    public static final Function<com.taxiservice.model.Location, Location> LOCATION_TRANSFORMER = new Function<com.taxiservice.model.Location, Location>() {
-        @Override
-        public Location apply(com.taxiservice.model.Location input) {
-            final Location location = new Location();
-            location.lat = input.lat;
-            location.lng = input.lng;
-            return location;
-        }
-    };
     @Inject
     private DriverRepository driverRepository;
 
@@ -92,8 +83,8 @@ public class CarpoolManagementImpl implements CarpoolManagement<Long> {
         final Trip trip = new Trip();
         trip.setDescription(tripInfo.description);
         trip.setDriver(checkNotNull(driverRepository.findByUser(new User(actor))));
-        trip.setEnd(LOCATION_TRANSFORMER.apply(checkNotNull(tripInfo.end)));
-        trip.setStart(LOCATION_TRANSFORMER.apply(checkNotNull(tripInfo.start)));
+        trip.setEnd(Transformers.LOCATION_TRANSFORMER.apply(checkNotNull(tripInfo.end)));
+        trip.setStart(Transformers.LOCATION_TRANSFORMER.apply(checkNotNull(tripInfo.start)));
         trip.setStartDate(tripInfo.startDate);
         trip.setPassengersLimit(tripInfo.passengersLimit);
         trip.setName(tripInfo.name);
@@ -107,17 +98,8 @@ public class CarpoolManagementImpl implements CarpoolManagement<Long> {
 
         driver.setUser(new User(actor));
         final Long id = driverRepository.save(driver).getId();
-        driver.getCars().addAll(from(driverInfo.cars).transform(transformDriverCars(id)).toSet());
+        driver.getCars().addAll(from(driverInfo.cars).transform(Transformers.transformDriverCars(id)).toSet());
         return driverRepository.save(driver).getId();
-    }
-
-    private Function<CarInfo, Car> transformDriverCars(final Long driver) {
-        return new Function<CarInfo, Car>() {
-            @Override
-            public Car apply( CarInfo input) {
-                return new Car(input.brand, input.description, input.model, new Driver(driver));
-            }
-        };
     }
 
     @Override

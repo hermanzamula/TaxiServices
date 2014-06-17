@@ -30,7 +30,7 @@ public class DriversController extends BasicSecurityController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.DriverLine> getAll(LocationRequest request, @RequestParam String token) {
+    public Set<CarpoolReader.DriverLine<Long>> getAll(LocationRequest request, @RequestParam String token) {
         return carpoolReader.readDriversNear(getUserId(token), new Location(request.getLng(), request.getLat()), request.getRadius());
     }
 
@@ -42,7 +42,7 @@ public class DriversController extends BasicSecurityController {
 
     @RequestMapping(value = "/comments/{driver}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.Feedback> getComments(@PathVariable long driver) {
+    public Set<CarpoolReader.Feedback<Long>> getComments(@PathVariable long driver) {
         return carpoolReader.readComments(driver);
     }
 

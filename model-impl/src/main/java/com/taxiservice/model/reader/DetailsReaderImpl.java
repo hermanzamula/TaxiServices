@@ -24,9 +24,9 @@ import static com.taxiservice.model.util.Transformers.TRIP_LINE_TRANSFORMER;
 @Service
 public class DetailsReaderImpl implements DetailsReader<Long> {
 
-    public static final Function<Car, CarInfo> CAR_INFO_TRANSFORMER = new Function<Car, CarInfo>() {
+    public static final Function<Car, CarInfo<Long>> CAR_INFO_TRANSFORMER = new Function<Car, CarInfo<Long>>() {
         @Override
-        public CarInfo apply(Car input) {
+        public CarInfo<Long> apply(Car input) {
             return new CarInfo<>(input.getId(), input.model, input.brand, input.description);
         }
     };
@@ -38,7 +38,7 @@ public class DetailsReaderImpl implements DetailsReader<Long> {
     private TripRepository tripRepository;
 
     @Override
-    public DriverItem readDriver(Long actor, Long driver) {
+    public DriverItem<Long> readDriver(Long actor, Long driver) {
         //TODO: validation
         final Driver entity = checkNotNull(driverRepository.findOne(driver));
 
@@ -57,6 +57,7 @@ public class DetailsReaderImpl implements DetailsReader<Long> {
     }
 
     private Location toModelLocation(com.taxiservice.model.entity.Location location) {
+        if (location == null) return null;
         return new Location(location.lng, location.lat);
     }
 
@@ -65,7 +66,7 @@ public class DetailsReaderImpl implements DetailsReader<Long> {
     }
 
     @Override
-    public PassengerItem readPassenger(Long actor, Long passenger) {
+    public PassengerItem<Long> readPassenger(Long actor, Long passenger) {
 
         final Passenger entity = checkNotNull(passengerRepository.findOne(passenger));
 
@@ -82,7 +83,7 @@ public class DetailsReaderImpl implements DetailsReader<Long> {
     }
 
     @Override
-    public TripItem readTrip(Long actor, Long trip) {
+    public TripItem<Long> readTrip(Long actor, Long trip) {
         final Trip entity = checkNotNull(tripRepository.findOne(trip));
         return new TripItem<>(
                 entity.getId(),

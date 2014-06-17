@@ -32,7 +32,7 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     private TripRepository tripRepository;
 
     @Override
-    public Set<DriverLine> readDriversNear(Long actor, final Location location, final long searchRadius) {
+    public Set<DriverLine<Long>> readDriversNear(Long actor, final Location location, final long searchRadius) {
 
         return from(driverRepository.findAll())
                 .filter(withingLocation(location, searchRadius))
@@ -41,14 +41,14 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     }
 
     @Override
-    public Set<PassengerLine> readPassengers(Long actor, Long trip) {
+    public Set<PassengerLine<Long>> readPassengers(Long actor, Long trip) {
         return from(passengerRepository.findByTrip(new Trip(trip)))
                 .transform(Transformers.PASSENGER_TRANSFORMER)
                 .toSet();
     }
 
     @Override
-    public Set<TripLine> readTripsNear(Long actor, final Location location, final long searchRadius) {
+    public Set<TripLine<Long>> readTripsNear(Long actor, final Location location, final long searchRadius) {
         return from(tripRepository.findAll())
                 .filter(withinStart(location, searchRadius))
                 .transform(Transformers.TRIP_LINE_TRANSFORMER)
@@ -66,7 +66,7 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     }
 
     @Override
-    public Set<TripLine> readTrips(Long actor, Location from, final Location to, final long searchRadius) {
+    public Set<TripLine<Long>> readTrips(Long actor, Location from, final Location to, final long searchRadius) {
         ImmutableSet<Trip> tripFluentIterable = from(tripRepository.findAll())
                 .filter(Predicates.and(withinStart(from, searchRadius), withinEnd(to, searchRadius))).toSet();
         return from(tripFluentIterable)
@@ -84,7 +84,7 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     }
 
     @Override
-    public Set<Feedback> readComments(final Long driver) {
+    public Set<Feedback<Long>> readComments(final Long driver) {
         final Driver entity = driverRepository.findOne(driver);
         return from(entity.getComments())
                 .transform(Transformers.COMMENTS_TRANSFORMER)
@@ -101,7 +101,6 @@ public class CarpoolReaderImpl implements CarpoolReader<Long> {
     }
 
     private boolean within(com.taxiservice.model.entity.Location loc, Location location, long searchRadius) {
-        boolean res = distanceMeters(location, new Location(loc.lng, loc.lat)) <= searchRadius;
-        return res;
+        return distanceMeters(location, new Location(loc.lng, loc.lat)) <= searchRadius;
     }
 }

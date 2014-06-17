@@ -104,6 +104,14 @@
                         <label>Начало поездки</label>
                         <div><p ng-bind="selectedTrip.startDate | date"></p></div>
                     </div>
+                    <div class="control-group clearfix">
+                        <label>Водитель</label>
+                        <div><p ng-bind="selectedTrip.driverLine.name"></p></div>
+                    </div>
+                    <div class="control-group clearfix">
+                        <label>Телефоны</label>
+                        <div><p><b ng-bind="selectedTrip.driverLine.phones[0]"></b></p></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Ок</a>
@@ -136,10 +144,13 @@
 <script src="../lib/angular-google-maps.js"></script>
 
 <script src="../js/validators.js"></script>
+<script src="../js/service/users-back.js"></script>
+<script src="../js/service/security-back.js"></script>
 <script src="../js/service/taxi-back.js"></script>
 <script src="../js/service/trips-back.js"></script>
 <script src="../js/service/request-interceptor.js"></script>
 <script src="../js/controller/map-front.js"></script>
+<script src="../js/controller/security-front.js"></script>
 <script src="../js/main.js"></script>
 
 

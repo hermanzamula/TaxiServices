@@ -19,9 +19,9 @@ public class DriverControllerOld extends BasicSecurityController {
     @Inject
     private CarpoolReader<Long> carpoolReader;
     @Inject
-    private CarpoolManagement carpoolManagement;
+    private CarpoolManagement<Long> carpoolManagement;
     @Inject
-    private DetailsReader detailsReader;
+    private DetailsReader<Long> detailsReader;
 
     @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
     @ResponseBody
@@ -60,7 +60,7 @@ public class DriverControllerOld extends BasicSecurityController {
 
     @RequestMapping(value = "/comments/{driver}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<CarpoolReader.Feedback> getComments(@PathVariable long driver) {
+    public Set<CarpoolReader.Feedback<Long>> getComments(@PathVariable long driver) {
         return carpoolReader.readComments(driver);
     }
 
@@ -85,8 +85,8 @@ public class DriverControllerOld extends BasicSecurityController {
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public DetailsReader.DriverItem details(@PathVariable long id) {
-        return detailsReader.readDriver(0, id);
+    public DetailsReader.DriverItem<Long> details(@PathVariable long id) {
+        return detailsReader.readDriver(0l, id);
     }
 
 
